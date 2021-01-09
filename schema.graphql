@@ -1,0 +1,3732 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"An object with an ID"
+interface Node {
+  "The id of the object."
+  id: ID!
+  "The Stage of an object"
+  stage: Stage!
+}
+
+type Aggregate {
+  count: Int!
+}
+
+"Asset system model"
+type Asset implements Node {
+  "The time the document was created"
+  createdAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime!
+  "Get the document in other stages"
+  documentInStages(
+    "Decides if the current stage should be included or not"
+    includeCurrent: Boolean! = false,
+    "Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree"
+    inheritLocale: Boolean! = false,
+    "Potential stages that should be returned"
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+  ): [Asset!]!
+  "The file name"
+  fileName: String!
+  "The file handle"
+  handle: String!
+  "The height of the file"
+  height: Float
+  "List of Asset versions"
+  history(
+    limit: Int! = 10,
+    skip: Int! = 0,
+    "This is optional and can be used to fetch the document version history for a specific stage instead of the current one"
+    stageOverride: Stage
+  ): [Version!]!
+  "The unique identifier"
+  id: ID!
+  imagesProduct(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `imagesProduct` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!],
+    orderBy: ProductOrderByInput,
+    skip: Int,
+    where: ProductWhereInput
+  ): [Product!]!
+  "System Locale field"
+  locale: Locale!
+  "Get the other localizations for this document"
+  localizations(
+    "Decides if the current locale should be included or not"
+    includeCurrent: Boolean! = false,
+    "Potential locales that should be returned"
+    locales: [Locale!]! = [en, fr]
+  ): [Asset!]!
+  logoTheme(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `logoTheme` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!],
+    orderBy: ThemeOrderByInput,
+    skip: Int,
+    where: ThemeWhereInput
+  ): [Theme!]!
+  "The mime type of the file"
+  mimeType: String
+  "The time the document was published. Null on documents in draft stage."
+  publishedAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime
+  "The file size"
+  size: Float
+  "System stage field"
+  stage: Stage!
+  "Title + alternative text"
+  title: String
+  "The time the document was updated"
+  updatedAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime!
+  "Get the url for the asset with provided transformations applied."
+  url(transformation: AssetTransformationInput): String!
+  "The file width"
+  width: Float
+}
+
+"A connection to a list of items."
+type AssetConnection {
+  aggregate: Aggregate!
+  "A list of edges."
+  edges: [AssetEdge!]!
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type AssetEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Asset!
+}
+
+type BatchPayload {
+  "The number of nodes that have been affected by the Batch operation."
+  count: Long!
+}
+
+"Representing a color value comprising of HEX, RGBA and css color values"
+type Color {
+  css: String!
+  hex: Hex!
+  rgba: RGBA!
+}
+
+"A B2B customer. All content belongs to a customer."
+type Customer implements Node {
+  availableLanguages: AvailableLanguages
+  "The time the document was created"
+  createdAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime!
+  "Get the document in other stages"
+  documentInStages(
+    "Decides if the current stage should be included or not"
+    includeCurrent: Boolean! = false,
+    "Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree"
+    inheritLocale: Boolean! = false,
+    "Potential stages that should be returned"
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+  ): [Customer!]!
+  "List of Customer versions"
+  history(
+    limit: Int! = 10,
+    skip: Int! = 0,
+    "This is optional and can be used to fetch the document version history for a specific stage instead of the current one"
+    stageOverride: Stage
+  ): [Version!]!
+  "The unique identifier"
+  id: ID!
+  label: String
+  "System Locale field"
+  locale: Locale!
+  "Get the other localizations for this document"
+  localizations(
+    "Decides if the current locale should be included or not"
+    includeCurrent: Boolean! = false,
+    "Potential locales that should be returned"
+    locales: [Locale!]! = [en, fr]
+  ): [Customer!]!
+  privacyDescription: RichText
+  "Products"
+  products(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `products` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!],
+    orderBy: ProductOrderByInput,
+    skip: Int,
+    where: ProductWhereInput
+  ): [Product!]!
+  "The time the document was published. Null on documents in draft stage."
+  publishedAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime
+  ref: String!
+  "System stage field"
+  stage: Stage!
+  termsDescription: RichText
+  theme(
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `theme` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Theme
+  "The time the document was updated"
+  updatedAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime!
+}
+
+"A connection to a list of items."
+type CustomerConnection {
+  aggregate: Aggregate!
+  "A list of edges."
+  edges: [CustomerEdge!]!
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type CustomerEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Customer!
+}
+
+type DocumentVersion {
+  createdAt: DateTime!
+  data: Json
+  id: ID!
+  revision: Int!
+  stage: Stage!
+}
+
+"Representing a geolocation point with latitude and longitude"
+type Location {
+  distance(from: LocationInput!): Float!
+  latitude: Float!
+  longitude: Float!
+}
+
+type Mutation {
+  "Create one asset"
+  createAsset(data: AssetCreateInput!): Asset @deprecated(reason : "Asset mutations will be overhauled soon")
+  "Create one customer"
+  createCustomer(data: CustomerCreateInput!): Customer
+  "Create one product"
+  createProduct(data: ProductCreateInput!): Product
+  "Create one theme"
+  createTheme(data: ThemeCreateInput!): Theme
+  "Delete one asset from _all_ existing stages. Returns deleted document."
+  deleteAsset(
+    "Document to delete"
+    where: AssetWhereUniqueInput!
+  ): Asset
+  "Delete one customer from _all_ existing stages. Returns deleted document."
+  deleteCustomer(
+    "Document to delete"
+    where: CustomerWhereUniqueInput!
+  ): Customer
+  "Delete many Asset documents"
+  deleteManyAssets(
+    "Documents to delete"
+    where: AssetManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (deleteManyAssetsConnection)")
+  "Delete many Asset documents, return deleted documents"
+  deleteManyAssetsConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to delete"
+    where: AssetManyWhereInput
+  ): AssetConnection!
+  "Delete many Customer documents"
+  deleteManyCustomers(
+    "Documents to delete"
+    where: CustomerManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (deleteManyCustomersConnection)")
+  "Delete many Customer documents, return deleted documents"
+  deleteManyCustomersConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to delete"
+    where: CustomerManyWhereInput
+  ): CustomerConnection!
+  "Delete many Product documents"
+  deleteManyProducts(
+    "Documents to delete"
+    where: ProductManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (deleteManyProductsConnection)")
+  "Delete many Product documents, return deleted documents"
+  deleteManyProductsConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to delete"
+    where: ProductManyWhereInput
+  ): ProductConnection!
+  "Delete many Theme documents"
+  deleteManyThemes(
+    "Documents to delete"
+    where: ThemeManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (deleteManyThemesConnection)")
+  "Delete many Theme documents, return deleted documents"
+  deleteManyThemesConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to delete"
+    where: ThemeManyWhereInput
+  ): ThemeConnection!
+  "Delete one product from _all_ existing stages. Returns deleted document."
+  deleteProduct(
+    "Document to delete"
+    where: ProductWhereUniqueInput!
+  ): Product
+  "Delete one theme from _all_ existing stages. Returns deleted document."
+  deleteTheme(
+    "Document to delete"
+    where: ThemeWhereUniqueInput!
+  ): Theme
+  "Publish one asset"
+  publishAsset(
+    "Optional localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    "Publishing target stage"
+    to: [Stage!]! = [PUBLISHED],
+    "Document to publish"
+    where: AssetWhereUniqueInput!,
+    "Whether to include the default locale when publishBase is set"
+    withDefaultLocale: Boolean = true
+  ): Asset
+  "Publish one customer"
+  publishCustomer(
+    "Optional localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    "Publishing target stage"
+    to: [Stage!]! = [PUBLISHED],
+    "Document to publish"
+    where: CustomerWhereUniqueInput!,
+    "Whether to include the default locale when publishBase is set"
+    withDefaultLocale: Boolean = true
+  ): Customer
+  "Publish many Asset documents"
+  publishManyAssets(
+    "Document localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: AssetManyWhereInput,
+    "Whether to include the default locale when publishBase is true"
+    withDefaultLocale: Boolean = true
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (publishManyAssetsConnection)")
+  "Publish many Asset documents"
+  publishManyAssetsConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stage to find matching documents in"
+    from: Stage = DRAFT,
+    last: Int,
+    "Document localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    skip: Int,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: AssetManyWhereInput,
+    "Whether to include the default locale when publishBase is true"
+    withDefaultLocale: Boolean = true
+  ): AssetConnection!
+  "Publish many Customer documents"
+  publishManyCustomers(
+    "Document localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: CustomerManyWhereInput,
+    "Whether to include the default locale when publishBase is true"
+    withDefaultLocale: Boolean = true
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (publishManyCustomersConnection)")
+  "Publish many Customer documents"
+  publishManyCustomersConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stage to find matching documents in"
+    from: Stage = DRAFT,
+    last: Int,
+    "Document localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    skip: Int,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: CustomerManyWhereInput,
+    "Whether to include the default locale when publishBase is true"
+    withDefaultLocale: Boolean = true
+  ): CustomerConnection!
+  "Publish many Product documents"
+  publishManyProducts(
+    "Document localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: ProductManyWhereInput,
+    "Whether to include the default locale when publishBase is true"
+    withDefaultLocale: Boolean = true
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (publishManyProductsConnection)")
+  "Publish many Product documents"
+  publishManyProductsConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stage to find matching documents in"
+    from: Stage = DRAFT,
+    last: Int,
+    "Document localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    skip: Int,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: ProductManyWhereInput,
+    "Whether to include the default locale when publishBase is true"
+    withDefaultLocale: Boolean = true
+  ): ProductConnection!
+  "Publish many Theme documents"
+  publishManyThemes(
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: ThemeManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (publishManyThemesConnection)")
+  "Publish many Theme documents"
+  publishManyThemesConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stage to find matching documents in"
+    from: Stage = DRAFT,
+    last: Int,
+    skip: Int,
+    "Stages to publish documents to"
+    to: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage to be published"
+    where: ThemeManyWhereInput
+  ): ThemeConnection!
+  "Publish one product"
+  publishProduct(
+    "Optional localizations to publish"
+    locales: [Locale!],
+    "Whether to publish the base document"
+    publishBase: Boolean = true,
+    "Publishing target stage"
+    to: [Stage!]! = [PUBLISHED],
+    "Document to publish"
+    where: ProductWhereUniqueInput!,
+    "Whether to include the default locale when publishBase is set"
+    withDefaultLocale: Boolean = true
+  ): Product
+  "Publish one theme"
+  publishTheme(
+    "Publishing target stage"
+    to: [Stage!]! = [PUBLISHED],
+    "Document to publish"
+    where: ThemeWhereUniqueInput!
+  ): Theme
+  "Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only."
+  unpublishAsset(
+    "Stages to unpublish document from"
+    from: [Stage!]! = [PUBLISHED],
+    "Optional locales to unpublish. Unpublishing the default locale will completely remove the document from the selected stages"
+    locales: [Locale!],
+    "Unpublish complete document including default localization and relations from stages. Can be disabled."
+    unpublishBase: Boolean = true,
+    "Document to unpublish"
+    where: AssetWhereUniqueInput!
+  ): Asset
+  "Unpublish one customer from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only."
+  unpublishCustomer(
+    "Stages to unpublish document from"
+    from: [Stage!]! = [PUBLISHED],
+    "Optional locales to unpublish. Unpublishing the default locale will completely remove the document from the selected stages"
+    locales: [Locale!],
+    "Unpublish complete document including default localization and relations from stages. Can be disabled."
+    unpublishBase: Boolean = true,
+    "Document to unpublish"
+    where: CustomerWhereUniqueInput!
+  ): Customer
+  "Unpublish many Asset documents"
+  unpublishManyAssets(
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    "Locales to unpublish"
+    locales: [Locale!],
+    "Whether to unpublish the base document and default localization"
+    unpublishBase: Boolean = true,
+    "Identifies documents in each stage"
+    where: AssetManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (unpublishManyAssetsConnection)")
+  "Find many Asset documents that match criteria in specified stage and unpublish from target stages"
+  unpublishManyAssetsConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    last: Int,
+    "Locales to unpublish"
+    locales: [Locale!],
+    skip: Int,
+    "Stage to find matching documents in"
+    stage: Stage = DRAFT,
+    "Whether to unpublish the base document and default localization"
+    unpublishBase: Boolean = true,
+    "Identifies documents in draft stage"
+    where: AssetManyWhereInput
+  ): AssetConnection!
+  "Unpublish many Customer documents"
+  unpublishManyCustomers(
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    "Locales to unpublish"
+    locales: [Locale!],
+    "Whether to unpublish the base document and default localization"
+    unpublishBase: Boolean = true,
+    "Identifies documents in each stage"
+    where: CustomerManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (unpublishManyCustomersConnection)")
+  "Find many Customer documents that match criteria in specified stage and unpublish from target stages"
+  unpublishManyCustomersConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    last: Int,
+    "Locales to unpublish"
+    locales: [Locale!],
+    skip: Int,
+    "Stage to find matching documents in"
+    stage: Stage = DRAFT,
+    "Whether to unpublish the base document and default localization"
+    unpublishBase: Boolean = true,
+    "Identifies documents in draft stage"
+    where: CustomerManyWhereInput
+  ): CustomerConnection!
+  "Unpublish many Product documents"
+  unpublishManyProducts(
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    "Locales to unpublish"
+    locales: [Locale!],
+    "Whether to unpublish the base document and default localization"
+    unpublishBase: Boolean = true,
+    "Identifies documents in each stage"
+    where: ProductManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (unpublishManyProductsConnection)")
+  "Find many Product documents that match criteria in specified stage and unpublish from target stages"
+  unpublishManyProductsConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    last: Int,
+    "Locales to unpublish"
+    locales: [Locale!],
+    skip: Int,
+    "Stage to find matching documents in"
+    stage: Stage = DRAFT,
+    "Whether to unpublish the base document and default localization"
+    unpublishBase: Boolean = true,
+    "Identifies documents in draft stage"
+    where: ProductManyWhereInput
+  ): ProductConnection!
+  "Unpublish many Theme documents"
+  unpublishManyThemes(
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    "Identifies documents in each stage"
+    where: ThemeManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (unpublishManyThemesConnection)")
+  "Find many Theme documents that match criteria in specified stage and unpublish from target stages"
+  unpublishManyThemesConnection(
+    after: ID,
+    before: ID,
+    first: Int,
+    "Stages to unpublish documents from"
+    from: [Stage!]! = [PUBLISHED],
+    last: Int,
+    skip: Int,
+    "Stage to find matching documents in"
+    stage: Stage = DRAFT,
+    "Identifies documents in draft stage"
+    where: ThemeManyWhereInput
+  ): ThemeConnection!
+  "Unpublish one product from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only."
+  unpublishProduct(
+    "Stages to unpublish document from"
+    from: [Stage!]! = [PUBLISHED],
+    "Optional locales to unpublish. Unpublishing the default locale will completely remove the document from the selected stages"
+    locales: [Locale!],
+    "Unpublish complete document including default localization and relations from stages. Can be disabled."
+    unpublishBase: Boolean = true,
+    "Document to unpublish"
+    where: ProductWhereUniqueInput!
+  ): Product
+  "Unpublish one theme from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only."
+  unpublishTheme(
+    "Stages to unpublish document from"
+    from: [Stage!]! = [PUBLISHED],
+    "Document to unpublish"
+    where: ThemeWhereUniqueInput!
+  ): Theme
+  "Update one asset"
+  updateAsset(data: AssetUpdateInput!, where: AssetWhereUniqueInput!): Asset
+  "Update one customer"
+  updateCustomer(data: CustomerUpdateInput!, where: CustomerWhereUniqueInput!): Customer
+  "Update many assets"
+  updateManyAssets(
+    "Updates to document content"
+    data: AssetUpdateManyInput!,
+    "Documents to apply update on"
+    where: AssetManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (updateManyAssetsConnection)")
+  "Update many Asset documents"
+  updateManyAssetsConnection(
+    after: ID,
+    before: ID,
+    "Updates to document content"
+    data: AssetUpdateManyInput!,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to apply update on"
+    where: AssetManyWhereInput
+  ): AssetConnection!
+  "Update many customers"
+  updateManyCustomers(
+    "Updates to document content"
+    data: CustomerUpdateManyInput!,
+    "Documents to apply update on"
+    where: CustomerManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (updateManyCustomersConnection)")
+  "Update many Customer documents"
+  updateManyCustomersConnection(
+    after: ID,
+    before: ID,
+    "Updates to document content"
+    data: CustomerUpdateManyInput!,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to apply update on"
+    where: CustomerManyWhereInput
+  ): CustomerConnection!
+  "Update many products"
+  updateManyProducts(
+    "Updates to document content"
+    data: ProductUpdateManyInput!,
+    "Documents to apply update on"
+    where: ProductManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (updateManyProductsConnection)")
+  "Update many Product documents"
+  updateManyProductsConnection(
+    after: ID,
+    before: ID,
+    "Updates to document content"
+    data: ProductUpdateManyInput!,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to apply update on"
+    where: ProductManyWhereInput
+  ): ProductConnection!
+  "Update many themes"
+  updateManyThemes(
+    "Updates to document content"
+    data: ThemeUpdateManyInput!,
+    "Documents to apply update on"
+    where: ThemeManyWhereInput
+  ): BatchPayload! @deprecated(reason : "Please use the new paginated many mutation (updateManyThemesConnection)")
+  "Update many Theme documents"
+  updateManyThemesConnection(
+    after: ID,
+    before: ID,
+    "Updates to document content"
+    data: ThemeUpdateManyInput!,
+    first: Int,
+    last: Int,
+    skip: Int,
+    "Documents to apply update on"
+    where: ThemeManyWhereInput
+  ): ThemeConnection!
+  "Update one product"
+  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  "Update one theme"
+  updateTheme(data: ThemeUpdateInput!, where: ThemeWhereUniqueInput!): Theme
+  "Upsert one asset"
+  upsertAsset(upsert: AssetUpsertInput!, where: AssetWhereUniqueInput!): Asset
+  "Upsert one customer"
+  upsertCustomer(upsert: CustomerUpsertInput!, where: CustomerWhereUniqueInput!): Customer
+  "Upsert one product"
+  upsertProduct(upsert: ProductUpsertInput!, where: ProductWhereUniqueInput!): Product
+  "Upsert one theme"
+  upsertTheme(upsert: ThemeUpsertInput!, where: ThemeWhereUniqueInput!): Theme
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+  "When paginating forwards, are there more items?"
+  hasNextPage: Boolean!
+  "When paginating backwards, are there more items?"
+  hasPreviousPage: Boolean!
+  "Number of items in the current page."
+  pageSize: Int
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+}
+
+type Product implements Node {
+  "The time the document was created"
+  createdAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime!
+  customer(
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `customer` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Customer
+  description: String
+  "Get the document in other stages"
+  documentInStages(
+    "Decides if the current stage should be included or not"
+    includeCurrent: Boolean! = false,
+    "Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree"
+    inheritLocale: Boolean! = false,
+    "Potential stages that should be returned"
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+  ): [Product!]!
+  "List of Product versions"
+  history(
+    limit: Int! = 10,
+    skip: Int! = 0,
+    "This is optional and can be used to fetch the document version history for a specific stage instead of the current one"
+    stageOverride: Stage
+  ): [Version!]!
+  "The unique identifier"
+  id: ID!
+  images(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `images` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!],
+    orderBy: AssetOrderByInput,
+    skip: Int,
+    where: AssetWhereInput
+  ): [Asset!]!
+  "System Locale field"
+  locale: Locale!
+  "Get the other localizations for this document"
+  localizations(
+    "Decides if the current locale should be included or not"
+    includeCurrent: Boolean! = false,
+    "Potential locales that should be returned"
+    locales: [Locale!]! = [en, fr]
+  ): [Product!]!
+  price: Float
+  "The time the document was published. Null on documents in draft stage."
+  publishedAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime
+  "System stage field"
+  stage: Stage!
+  title: String
+  "The time the document was updated"
+  updatedAt(
+    "Variation of DateTime field to return, allows value from base document, current localization, or combined by returning the newer value of both"
+    variation: SystemDateTimeFieldVariation! = COMBINED
+  ): DateTime!
+}
+
+"A connection to a list of items."
+type ProductConnection {
+  aggregate: Aggregate!
+  "A list of edges."
+  edges: [ProductEdge!]!
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type ProductEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Product!
+}
+
+type Query {
+  "Retrieve a single asset"
+  asset(
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Asset` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    stage: Stage! = DRAFT,
+    where: AssetWhereUniqueInput!
+  ): Asset
+  "Retrieve document version"
+  assetVersion(where: VersionWhereInput!): DocumentVersion
+  "Retrieve multiple assets"
+  assets(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Asset` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: AssetOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: AssetWhereInput
+  ): [Asset!]!
+  "Retrieve multiple assets using the Relay connection interface"
+  assetsConnection(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Asset` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: AssetOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: AssetWhereInput
+  ): AssetConnection!
+  "Retrieve a single customer"
+  customer(
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Customer` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    stage: Stage! = DRAFT,
+    where: CustomerWhereUniqueInput!
+  ): Customer
+  "Retrieve document version"
+  customerVersion(where: VersionWhereInput!): DocumentVersion
+  "Retrieve multiple customers"
+  customers(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Customer` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: CustomerOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: CustomerWhereInput
+  ): [Customer!]!
+  "Retrieve multiple customers using the Relay connection interface"
+  customersConnection(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Customer` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: CustomerOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: CustomerWhereInput
+  ): CustomerConnection!
+  "Fetches an object given its ID"
+  node(
+    "The ID of an object"
+    id: ID!,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Node` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    stage: Stage! = DRAFT
+  ): Node
+  "Retrieve a single product"
+  product(
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Product` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    stage: Stage! = DRAFT,
+    where: ProductWhereUniqueInput!
+  ): Product
+  "Retrieve document version"
+  productVersion(where: VersionWhereInput!): DocumentVersion
+  "Retrieve multiple products"
+  products(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Product` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: ProductOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: ProductWhereInput
+  ): [Product!]!
+  "Retrieve multiple products using the Relay connection interface"
+  productsConnection(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Product` will be affected directly by this argument, as well as any other related models with localized fields in the query's subtree.
+    The first locale matching the provided list will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: ProductOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: ProductWhereInput
+  ): ProductConnection!
+  "Retrieve a single theme"
+  theme(
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Theme` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    stage: Stage! = DRAFT,
+    where: ThemeWhereUniqueInput!
+  ): Theme
+  "Retrieve document version"
+  themeVersion(where: VersionWhereInput!): DocumentVersion
+  "Retrieve multiple themes"
+  themes(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Theme` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: ThemeOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: ThemeWhereInput
+  ): [Theme!]!
+  "Retrieve multiple themes using the Relay connection interface"
+  themesConnection(
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    """
+
+    Defines which locales should be returned.
+
+    Note that `Theme` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en, fr],
+    orderBy: ThemeOrderByInput,
+    skip: Int,
+    stage: Stage! = DRAFT,
+    where: ThemeWhereInput
+  ): ThemeConnection!
+}
+
+"Representing a RGBA color value: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()_and_rgba()"
+type RGBA {
+  a: RGBATransparency!
+  b: RGBAHue!
+  g: RGBAHue!
+  r: RGBAHue!
+}
+
+"Custom type representing a rich text value comprising of raw rich text ast, html, markdown and text values"
+type RichText {
+  "Returns HTMl representation"
+  html: String!
+  "Returns Markdown representation"
+  markdown: String!
+  "Returns AST representation"
+  raw: RichTextAST!
+  "Returns plain-text contents of RichText"
+  text: String!
+}
+
+type Theme implements Node {
+  backgroundColor: String
+  "The time the document was created"
+  createdAt: DateTime!
+  customer(
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `customer` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Customer
+  "Get the document in other stages"
+  documentInStages(
+    "Decides if the current stage should be included or not"
+    includeCurrent: Boolean! = false,
+    "Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree"
+    inheritLocale: Boolean! = false,
+    "Potential stages that should be returned"
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+  ): [Theme!]!
+  errorColor: String
+  fonts: String
+  "List of Theme versions"
+  history(
+    limit: Int! = 10,
+    skip: Int! = 0,
+    "This is optional and can be used to fetch the document version history for a specific stage instead of the current one"
+    stageOverride: Stage
+  ): [Version!]!
+  "The unique identifier"
+  id: ID!
+  logo(
+    """
+
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+
+    Note that `logo` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Asset!
+  onBackgroundColor: String
+  onErrorColor: String
+  onPrimaryColor: String
+  onSecondaryColor: String
+  onSurfaceColor: String
+  primaryColor: String!
+  primaryColorVariant1: String
+  "The time the document was published. Null on documents in draft stage."
+  publishedAt: DateTime
+  secondaryColor: String
+  secondaryColorVariant1: String
+  "System stage field"
+  stage: Stage!
+  surfaceColor: String
+  "The time the document was updated"
+  updatedAt: DateTime!
+}
+
+"A connection to a list of items."
+type ThemeConnection {
+  aggregate: Aggregate!
+  "A list of edges."
+  edges: [ThemeEdge!]!
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type ThemeEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Theme!
+}
+
+type Version {
+  createdAt: DateTime!
+  id: ID!
+  revision: Int!
+  stage: Stage!
+}
+
+enum AssetOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  fileName_ASC
+  fileName_DESC
+  handle_ASC
+  handle_DESC
+  height_ASC
+  height_DESC
+  id_ASC
+  id_DESC
+  mimeType_ASC
+  mimeType_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  size_ASC
+  size_DESC
+  title_ASC
+  title_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  width_ASC
+  width_DESC
+}
+
+enum AvailableLanguages {
+  en
+  fr
+}
+
+enum CustomerOrderByInput {
+  availableLanguages_ASC
+  availableLanguages_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  label_ASC
+  label_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  ref_ASC
+  ref_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+enum DocumentFileTypes {
+  doc
+  docx
+  html
+  jpg
+  odp
+  ods
+  odt
+  pdf
+  png
+  ppt
+  pptx
+  svg
+  txt
+  webp
+  xls
+  xlsx
+}
+
+enum ImageFit {
+  "Resizes the image to fit within the specified parameters without distorting, cropping, or changing the aspect ratio."
+  clip
+  "Resizes the image to fit the specified parameters exactly by removing any parts of the image that don't fit within the boundaries."
+  crop
+  "Resizes the image to fit within the parameters, but as opposed to 'fit:clip' will not scale the image if the image is smaller than the output size."
+  max
+  "Resizes the image to fit the specified parameters exactly by scaling the image to the desired size. The aspect ratio of the image is not respected and the image can be distorted using this method."
+  scale
+}
+
+"Locale system enumeration"
+enum Locale {
+  en
+  fr
+}
+
+enum ProductOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  description_ASC
+  description_DESC
+  id_ASC
+  id_DESC
+  price_ASC
+  price_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  title_ASC
+  title_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+"Stage system enumeration"
+enum Stage {
+  "The Draft is the default stage for all your content."
+  DRAFT
+  "The Published stage is where you can publish your content to."
+  PUBLISHED
+}
+
+enum SystemDateTimeFieldVariation {
+  BASE
+  COMBINED
+  LOCALIZATION
+}
+
+enum ThemeOrderByInput {
+  backgroundColor_ASC
+  backgroundColor_DESC
+  createdAt_ASC
+  createdAt_DESC
+  errorColor_ASC
+  errorColor_DESC
+  fonts_ASC
+  fonts_DESC
+  id_ASC
+  id_DESC
+  onBackgroundColor_ASC
+  onBackgroundColor_DESC
+  onErrorColor_ASC
+  onErrorColor_DESC
+  onPrimaryColor_ASC
+  onPrimaryColor_DESC
+  onSecondaryColor_ASC
+  onSecondaryColor_DESC
+  onSurfaceColor_ASC
+  onSurfaceColor_DESC
+  primaryColorVariant1_ASC
+  primaryColorVariant1_DESC
+  primaryColor_ASC
+  primaryColor_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  secondaryColorVariant1_ASC
+  secondaryColorVariant1_DESC
+  secondaryColor_ASC
+  secondaryColor_DESC
+  surfaceColor_ASC
+  surfaceColor_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+"System User Kind"
+enum UserKind {
+  MEMBER
+  PAT
+  PUBLIC
+  WEBHOOK
+}
+
+enum _FilterKind {
+  AND
+  NOT
+  OR
+  contains
+  contains_all
+  contains_none
+  contains_some
+  ends_with
+  eq
+  eq_not
+  gt
+  gte
+  in
+  lt
+  lte
+  not_contains
+  not_ends_with
+  not_in
+  not_starts_with
+  relational_every
+  relational_none
+  relational_single
+  relational_some
+  search
+  starts_with
+}
+
+enum _MutationInputFieldKind {
+  enum
+  relation
+  richText
+  scalar
+  union
+  virtual
+}
+
+enum _MutationKind {
+  create
+  delete
+  deleteMany
+  publish
+  publishMany
+  unpublish
+  unpublishMany
+  update
+  updateMany
+  upsert
+}
+
+enum _OrderDirection {
+  asc
+  desc
+}
+
+enum _RelationInputCardinality {
+  many
+  one
+}
+
+enum _RelationInputKind {
+  create
+  update
+}
+
+enum _RelationKind {
+  regular
+  union
+}
+
+enum _SystemDateTimeFieldVariation {
+  base
+  combined
+  localization
+}
+
+input AssetConnectInput {
+  "Allow to specify document position in list of connected documents, will default to appending at end of list"
+  position: ConnectPositionInput
+  "Document to connect"
+  where: AssetWhereUniqueInput!
+}
+
+input AssetCreateInput {
+  createdAt: DateTime
+  fileName: String!
+  handle: String!
+  height: Float
+  imagesProduct: ProductCreateManyInlineInput
+  "Inline mutations for managing document localizations excluding the default locale"
+  localizations: AssetCreateLocalizationsInput
+  logoTheme: ThemeCreateManyInlineInput
+  mimeType: String
+  size: Float
+  title: String
+  updatedAt: DateTime
+  width: Float
+}
+
+input AssetCreateLocalizationDataInput {
+  createdAt: DateTime
+  fileName: String!
+  handle: String!
+  height: Float
+  mimeType: String
+  size: Float
+  updatedAt: DateTime
+  width: Float
+}
+
+input AssetCreateLocalizationInput {
+  "Localization input"
+  data: AssetCreateLocalizationDataInput!
+  locale: Locale!
+}
+
+input AssetCreateLocalizationsInput {
+  "Create localizations for the newly-created document"
+  create: [AssetCreateLocalizationInput!]
+}
+
+input AssetCreateManyInlineInput {
+  "Connect multiple existing Asset documents"
+  connect: [AssetWhereUniqueInput!]
+  "Create and connect multiple existing Asset documents"
+  create: [AssetCreateInput!]
+}
+
+input AssetCreateOneInlineInput {
+  "Connect one existing Asset document"
+  connect: AssetWhereUniqueInput
+  "Create and connect one Asset document"
+  create: AssetCreateInput
+}
+
+"Identifies documents"
+input AssetManyWhereInput {
+  "Logical AND on all given filters."
+  AND: [AssetWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [AssetWhereInput!]
+  "Logical OR on all given filters."
+  OR: [AssetWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  imagesProduct_every: ProductWhereInput
+  imagesProduct_none: ProductWhereInput
+  imagesProduct_some: ProductWhereInput
+  logoTheme_every: ThemeWhereInput
+  logoTheme_none: ThemeWhereInput
+  logoTheme_some: ThemeWhereInput
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  title: String
+  "All values containing the given string."
+  title_contains: String
+  "All values ending with the given string."
+  title_ends_with: String
+  "All values that are contained in given list."
+  title_in: [String!]
+  "All values that are not equal to given value."
+  title_not: String
+  "All values not containing the given string."
+  title_not_contains: String
+  "All values not ending with the given string"
+  title_not_ends_with: String
+  "All values that are not contained in given list."
+  title_not_in: [String!]
+  "All values not starting with the given string."
+  title_not_starts_with: String
+  "All values starting with the given string."
+  title_starts_with: String
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+"Transformations for Assets"
+input AssetTransformationInput {
+  document: DocumentTransformationInput
+  image: ImageTransformationInput
+  "Pass true if you want to validate the passed transformation parameters"
+  validateOptions: Boolean = false
+}
+
+input AssetUpdateInput {
+  fileName: String
+  handle: String
+  height: Float
+  imagesProduct: ProductUpdateManyInlineInput
+  "Manage document localizations"
+  localizations: AssetUpdateLocalizationsInput
+  logoTheme: ThemeUpdateManyInlineInput
+  mimeType: String
+  size: Float
+  title: String
+  width: Float
+}
+
+input AssetUpdateLocalizationDataInput {
+  fileName: String
+  handle: String
+  height: Float
+  mimeType: String
+  size: Float
+  width: Float
+}
+
+input AssetUpdateLocalizationInput {
+  data: AssetUpdateLocalizationDataInput!
+  locale: Locale!
+}
+
+input AssetUpdateLocalizationsInput {
+  "Localizations to create"
+  create: [AssetCreateLocalizationInput!]
+  "Localizations to delete"
+  delete: [Locale!]
+  "Localizations to update"
+  update: [AssetUpdateLocalizationInput!]
+  upsert: [AssetUpsertLocalizationInput!]
+}
+
+input AssetUpdateManyInlineInput {
+  "Connect multiple existing Asset documents"
+  connect: [AssetConnectInput!]
+  "Create and connect multiple Asset documents"
+  create: [AssetCreateInput!]
+  "Delete multiple Asset documents"
+  delete: [AssetWhereUniqueInput!]
+  "Disconnect multiple Asset documents"
+  disconnect: [AssetWhereUniqueInput!]
+  "Override currently-connected documents with multiple existing Asset documents"
+  set: [AssetWhereUniqueInput!]
+  "Update multiple Asset documents"
+  update: [AssetUpdateWithNestedWhereUniqueInput!]
+  "Upsert multiple Asset documents"
+  upsert: [AssetUpsertWithNestedWhereUniqueInput!]
+}
+
+input AssetUpdateManyInput {
+  fileName: String
+  height: Float
+  "Optional updates to localizations"
+  localizations: AssetUpdateManyLocalizationsInput
+  mimeType: String
+  size: Float
+  title: String
+  width: Float
+}
+
+input AssetUpdateManyLocalizationDataInput {
+  fileName: String
+  height: Float
+  mimeType: String
+  size: Float
+  width: Float
+}
+
+input AssetUpdateManyLocalizationInput {
+  data: AssetUpdateManyLocalizationDataInput!
+  locale: Locale!
+}
+
+input AssetUpdateManyLocalizationsInput {
+  "Localizations to update"
+  update: [AssetUpdateManyLocalizationInput!]
+}
+
+input AssetUpdateManyWithNestedWhereInput {
+  "Update many input"
+  data: AssetUpdateManyInput!
+  "Document search"
+  where: AssetWhereInput!
+}
+
+input AssetUpdateOneInlineInput {
+  "Connect existing Asset document"
+  connect: AssetWhereUniqueInput
+  "Create and connect one Asset document"
+  create: AssetCreateInput
+  "Delete currently connected Asset document"
+  delete: Boolean
+  "Disconnect currently connected Asset document"
+  disconnect: Boolean
+  "Update single Asset document"
+  update: AssetUpdateWithNestedWhereUniqueInput
+  "Upsert single Asset document"
+  upsert: AssetUpsertWithNestedWhereUniqueInput
+}
+
+input AssetUpdateWithNestedWhereUniqueInput {
+  "Document to update"
+  data: AssetUpdateInput!
+  "Unique document search"
+  where: AssetWhereUniqueInput!
+}
+
+input AssetUpsertInput {
+  "Create document if it didn't exist"
+  create: AssetCreateInput!
+  "Update document if it exists"
+  update: AssetUpdateInput!
+}
+
+input AssetUpsertLocalizationInput {
+  create: AssetCreateLocalizationDataInput!
+  locale: Locale!
+  update: AssetUpdateLocalizationDataInput!
+}
+
+input AssetUpsertWithNestedWhereUniqueInput {
+  "Upsert data"
+  data: AssetUpsertInput!
+  "Unique document search"
+  where: AssetWhereUniqueInput!
+}
+
+"Identifies documents"
+input AssetWhereInput {
+  "Logical AND on all given filters."
+  AND: [AssetWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [AssetWhereInput!]
+  "Logical OR on all given filters."
+  OR: [AssetWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  fileName: String
+  "All values containing the given string."
+  fileName_contains: String
+  "All values ending with the given string."
+  fileName_ends_with: String
+  "All values that are contained in given list."
+  fileName_in: [String!]
+  "All values that are not equal to given value."
+  fileName_not: String
+  "All values not containing the given string."
+  fileName_not_contains: String
+  "All values not ending with the given string"
+  fileName_not_ends_with: String
+  "All values that are not contained in given list."
+  fileName_not_in: [String!]
+  "All values not starting with the given string."
+  fileName_not_starts_with: String
+  "All values starting with the given string."
+  fileName_starts_with: String
+  handle: String
+  "All values containing the given string."
+  handle_contains: String
+  "All values ending with the given string."
+  handle_ends_with: String
+  "All values that are contained in given list."
+  handle_in: [String!]
+  "All values that are not equal to given value."
+  handle_not: String
+  "All values not containing the given string."
+  handle_not_contains: String
+  "All values not ending with the given string"
+  handle_not_ends_with: String
+  "All values that are not contained in given list."
+  handle_not_in: [String!]
+  "All values not starting with the given string."
+  handle_not_starts_with: String
+  "All values starting with the given string."
+  handle_starts_with: String
+  height: Float
+  "All values greater than the given value."
+  height_gt: Float
+  "All values greater than or equal the given value."
+  height_gte: Float
+  "All values that are contained in given list."
+  height_in: [Float!]
+  "All values less than the given value."
+  height_lt: Float
+  "All values less than or equal the given value."
+  height_lte: Float
+  "All values that are not equal to given value."
+  height_not: Float
+  "All values that are not contained in given list."
+  height_not_in: [Float!]
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  imagesProduct_every: ProductWhereInput
+  imagesProduct_none: ProductWhereInput
+  imagesProduct_some: ProductWhereInput
+  logoTheme_every: ThemeWhereInput
+  logoTheme_none: ThemeWhereInput
+  logoTheme_some: ThemeWhereInput
+  mimeType: String
+  "All values containing the given string."
+  mimeType_contains: String
+  "All values ending with the given string."
+  mimeType_ends_with: String
+  "All values that are contained in given list."
+  mimeType_in: [String!]
+  "All values that are not equal to given value."
+  mimeType_not: String
+  "All values not containing the given string."
+  mimeType_not_contains: String
+  "All values not ending with the given string"
+  mimeType_not_ends_with: String
+  "All values that are not contained in given list."
+  mimeType_not_in: [String!]
+  "All values not starting with the given string."
+  mimeType_not_starts_with: String
+  "All values starting with the given string."
+  mimeType_starts_with: String
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  size: Float
+  "All values greater than the given value."
+  size_gt: Float
+  "All values greater than or equal the given value."
+  size_gte: Float
+  "All values that are contained in given list."
+  size_in: [Float!]
+  "All values less than the given value."
+  size_lt: Float
+  "All values less than or equal the given value."
+  size_lte: Float
+  "All values that are not equal to given value."
+  size_not: Float
+  "All values that are not contained in given list."
+  size_not_in: [Float!]
+  title: String
+  "All values containing the given string."
+  title_contains: String
+  "All values ending with the given string."
+  title_ends_with: String
+  "All values that are contained in given list."
+  title_in: [String!]
+  "All values that are not equal to given value."
+  title_not: String
+  "All values not containing the given string."
+  title_not_contains: String
+  "All values not ending with the given string"
+  title_not_ends_with: String
+  "All values that are not contained in given list."
+  title_not_in: [String!]
+  "All values not starting with the given string."
+  title_not_starts_with: String
+  "All values starting with the given string."
+  title_starts_with: String
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+  width: Float
+  "All values greater than the given value."
+  width_gt: Float
+  "All values greater than or equal the given value."
+  width_gte: Float
+  "All values that are contained in given list."
+  width_in: [Float!]
+  "All values less than the given value."
+  width_lt: Float
+  "All values less than or equal the given value."
+  width_lte: Float
+  "All values that are not equal to given value."
+  width_not: Float
+  "All values that are not contained in given list."
+  width_not_in: [Float!]
+}
+
+"References Asset record uniquely"
+input AssetWhereUniqueInput {
+  id: ID
+}
+
+"Accepts either HEX or RGBA color value. At least one of hex or rgba value should be passed. If both are passed RGBA is used."
+input ColorInput {
+  hex: Hex
+  rgba: RGBAInput
+}
+
+input ConnectPositionInput {
+  "Connect document after specified document"
+  after: ID
+  "Connect document before specified document"
+  before: ID
+  "Connect document at last position"
+  end: Boolean
+  "Connect document at first position"
+  start: Boolean
+}
+
+input CustomerConnectInput {
+  "Allow to specify document position in list of connected documents, will default to appending at end of list"
+  position: ConnectPositionInput
+  "Document to connect"
+  where: CustomerWhereUniqueInput!
+}
+
+input CustomerCreateInput {
+  availableLanguages: AvailableLanguages
+  createdAt: DateTime
+  "label input for default locale (en)"
+  label: String
+  "Inline mutations for managing document localizations excluding the default locale"
+  localizations: CustomerCreateLocalizationsInput
+  "privacyDescription input for default locale (en)"
+  privacyDescription: RichTextAST
+  products: ProductCreateManyInlineInput
+  ref: String!
+  "termsDescription input for default locale (en)"
+  termsDescription: RichTextAST
+  theme: ThemeCreateOneInlineInput
+  updatedAt: DateTime
+}
+
+input CustomerCreateLocalizationDataInput {
+  createdAt: DateTime
+  label: String
+  privacyDescription: RichTextAST
+  termsDescription: RichTextAST
+  updatedAt: DateTime
+}
+
+input CustomerCreateLocalizationInput {
+  "Localization input"
+  data: CustomerCreateLocalizationDataInput!
+  locale: Locale!
+}
+
+input CustomerCreateLocalizationsInput {
+  "Create localizations for the newly-created document"
+  create: [CustomerCreateLocalizationInput!]
+}
+
+input CustomerCreateManyInlineInput {
+  "Connect multiple existing Customer documents"
+  connect: [CustomerWhereUniqueInput!]
+  "Create and connect multiple existing Customer documents"
+  create: [CustomerCreateInput!]
+}
+
+input CustomerCreateOneInlineInput {
+  "Connect one existing Customer document"
+  connect: CustomerWhereUniqueInput
+  "Create and connect one Customer document"
+  create: CustomerCreateInput
+}
+
+"Identifies documents"
+input CustomerManyWhereInput {
+  "Logical AND on all given filters."
+  AND: [CustomerWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [CustomerWhereInput!]
+  "Logical OR on all given filters."
+  OR: [CustomerWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  availableLanguages: AvailableLanguages
+  "All values that are contained in given list."
+  availableLanguages_in: [AvailableLanguages!]
+  "All values that are not equal to given value."
+  availableLanguages_not: AvailableLanguages
+  "All values that are not contained in given list."
+  availableLanguages_not_in: [AvailableLanguages!]
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  products_every: ProductWhereInput
+  products_none: ProductWhereInput
+  products_some: ProductWhereInput
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  ref: String
+  "All values containing the given string."
+  ref_contains: String
+  "All values ending with the given string."
+  ref_ends_with: String
+  "All values that are contained in given list."
+  ref_in: [String!]
+  "All values that are not equal to given value."
+  ref_not: String
+  "All values not containing the given string."
+  ref_not_contains: String
+  "All values not ending with the given string"
+  ref_not_ends_with: String
+  "All values that are not contained in given list."
+  ref_not_in: [String!]
+  "All values not starting with the given string."
+  ref_not_starts_with: String
+  "All values starting with the given string."
+  ref_starts_with: String
+  theme: ThemeWhereInput
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+input CustomerUpdateInput {
+  availableLanguages: AvailableLanguages
+  "label input for default locale (en)"
+  label: String
+  "Manage document localizations"
+  localizations: CustomerUpdateLocalizationsInput
+  "privacyDescription input for default locale (en)"
+  privacyDescription: RichTextAST
+  products: ProductUpdateManyInlineInput
+  ref: String
+  "termsDescription input for default locale (en)"
+  termsDescription: RichTextAST
+  theme: ThemeUpdateOneInlineInput
+}
+
+input CustomerUpdateLocalizationDataInput {
+  label: String
+  privacyDescription: RichTextAST
+  termsDescription: RichTextAST
+}
+
+input CustomerUpdateLocalizationInput {
+  data: CustomerUpdateLocalizationDataInput!
+  locale: Locale!
+}
+
+input CustomerUpdateLocalizationsInput {
+  "Localizations to create"
+  create: [CustomerCreateLocalizationInput!]
+  "Localizations to delete"
+  delete: [Locale!]
+  "Localizations to update"
+  update: [CustomerUpdateLocalizationInput!]
+  upsert: [CustomerUpsertLocalizationInput!]
+}
+
+input CustomerUpdateManyInlineInput {
+  "Connect multiple existing Customer documents"
+  connect: [CustomerConnectInput!]
+  "Create and connect multiple Customer documents"
+  create: [CustomerCreateInput!]
+  "Delete multiple Customer documents"
+  delete: [CustomerWhereUniqueInput!]
+  "Disconnect multiple Customer documents"
+  disconnect: [CustomerWhereUniqueInput!]
+  "Override currently-connected documents with multiple existing Customer documents"
+  set: [CustomerWhereUniqueInput!]
+  "Update multiple Customer documents"
+  update: [CustomerUpdateWithNestedWhereUniqueInput!]
+  "Upsert multiple Customer documents"
+  upsert: [CustomerUpsertWithNestedWhereUniqueInput!]
+}
+
+input CustomerUpdateManyInput {
+  availableLanguages: AvailableLanguages
+  "label input for default locale (en)"
+  label: String
+  "Optional updates to localizations"
+  localizations: CustomerUpdateManyLocalizationsInput
+  "privacyDescription input for default locale (en)"
+  privacyDescription: RichTextAST
+  "termsDescription input for default locale (en)"
+  termsDescription: RichTextAST
+}
+
+input CustomerUpdateManyLocalizationDataInput {
+  label: String
+  privacyDescription: RichTextAST
+  termsDescription: RichTextAST
+}
+
+input CustomerUpdateManyLocalizationInput {
+  data: CustomerUpdateManyLocalizationDataInput!
+  locale: Locale!
+}
+
+input CustomerUpdateManyLocalizationsInput {
+  "Localizations to update"
+  update: [CustomerUpdateManyLocalizationInput!]
+}
+
+input CustomerUpdateManyWithNestedWhereInput {
+  "Update many input"
+  data: CustomerUpdateManyInput!
+  "Document search"
+  where: CustomerWhereInput!
+}
+
+input CustomerUpdateOneInlineInput {
+  "Connect existing Customer document"
+  connect: CustomerWhereUniqueInput
+  "Create and connect one Customer document"
+  create: CustomerCreateInput
+  "Delete currently connected Customer document"
+  delete: Boolean
+  "Disconnect currently connected Customer document"
+  disconnect: Boolean
+  "Update single Customer document"
+  update: CustomerUpdateWithNestedWhereUniqueInput
+  "Upsert single Customer document"
+  upsert: CustomerUpsertWithNestedWhereUniqueInput
+}
+
+input CustomerUpdateWithNestedWhereUniqueInput {
+  "Document to update"
+  data: CustomerUpdateInput!
+  "Unique document search"
+  where: CustomerWhereUniqueInput!
+}
+
+input CustomerUpsertInput {
+  "Create document if it didn't exist"
+  create: CustomerCreateInput!
+  "Update document if it exists"
+  update: CustomerUpdateInput!
+}
+
+input CustomerUpsertLocalizationInput {
+  create: CustomerCreateLocalizationDataInput!
+  locale: Locale!
+  update: CustomerUpdateLocalizationDataInput!
+}
+
+input CustomerUpsertWithNestedWhereUniqueInput {
+  "Upsert data"
+  data: CustomerUpsertInput!
+  "Unique document search"
+  where: CustomerWhereUniqueInput!
+}
+
+"Identifies documents"
+input CustomerWhereInput {
+  "Logical AND on all given filters."
+  AND: [CustomerWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [CustomerWhereInput!]
+  "Logical OR on all given filters."
+  OR: [CustomerWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  availableLanguages: AvailableLanguages
+  "All values that are contained in given list."
+  availableLanguages_in: [AvailableLanguages!]
+  "All values that are not equal to given value."
+  availableLanguages_not: AvailableLanguages
+  "All values that are not contained in given list."
+  availableLanguages_not_in: [AvailableLanguages!]
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  label: String
+  "All values containing the given string."
+  label_contains: String
+  "All values ending with the given string."
+  label_ends_with: String
+  "All values that are contained in given list."
+  label_in: [String!]
+  "All values that are not equal to given value."
+  label_not: String
+  "All values not containing the given string."
+  label_not_contains: String
+  "All values not ending with the given string"
+  label_not_ends_with: String
+  "All values that are not contained in given list."
+  label_not_in: [String!]
+  "All values not starting with the given string."
+  label_not_starts_with: String
+  "All values starting with the given string."
+  label_starts_with: String
+  products_every: ProductWhereInput
+  products_none: ProductWhereInput
+  products_some: ProductWhereInput
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  ref: String
+  "All values containing the given string."
+  ref_contains: String
+  "All values ending with the given string."
+  ref_ends_with: String
+  "All values that are contained in given list."
+  ref_in: [String!]
+  "All values that are not equal to given value."
+  ref_not: String
+  "All values not containing the given string."
+  ref_not_contains: String
+  "All values not ending with the given string"
+  ref_not_ends_with: String
+  "All values that are not contained in given list."
+  ref_not_in: [String!]
+  "All values not starting with the given string."
+  ref_not_starts_with: String
+  "All values starting with the given string."
+  ref_starts_with: String
+  theme: ThemeWhereInput
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+"References Customer record uniquely"
+input CustomerWhereUniqueInput {
+  id: ID
+  ref: String
+}
+
+input DocumentOutputInput {
+  """
+
+  Transforms a document into a desired file type.
+  See this matrix for format support:
+
+  PDF:  jpg, odp, ods, odt, png, svg, txt, and webp
+  DOC:  docx, html, jpg, odt, pdf, png, svg, txt, and webp
+  DOCX:  doc, html, jpg, odt, pdf, png, svg, txt, and webp
+  ODT:  doc, docx, html, jpg, pdf, png, svg, txt, and webp
+  XLS:  jpg, pdf, ods, png, svg, xlsx, and webp
+  XLSX:  jpg, pdf, ods, png, svg, xls, and webp
+  ODS:  jpg, pdf, png, xls, svg, xlsx, and webp
+  PPT:  jpg, odp, pdf, png, svg, pptx, and webp
+  PPTX:  jpg, odp, pdf, png, svg, ppt, and webp
+  ODP:  jpg, pdf, png, ppt, svg, pptx, and webp
+  BMP:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  GIF:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  JPG:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  PNG:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  WEBP:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  TIFF:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  AI:      jpg, odp, ods, odt, pdf, png, svg, and webp
+  PSD:  jpg, odp, ods, odt, pdf, png, svg, and webp
+  SVG:  jpg, odp, ods, odt, pdf, png, and webp
+  HTML:  jpg, odt, pdf, svg, txt, and webp
+  TXT:  jpg, html, odt, pdf, svg, and webp
+  """
+  format: DocumentFileTypes
+}
+
+"Transformations for Documents"
+input DocumentTransformationInput {
+  "Changes the output for the file."
+  output: DocumentOutputInput
+}
+
+input ImageResizeInput {
+  "The default value for the fit parameter is fit:clip."
+  fit: ImageFit
+  "The height in pixels to resize the image to. The value must be an integer from 1 to 10000."
+  height: Int
+  "The width in pixels to resize the image to. The value must be an integer from 1 to 10000."
+  width: Int
+}
+
+"Transformations for Images"
+input ImageTransformationInput {
+  "Resizes the image"
+  resize: ImageResizeInput
+}
+
+"Input for a geolocation point with latitude and longitude"
+input LocationInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input ProductConnectInput {
+  "Allow to specify document position in list of connected documents, will default to appending at end of list"
+  position: ConnectPositionInput
+  "Document to connect"
+  where: ProductWhereUniqueInput!
+}
+
+input ProductCreateInput {
+  createdAt: DateTime
+  customer: CustomerCreateOneInlineInput
+  "description input for default locale (en)"
+  description: String
+  images: AssetCreateManyInlineInput
+  "Inline mutations for managing document localizations excluding the default locale"
+  localizations: ProductCreateLocalizationsInput
+  price: Float
+  "title input for default locale (en)"
+  title: String
+  updatedAt: DateTime
+}
+
+input ProductCreateLocalizationDataInput {
+  createdAt: DateTime
+  description: String
+  title: String
+  updatedAt: DateTime
+}
+
+input ProductCreateLocalizationInput {
+  "Localization input"
+  data: ProductCreateLocalizationDataInput!
+  locale: Locale!
+}
+
+input ProductCreateLocalizationsInput {
+  "Create localizations for the newly-created document"
+  create: [ProductCreateLocalizationInput!]
+}
+
+input ProductCreateManyInlineInput {
+  "Connect multiple existing Product documents"
+  connect: [ProductWhereUniqueInput!]
+  "Create and connect multiple existing Product documents"
+  create: [ProductCreateInput!]
+}
+
+input ProductCreateOneInlineInput {
+  "Connect one existing Product document"
+  connect: ProductWhereUniqueInput
+  "Create and connect one Product document"
+  create: ProductCreateInput
+}
+
+"Identifies documents"
+input ProductManyWhereInput {
+  "Logical AND on all given filters."
+  AND: [ProductWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [ProductWhereInput!]
+  "Logical OR on all given filters."
+  OR: [ProductWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  customer: CustomerWhereInput
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  images_every: AssetWhereInput
+  images_none: AssetWhereInput
+  images_some: AssetWhereInput
+  price: Float
+  "All values greater than the given value."
+  price_gt: Float
+  "All values greater than or equal the given value."
+  price_gte: Float
+  "All values that are contained in given list."
+  price_in: [Float!]
+  "All values less than the given value."
+  price_lt: Float
+  "All values less than or equal the given value."
+  price_lte: Float
+  "All values that are not equal to given value."
+  price_not: Float
+  "All values that are not contained in given list."
+  price_not_in: [Float!]
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+input ProductUpdateInput {
+  customer: CustomerUpdateOneInlineInput
+  "description input for default locale (en)"
+  description: String
+  images: AssetUpdateManyInlineInput
+  "Manage document localizations"
+  localizations: ProductUpdateLocalizationsInput
+  price: Float
+  "title input for default locale (en)"
+  title: String
+}
+
+input ProductUpdateLocalizationDataInput {
+  description: String
+  title: String
+}
+
+input ProductUpdateLocalizationInput {
+  data: ProductUpdateLocalizationDataInput!
+  locale: Locale!
+}
+
+input ProductUpdateLocalizationsInput {
+  "Localizations to create"
+  create: [ProductCreateLocalizationInput!]
+  "Localizations to delete"
+  delete: [Locale!]
+  "Localizations to update"
+  update: [ProductUpdateLocalizationInput!]
+  upsert: [ProductUpsertLocalizationInput!]
+}
+
+input ProductUpdateManyInlineInput {
+  "Connect multiple existing Product documents"
+  connect: [ProductConnectInput!]
+  "Create and connect multiple Product documents"
+  create: [ProductCreateInput!]
+  "Delete multiple Product documents"
+  delete: [ProductWhereUniqueInput!]
+  "Disconnect multiple Product documents"
+  disconnect: [ProductWhereUniqueInput!]
+  "Override currently-connected documents with multiple existing Product documents"
+  set: [ProductWhereUniqueInput!]
+  "Update multiple Product documents"
+  update: [ProductUpdateWithNestedWhereUniqueInput!]
+  "Upsert multiple Product documents"
+  upsert: [ProductUpsertWithNestedWhereUniqueInput!]
+}
+
+input ProductUpdateManyInput {
+  "description input for default locale (en)"
+  description: String
+  "Optional updates to localizations"
+  localizations: ProductUpdateManyLocalizationsInput
+  price: Float
+  "title input for default locale (en)"
+  title: String
+}
+
+input ProductUpdateManyLocalizationDataInput {
+  description: String
+  title: String
+}
+
+input ProductUpdateManyLocalizationInput {
+  data: ProductUpdateManyLocalizationDataInput!
+  locale: Locale!
+}
+
+input ProductUpdateManyLocalizationsInput {
+  "Localizations to update"
+  update: [ProductUpdateManyLocalizationInput!]
+}
+
+input ProductUpdateManyWithNestedWhereInput {
+  "Update many input"
+  data: ProductUpdateManyInput!
+  "Document search"
+  where: ProductWhereInput!
+}
+
+input ProductUpdateOneInlineInput {
+  "Connect existing Product document"
+  connect: ProductWhereUniqueInput
+  "Create and connect one Product document"
+  create: ProductCreateInput
+  "Delete currently connected Product document"
+  delete: Boolean
+  "Disconnect currently connected Product document"
+  disconnect: Boolean
+  "Update single Product document"
+  update: ProductUpdateWithNestedWhereUniqueInput
+  "Upsert single Product document"
+  upsert: ProductUpsertWithNestedWhereUniqueInput
+}
+
+input ProductUpdateWithNestedWhereUniqueInput {
+  "Document to update"
+  data: ProductUpdateInput!
+  "Unique document search"
+  where: ProductWhereUniqueInput!
+}
+
+input ProductUpsertInput {
+  "Create document if it didn't exist"
+  create: ProductCreateInput!
+  "Update document if it exists"
+  update: ProductUpdateInput!
+}
+
+input ProductUpsertLocalizationInput {
+  create: ProductCreateLocalizationDataInput!
+  locale: Locale!
+  update: ProductUpdateLocalizationDataInput!
+}
+
+input ProductUpsertWithNestedWhereUniqueInput {
+  "Upsert data"
+  data: ProductUpsertInput!
+  "Unique document search"
+  where: ProductWhereUniqueInput!
+}
+
+"Identifies documents"
+input ProductWhereInput {
+  "Logical AND on all given filters."
+  AND: [ProductWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [ProductWhereInput!]
+  "Logical OR on all given filters."
+  OR: [ProductWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  customer: CustomerWhereInput
+  description: String
+  "All values containing the given string."
+  description_contains: String
+  "All values ending with the given string."
+  description_ends_with: String
+  "All values that are contained in given list."
+  description_in: [String!]
+  "All values that are not equal to given value."
+  description_not: String
+  "All values not containing the given string."
+  description_not_contains: String
+  "All values not ending with the given string"
+  description_not_ends_with: String
+  "All values that are not contained in given list."
+  description_not_in: [String!]
+  "All values not starting with the given string."
+  description_not_starts_with: String
+  "All values starting with the given string."
+  description_starts_with: String
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  images_every: AssetWhereInput
+  images_none: AssetWhereInput
+  images_some: AssetWhereInput
+  price: Float
+  "All values greater than the given value."
+  price_gt: Float
+  "All values greater than or equal the given value."
+  price_gte: Float
+  "All values that are contained in given list."
+  price_in: [Float!]
+  "All values less than the given value."
+  price_lt: Float
+  "All values less than or equal the given value."
+  price_lte: Float
+  "All values that are not equal to given value."
+  price_not: Float
+  "All values that are not contained in given list."
+  price_not_in: [Float!]
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  title: String
+  "All values containing the given string."
+  title_contains: String
+  "All values ending with the given string."
+  title_ends_with: String
+  "All values that are contained in given list."
+  title_in: [String!]
+  "All values that are not equal to given value."
+  title_not: String
+  "All values not containing the given string."
+  title_not_contains: String
+  "All values not ending with the given string"
+  title_not_ends_with: String
+  "All values that are not contained in given list."
+  title_not_in: [String!]
+  "All values not starting with the given string."
+  title_not_starts_with: String
+  "All values starting with the given string."
+  title_starts_with: String
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+"References Product record uniquely"
+input ProductWhereUniqueInput {
+  id: ID
+}
+
+input PublishLocaleInput {
+  "Locales to publish"
+  locale: Locale!
+  "Stages to publish selected locales to"
+  stages: [Stage!]!
+}
+
+"Input type representing a RGBA color value: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()_and_rgba()"
+input RGBAInput {
+  a: RGBATransparency!
+  b: RGBAHue!
+  g: RGBAHue!
+  r: RGBAHue!
+}
+
+input ThemeConnectInput {
+  "Allow to specify document position in list of connected documents, will default to appending at end of list"
+  position: ConnectPositionInput
+  "Document to connect"
+  where: ThemeWhereUniqueInput!
+}
+
+input ThemeCreateInput {
+  backgroundColor: String
+  createdAt: DateTime
+  customer: CustomerCreateOneInlineInput
+  errorColor: String
+  fonts: String
+  logo: AssetCreateOneInlineInput!
+  onBackgroundColor: String
+  onErrorColor: String
+  onPrimaryColor: String
+  onSecondaryColor: String
+  onSurfaceColor: String
+  primaryColor: String!
+  primaryColorVariant1: String
+  secondaryColor: String
+  secondaryColorVariant1: String
+  surfaceColor: String
+  updatedAt: DateTime
+}
+
+input ThemeCreateManyInlineInput {
+  "Connect multiple existing Theme documents"
+  connect: [ThemeWhereUniqueInput!]
+  "Create and connect multiple existing Theme documents"
+  create: [ThemeCreateInput!]
+}
+
+input ThemeCreateOneInlineInput {
+  "Connect one existing Theme document"
+  connect: ThemeWhereUniqueInput
+  "Create and connect one Theme document"
+  create: ThemeCreateInput
+}
+
+"Identifies documents"
+input ThemeManyWhereInput {
+  "Logical AND on all given filters."
+  AND: [ThemeWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [ThemeWhereInput!]
+  "Logical OR on all given filters."
+  OR: [ThemeWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  backgroundColor: String
+  "All values containing the given string."
+  backgroundColor_contains: String
+  "All values ending with the given string."
+  backgroundColor_ends_with: String
+  "All values that are contained in given list."
+  backgroundColor_in: [String!]
+  "All values that are not equal to given value."
+  backgroundColor_not: String
+  "All values not containing the given string."
+  backgroundColor_not_contains: String
+  "All values not ending with the given string"
+  backgroundColor_not_ends_with: String
+  "All values that are not contained in given list."
+  backgroundColor_not_in: [String!]
+  "All values not starting with the given string."
+  backgroundColor_not_starts_with: String
+  "All values starting with the given string."
+  backgroundColor_starts_with: String
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  customer: CustomerWhereInput
+  errorColor: String
+  "All values containing the given string."
+  errorColor_contains: String
+  "All values ending with the given string."
+  errorColor_ends_with: String
+  "All values that are contained in given list."
+  errorColor_in: [String!]
+  "All values that are not equal to given value."
+  errorColor_not: String
+  "All values not containing the given string."
+  errorColor_not_contains: String
+  "All values not ending with the given string"
+  errorColor_not_ends_with: String
+  "All values that are not contained in given list."
+  errorColor_not_in: [String!]
+  "All values not starting with the given string."
+  errorColor_not_starts_with: String
+  "All values starting with the given string."
+  errorColor_starts_with: String
+  fonts: String
+  "All values containing the given string."
+  fonts_contains: String
+  "All values ending with the given string."
+  fonts_ends_with: String
+  "All values that are contained in given list."
+  fonts_in: [String!]
+  "All values that are not equal to given value."
+  fonts_not: String
+  "All values not containing the given string."
+  fonts_not_contains: String
+  "All values not ending with the given string"
+  fonts_not_ends_with: String
+  "All values that are not contained in given list."
+  fonts_not_in: [String!]
+  "All values not starting with the given string."
+  fonts_not_starts_with: String
+  "All values starting with the given string."
+  fonts_starts_with: String
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  logo: AssetWhereInput
+  onBackgroundColor: String
+  "All values containing the given string."
+  onBackgroundColor_contains: String
+  "All values ending with the given string."
+  onBackgroundColor_ends_with: String
+  "All values that are contained in given list."
+  onBackgroundColor_in: [String!]
+  "All values that are not equal to given value."
+  onBackgroundColor_not: String
+  "All values not containing the given string."
+  onBackgroundColor_not_contains: String
+  "All values not ending with the given string"
+  onBackgroundColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onBackgroundColor_not_in: [String!]
+  "All values not starting with the given string."
+  onBackgroundColor_not_starts_with: String
+  "All values starting with the given string."
+  onBackgroundColor_starts_with: String
+  onErrorColor: String
+  "All values containing the given string."
+  onErrorColor_contains: String
+  "All values ending with the given string."
+  onErrorColor_ends_with: String
+  "All values that are contained in given list."
+  onErrorColor_in: [String!]
+  "All values that are not equal to given value."
+  onErrorColor_not: String
+  "All values not containing the given string."
+  onErrorColor_not_contains: String
+  "All values not ending with the given string"
+  onErrorColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onErrorColor_not_in: [String!]
+  "All values not starting with the given string."
+  onErrorColor_not_starts_with: String
+  "All values starting with the given string."
+  onErrorColor_starts_with: String
+  onPrimaryColor: String
+  "All values containing the given string."
+  onPrimaryColor_contains: String
+  "All values ending with the given string."
+  onPrimaryColor_ends_with: String
+  "All values that are contained in given list."
+  onPrimaryColor_in: [String!]
+  "All values that are not equal to given value."
+  onPrimaryColor_not: String
+  "All values not containing the given string."
+  onPrimaryColor_not_contains: String
+  "All values not ending with the given string"
+  onPrimaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onPrimaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  onPrimaryColor_not_starts_with: String
+  "All values starting with the given string."
+  onPrimaryColor_starts_with: String
+  onSecondaryColor: String
+  "All values containing the given string."
+  onSecondaryColor_contains: String
+  "All values ending with the given string."
+  onSecondaryColor_ends_with: String
+  "All values that are contained in given list."
+  onSecondaryColor_in: [String!]
+  "All values that are not equal to given value."
+  onSecondaryColor_not: String
+  "All values not containing the given string."
+  onSecondaryColor_not_contains: String
+  "All values not ending with the given string"
+  onSecondaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onSecondaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  onSecondaryColor_not_starts_with: String
+  "All values starting with the given string."
+  onSecondaryColor_starts_with: String
+  onSurfaceColor: String
+  "All values containing the given string."
+  onSurfaceColor_contains: String
+  "All values ending with the given string."
+  onSurfaceColor_ends_with: String
+  "All values that are contained in given list."
+  onSurfaceColor_in: [String!]
+  "All values that are not equal to given value."
+  onSurfaceColor_not: String
+  "All values not containing the given string."
+  onSurfaceColor_not_contains: String
+  "All values not ending with the given string"
+  onSurfaceColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onSurfaceColor_not_in: [String!]
+  "All values not starting with the given string."
+  onSurfaceColor_not_starts_with: String
+  "All values starting with the given string."
+  onSurfaceColor_starts_with: String
+  primaryColor: String
+  primaryColorVariant1: String
+  "All values containing the given string."
+  primaryColorVariant1_contains: String
+  "All values ending with the given string."
+  primaryColorVariant1_ends_with: String
+  "All values that are contained in given list."
+  primaryColorVariant1_in: [String!]
+  "All values that are not equal to given value."
+  primaryColorVariant1_not: String
+  "All values not containing the given string."
+  primaryColorVariant1_not_contains: String
+  "All values not ending with the given string"
+  primaryColorVariant1_not_ends_with: String
+  "All values that are not contained in given list."
+  primaryColorVariant1_not_in: [String!]
+  "All values not starting with the given string."
+  primaryColorVariant1_not_starts_with: String
+  "All values starting with the given string."
+  primaryColorVariant1_starts_with: String
+  "All values containing the given string."
+  primaryColor_contains: String
+  "All values ending with the given string."
+  primaryColor_ends_with: String
+  "All values that are contained in given list."
+  primaryColor_in: [String!]
+  "All values that are not equal to given value."
+  primaryColor_not: String
+  "All values not containing the given string."
+  primaryColor_not_contains: String
+  "All values not ending with the given string"
+  primaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  primaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  primaryColor_not_starts_with: String
+  "All values starting with the given string."
+  primaryColor_starts_with: String
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  secondaryColor: String
+  secondaryColorVariant1: String
+  "All values containing the given string."
+  secondaryColorVariant1_contains: String
+  "All values ending with the given string."
+  secondaryColorVariant1_ends_with: String
+  "All values that are contained in given list."
+  secondaryColorVariant1_in: [String!]
+  "All values that are not equal to given value."
+  secondaryColorVariant1_not: String
+  "All values not containing the given string."
+  secondaryColorVariant1_not_contains: String
+  "All values not ending with the given string"
+  secondaryColorVariant1_not_ends_with: String
+  "All values that are not contained in given list."
+  secondaryColorVariant1_not_in: [String!]
+  "All values not starting with the given string."
+  secondaryColorVariant1_not_starts_with: String
+  "All values starting with the given string."
+  secondaryColorVariant1_starts_with: String
+  "All values containing the given string."
+  secondaryColor_contains: String
+  "All values ending with the given string."
+  secondaryColor_ends_with: String
+  "All values that are contained in given list."
+  secondaryColor_in: [String!]
+  "All values that are not equal to given value."
+  secondaryColor_not: String
+  "All values not containing the given string."
+  secondaryColor_not_contains: String
+  "All values not ending with the given string"
+  secondaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  secondaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  secondaryColor_not_starts_with: String
+  "All values starting with the given string."
+  secondaryColor_starts_with: String
+  surfaceColor: String
+  "All values containing the given string."
+  surfaceColor_contains: String
+  "All values ending with the given string."
+  surfaceColor_ends_with: String
+  "All values that are contained in given list."
+  surfaceColor_in: [String!]
+  "All values that are not equal to given value."
+  surfaceColor_not: String
+  "All values not containing the given string."
+  surfaceColor_not_contains: String
+  "All values not ending with the given string"
+  surfaceColor_not_ends_with: String
+  "All values that are not contained in given list."
+  surfaceColor_not_in: [String!]
+  "All values not starting with the given string."
+  surfaceColor_not_starts_with: String
+  "All values starting with the given string."
+  surfaceColor_starts_with: String
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+input ThemeUpdateInput {
+  backgroundColor: String
+  customer: CustomerUpdateOneInlineInput
+  errorColor: String
+  fonts: String
+  logo: AssetUpdateOneInlineInput
+  onBackgroundColor: String
+  onErrorColor: String
+  onPrimaryColor: String
+  onSecondaryColor: String
+  onSurfaceColor: String
+  primaryColor: String
+  primaryColorVariant1: String
+  secondaryColor: String
+  secondaryColorVariant1: String
+  surfaceColor: String
+}
+
+input ThemeUpdateManyInlineInput {
+  "Connect multiple existing Theme documents"
+  connect: [ThemeConnectInput!]
+  "Create and connect multiple Theme documents"
+  create: [ThemeCreateInput!]
+  "Delete multiple Theme documents"
+  delete: [ThemeWhereUniqueInput!]
+  "Disconnect multiple Theme documents"
+  disconnect: [ThemeWhereUniqueInput!]
+  "Override currently-connected documents with multiple existing Theme documents"
+  set: [ThemeWhereUniqueInput!]
+  "Update multiple Theme documents"
+  update: [ThemeUpdateWithNestedWhereUniqueInput!]
+  "Upsert multiple Theme documents"
+  upsert: [ThemeUpsertWithNestedWhereUniqueInput!]
+}
+
+input ThemeUpdateManyInput {
+  backgroundColor: String
+  errorColor: String
+  fonts: String
+  onBackgroundColor: String
+  onErrorColor: String
+  onPrimaryColor: String
+  onSecondaryColor: String
+  onSurfaceColor: String
+  primaryColor: String
+  primaryColorVariant1: String
+  secondaryColor: String
+  secondaryColorVariant1: String
+  surfaceColor: String
+}
+
+input ThemeUpdateManyWithNestedWhereInput {
+  "Update many input"
+  data: ThemeUpdateManyInput!
+  "Document search"
+  where: ThemeWhereInput!
+}
+
+input ThemeUpdateOneInlineInput {
+  "Connect existing Theme document"
+  connect: ThemeWhereUniqueInput
+  "Create and connect one Theme document"
+  create: ThemeCreateInput
+  "Delete currently connected Theme document"
+  delete: Boolean
+  "Disconnect currently connected Theme document"
+  disconnect: Boolean
+  "Update single Theme document"
+  update: ThemeUpdateWithNestedWhereUniqueInput
+  "Upsert single Theme document"
+  upsert: ThemeUpsertWithNestedWhereUniqueInput
+}
+
+input ThemeUpdateWithNestedWhereUniqueInput {
+  "Document to update"
+  data: ThemeUpdateInput!
+  "Unique document search"
+  where: ThemeWhereUniqueInput!
+}
+
+input ThemeUpsertInput {
+  "Create document if it didn't exist"
+  create: ThemeCreateInput!
+  "Update document if it exists"
+  update: ThemeUpdateInput!
+}
+
+input ThemeUpsertWithNestedWhereUniqueInput {
+  "Upsert data"
+  data: ThemeUpsertInput!
+  "Unique document search"
+  where: ThemeWhereUniqueInput!
+}
+
+"Identifies documents"
+input ThemeWhereInput {
+  "Logical AND on all given filters."
+  AND: [ThemeWhereInput!]
+  "Logical NOT on all given filters combined by AND."
+  NOT: [ThemeWhereInput!]
+  "Logical OR on all given filters."
+  OR: [ThemeWhereInput!]
+  "Contains search across all appropriate fields."
+  _search: String
+  backgroundColor: String
+  "All values containing the given string."
+  backgroundColor_contains: String
+  "All values ending with the given string."
+  backgroundColor_ends_with: String
+  "All values that are contained in given list."
+  backgroundColor_in: [String!]
+  "All values that are not equal to given value."
+  backgroundColor_not: String
+  "All values not containing the given string."
+  backgroundColor_not_contains: String
+  "All values not ending with the given string"
+  backgroundColor_not_ends_with: String
+  "All values that are not contained in given list."
+  backgroundColor_not_in: [String!]
+  "All values not starting with the given string."
+  backgroundColor_not_starts_with: String
+  "All values starting with the given string."
+  backgroundColor_starts_with: String
+  createdAt: DateTime
+  "All values greater than the given value."
+  createdAt_gt: DateTime
+  "All values greater than or equal the given value."
+  createdAt_gte: DateTime
+  "All values that are contained in given list."
+  createdAt_in: [DateTime!]
+  "All values less than the given value."
+  createdAt_lt: DateTime
+  "All values less than or equal the given value."
+  createdAt_lte: DateTime
+  "All values that are not equal to given value."
+  createdAt_not: DateTime
+  "All values that are not contained in given list."
+  createdAt_not_in: [DateTime!]
+  customer: CustomerWhereInput
+  errorColor: String
+  "All values containing the given string."
+  errorColor_contains: String
+  "All values ending with the given string."
+  errorColor_ends_with: String
+  "All values that are contained in given list."
+  errorColor_in: [String!]
+  "All values that are not equal to given value."
+  errorColor_not: String
+  "All values not containing the given string."
+  errorColor_not_contains: String
+  "All values not ending with the given string"
+  errorColor_not_ends_with: String
+  "All values that are not contained in given list."
+  errorColor_not_in: [String!]
+  "All values not starting with the given string."
+  errorColor_not_starts_with: String
+  "All values starting with the given string."
+  errorColor_starts_with: String
+  fonts: String
+  "All values containing the given string."
+  fonts_contains: String
+  "All values ending with the given string."
+  fonts_ends_with: String
+  "All values that are contained in given list."
+  fonts_in: [String!]
+  "All values that are not equal to given value."
+  fonts_not: String
+  "All values not containing the given string."
+  fonts_not_contains: String
+  "All values not ending with the given string"
+  fonts_not_ends_with: String
+  "All values that are not contained in given list."
+  fonts_not_in: [String!]
+  "All values not starting with the given string."
+  fonts_not_starts_with: String
+  "All values starting with the given string."
+  fonts_starts_with: String
+  id: ID
+  "All values containing the given string."
+  id_contains: ID
+  "All values ending with the given string."
+  id_ends_with: ID
+  "All values that are contained in given list."
+  id_in: [ID!]
+  "All values that are not equal to given value."
+  id_not: ID
+  "All values not containing the given string."
+  id_not_contains: ID
+  "All values not ending with the given string"
+  id_not_ends_with: ID
+  "All values that are not contained in given list."
+  id_not_in: [ID!]
+  "All values not starting with the given string."
+  id_not_starts_with: ID
+  "All values starting with the given string."
+  id_starts_with: ID
+  logo: AssetWhereInput
+  onBackgroundColor: String
+  "All values containing the given string."
+  onBackgroundColor_contains: String
+  "All values ending with the given string."
+  onBackgroundColor_ends_with: String
+  "All values that are contained in given list."
+  onBackgroundColor_in: [String!]
+  "All values that are not equal to given value."
+  onBackgroundColor_not: String
+  "All values not containing the given string."
+  onBackgroundColor_not_contains: String
+  "All values not ending with the given string"
+  onBackgroundColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onBackgroundColor_not_in: [String!]
+  "All values not starting with the given string."
+  onBackgroundColor_not_starts_with: String
+  "All values starting with the given string."
+  onBackgroundColor_starts_with: String
+  onErrorColor: String
+  "All values containing the given string."
+  onErrorColor_contains: String
+  "All values ending with the given string."
+  onErrorColor_ends_with: String
+  "All values that are contained in given list."
+  onErrorColor_in: [String!]
+  "All values that are not equal to given value."
+  onErrorColor_not: String
+  "All values not containing the given string."
+  onErrorColor_not_contains: String
+  "All values not ending with the given string"
+  onErrorColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onErrorColor_not_in: [String!]
+  "All values not starting with the given string."
+  onErrorColor_not_starts_with: String
+  "All values starting with the given string."
+  onErrorColor_starts_with: String
+  onPrimaryColor: String
+  "All values containing the given string."
+  onPrimaryColor_contains: String
+  "All values ending with the given string."
+  onPrimaryColor_ends_with: String
+  "All values that are contained in given list."
+  onPrimaryColor_in: [String!]
+  "All values that are not equal to given value."
+  onPrimaryColor_not: String
+  "All values not containing the given string."
+  onPrimaryColor_not_contains: String
+  "All values not ending with the given string"
+  onPrimaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onPrimaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  onPrimaryColor_not_starts_with: String
+  "All values starting with the given string."
+  onPrimaryColor_starts_with: String
+  onSecondaryColor: String
+  "All values containing the given string."
+  onSecondaryColor_contains: String
+  "All values ending with the given string."
+  onSecondaryColor_ends_with: String
+  "All values that are contained in given list."
+  onSecondaryColor_in: [String!]
+  "All values that are not equal to given value."
+  onSecondaryColor_not: String
+  "All values not containing the given string."
+  onSecondaryColor_not_contains: String
+  "All values not ending with the given string"
+  onSecondaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onSecondaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  onSecondaryColor_not_starts_with: String
+  "All values starting with the given string."
+  onSecondaryColor_starts_with: String
+  onSurfaceColor: String
+  "All values containing the given string."
+  onSurfaceColor_contains: String
+  "All values ending with the given string."
+  onSurfaceColor_ends_with: String
+  "All values that are contained in given list."
+  onSurfaceColor_in: [String!]
+  "All values that are not equal to given value."
+  onSurfaceColor_not: String
+  "All values not containing the given string."
+  onSurfaceColor_not_contains: String
+  "All values not ending with the given string"
+  onSurfaceColor_not_ends_with: String
+  "All values that are not contained in given list."
+  onSurfaceColor_not_in: [String!]
+  "All values not starting with the given string."
+  onSurfaceColor_not_starts_with: String
+  "All values starting with the given string."
+  onSurfaceColor_starts_with: String
+  primaryColor: String
+  primaryColorVariant1: String
+  "All values containing the given string."
+  primaryColorVariant1_contains: String
+  "All values ending with the given string."
+  primaryColorVariant1_ends_with: String
+  "All values that are contained in given list."
+  primaryColorVariant1_in: [String!]
+  "All values that are not equal to given value."
+  primaryColorVariant1_not: String
+  "All values not containing the given string."
+  primaryColorVariant1_not_contains: String
+  "All values not ending with the given string"
+  primaryColorVariant1_not_ends_with: String
+  "All values that are not contained in given list."
+  primaryColorVariant1_not_in: [String!]
+  "All values not starting with the given string."
+  primaryColorVariant1_not_starts_with: String
+  "All values starting with the given string."
+  primaryColorVariant1_starts_with: String
+  "All values containing the given string."
+  primaryColor_contains: String
+  "All values ending with the given string."
+  primaryColor_ends_with: String
+  "All values that are contained in given list."
+  primaryColor_in: [String!]
+  "All values that are not equal to given value."
+  primaryColor_not: String
+  "All values not containing the given string."
+  primaryColor_not_contains: String
+  "All values not ending with the given string"
+  primaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  primaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  primaryColor_not_starts_with: String
+  "All values starting with the given string."
+  primaryColor_starts_with: String
+  publishedAt: DateTime
+  "All values greater than the given value."
+  publishedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  publishedAt_gte: DateTime
+  "All values that are contained in given list."
+  publishedAt_in: [DateTime!]
+  "All values less than the given value."
+  publishedAt_lt: DateTime
+  "All values less than or equal the given value."
+  publishedAt_lte: DateTime
+  "All values that are not equal to given value."
+  publishedAt_not: DateTime
+  "All values that are not contained in given list."
+  publishedAt_not_in: [DateTime!]
+  secondaryColor: String
+  secondaryColorVariant1: String
+  "All values containing the given string."
+  secondaryColorVariant1_contains: String
+  "All values ending with the given string."
+  secondaryColorVariant1_ends_with: String
+  "All values that are contained in given list."
+  secondaryColorVariant1_in: [String!]
+  "All values that are not equal to given value."
+  secondaryColorVariant1_not: String
+  "All values not containing the given string."
+  secondaryColorVariant1_not_contains: String
+  "All values not ending with the given string"
+  secondaryColorVariant1_not_ends_with: String
+  "All values that are not contained in given list."
+  secondaryColorVariant1_not_in: [String!]
+  "All values not starting with the given string."
+  secondaryColorVariant1_not_starts_with: String
+  "All values starting with the given string."
+  secondaryColorVariant1_starts_with: String
+  "All values containing the given string."
+  secondaryColor_contains: String
+  "All values ending with the given string."
+  secondaryColor_ends_with: String
+  "All values that are contained in given list."
+  secondaryColor_in: [String!]
+  "All values that are not equal to given value."
+  secondaryColor_not: String
+  "All values not containing the given string."
+  secondaryColor_not_contains: String
+  "All values not ending with the given string"
+  secondaryColor_not_ends_with: String
+  "All values that are not contained in given list."
+  secondaryColor_not_in: [String!]
+  "All values not starting with the given string."
+  secondaryColor_not_starts_with: String
+  "All values starting with the given string."
+  secondaryColor_starts_with: String
+  surfaceColor: String
+  "All values containing the given string."
+  surfaceColor_contains: String
+  "All values ending with the given string."
+  surfaceColor_ends_with: String
+  "All values that are contained in given list."
+  surfaceColor_in: [String!]
+  "All values that are not equal to given value."
+  surfaceColor_not: String
+  "All values not containing the given string."
+  surfaceColor_not_contains: String
+  "All values not ending with the given string"
+  surfaceColor_not_ends_with: String
+  "All values that are not contained in given list."
+  surfaceColor_not_in: [String!]
+  "All values not starting with the given string."
+  surfaceColor_not_starts_with: String
+  "All values starting with the given string."
+  surfaceColor_starts_with: String
+  updatedAt: DateTime
+  "All values greater than the given value."
+  updatedAt_gt: DateTime
+  "All values greater than or equal the given value."
+  updatedAt_gte: DateTime
+  "All values that are contained in given list."
+  updatedAt_in: [DateTime!]
+  "All values less than the given value."
+  updatedAt_lt: DateTime
+  "All values less than or equal the given value."
+  updatedAt_lte: DateTime
+  "All values that are not equal to given value."
+  updatedAt_not: DateTime
+  "All values that are not contained in given list."
+  updatedAt_not_in: [DateTime!]
+}
+
+"References Theme record uniquely"
+input ThemeWhereUniqueInput {
+  id: ID
+}
+
+input UnpublishLocaleInput {
+  "Locales to unpublish"
+  locale: Locale!
+  "Stages to unpublish selected locales from"
+  stages: [Stage!]!
+}
+
+input VersionWhereInput {
+  id: ID!
+  revision: Int!
+  stage: Stage!
+}
+
+
+"A date string, such as 2007-12-03 (YYYY-MM-DD), compliant with ISO 8601 standard for representation of dates using the Gregorian calendar."
+scalar Date
+
+"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the date-timeformat outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representationof dates and times using the Gregorian calendar."
+scalar DateTime
+
+scalar Hex
+
+"Raw JSON value"
+scalar Json
+
+"The Long scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
+
+scalar RGBAHue
+
+scalar RGBATransparency
+
+"Slate-compatible RichText AST"
+scalar RichTextAST
