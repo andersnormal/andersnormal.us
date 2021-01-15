@@ -1,0 +1,6 @@
+name: Demo
+
+nextApp:
+  component: "@sls-next/serverless-component@1.18.0"
+  inputs:
+    memory: 1024
