@@ -1,4 +1,6 @@
+import React from 'react'
 import { DocumentInitialProps } from 'next/dist/next-server/lib/utils'
+import { ColorModeScript } from '@chakra-ui/react'
 import Document, {
   DocumentProps,
   Head,
@@ -6,7 +8,7 @@ import Document, {
   Main,
   NextScript
 } from 'next/document'
-import React from 'react'
+import theme from '@theme/theme'
 
 /**
  * Additional props depending on our App
@@ -61,6 +63,7 @@ class AppDocument extends Document<DocumentRenderProps> {
         //   `v${process.env.NEXT_PUBLIC_APP_VERSION_RELEASE}`
         // )}
         >
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
           <NextScript />
         </body>

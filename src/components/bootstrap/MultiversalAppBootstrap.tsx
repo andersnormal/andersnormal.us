@@ -8,7 +8,8 @@ import BrowserPageBootstrap, {
 import ServerPageBootstrap, {
   ServerPageBootstrapProps
 } from '@components/bootstrap/ServerPageBootstrap'
-import 'tailwindcss/tailwind.css'
+import { ChakraProvider, CSSReset } from '@chakra-ui/react'
+import theme from '@theme/theme'
 
 const MultiversalAppBootstrap = (props): JSX.Element => {
   const { pageProps, router } = props
@@ -26,18 +27,21 @@ const MultiversalAppBootstrap = (props): JSX.Element => {
 
   return (
     <GlobalContextProvider>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      {isBrowser() ? (
-        <BrowserPageBootstrap
-          {...(bootstrapProps as BrowserPageBootstrapProps)}
-        />
-      ) : (
-        <ServerPageBootstrap
-          {...(bootstrapProps as ServerPageBootstrapProps)}
-        />
-      )}
+      <ChakraProvider theme={theme}>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <CSSReset />
+        {isBrowser() ? (
+          <BrowserPageBootstrap
+            {...(bootstrapProps as BrowserPageBootstrapProps)}
+          />
+        ) : (
+          <ServerPageBootstrap
+            {...(bootstrapProps as ServerPageBootstrapProps)}
+          />
+        )}
+      </ChakraProvider>
     </GlobalContextProvider>
   )
 }
