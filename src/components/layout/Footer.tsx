@@ -6,16 +6,8 @@ import { useIntl } from 'react-intl'
 
 const Footer = props => {
   return (
-    <Flex
-      as="footer"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      padding="1.5rem"
-      color="gray.900"
-      {...props}
-    >
-      <FooterMenu items={[]} />
+    <Flex as="footer" wrap="wrap" padding="1.5rem" color="gray.900" {...props}>
+      {/* <FooterMenu items={[]} /> */}
       <Boilerplate />
     </Flex>
   )
