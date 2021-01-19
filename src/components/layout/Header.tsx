@@ -7,7 +7,13 @@ const Header = props => {
   const handleToggle = () => setShow(!show)
 
   return (
-    <Container maxW={['640px', '768px', '1024px', '1280px']}>
+    <Container
+      maxW={['640px', '768px', '1024px', '1280px']}
+      position={'fixed'}
+      margin={'auto'}
+      left={0}
+      right={0}
+    >
       <Flex
         as="nav"
         wrap="wrap"

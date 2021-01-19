@@ -1,7 +1,8 @@
 import React from 'react'
-import { Grid, GridItem } from '@chakra-ui/react'
+import { Grid, GridItem, Container } from '@chakra-ui/react'
 import Header from './Header'
 import Footer from './Footer'
+import ChatButton from './ChatButton'
 
 type DefaultLayoutProps = {
   children: React.ReactNode
@@ -10,8 +11,14 @@ type DefaultLayoutProps = {
 const DefaulLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
   return (
     <>
+      <ChatButton />
       <Header />
-      <div>{children}</div>
+      <Container
+        maxW={['640px', '768px', '1024px', '1280px']}
+        paddingTop={'6rem'}
+      >
+        {children}
+      </Container>
       <Footer />
     </>
   )
