@@ -15,7 +15,7 @@ const DefaulLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
       <Header />
       <Container
         maxW={['640px', '768px', '1024px', '1280px']}
-        paddingTop={'6rem'}
+        paddingTop={{ base: '3rem', md: '4rem', xl: '6rem' }}
       >
         {children}
       </Container>
