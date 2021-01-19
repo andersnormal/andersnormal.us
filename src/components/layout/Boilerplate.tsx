@@ -1,7 +1,16 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useIntl } from 'react-intl'
-import { Box, Heading, Spacer, Flex, Text, Button } from '@chakra-ui/react'
+import {
+  Box,
+  Heading,
+  Spacer,
+  Flex,
+  Text,
+  Button,
+  UnorderedList,
+  ListItem
+} from '@chakra-ui/react'
 
 const Boilerplate = props => {
   const { formatMessage } = useIntl()
@@ -46,10 +55,10 @@ const Boilerplate = props => {
         >
           {f('startDialog')}
         </Heading>
-        <ul>
-          <li>+49 (0)30 000 000</li>
-          <li>ping@andersnormal.us</li>
-        </ul>
+        <UnorderedList styleType="none" m={0}>
+          <ListItem>+49 (0)30 000 000</ListItem>
+          <ListItem>ping@andersnormal.us</ListItem>
+        </UnorderedList>
       </Box>
     </Box>
   )

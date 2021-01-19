@@ -6,19 +6,19 @@ import { useIntl } from 'react-intl'
 
 const Footer = props => {
   return (
-    <Flex
-      as="footer"
-      justify="space-between"
-      wrap="wrap"
-      padding="1.5rem"
-      color="gray.900"
-      {...props}
-    >
-      <Container maxW={['640px', '768px', '1024px', '1280px']}>
+    <Container maxW={['640px', '768px', '1024px', '1280px']}>
+      <Flex
+        as="footer"
+        justify="space-between"
+        wrap="wrap"
+        padding="1.5rem"
+        color="gray.900"
+        {...props}
+      >
         {/* <FooterMenu items={[]} /> */}
         <Boilerplate />
-      </Container>
-    </Flex>
+      </Flex>
+    </Container>
   )
 }
 
