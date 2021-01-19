@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { useIntl } from 'react-intl'
-import { Box, Heading, Flex, Text, Button } from '@chakra-ui/react'
+import { Box, Heading, Spacer, Flex, Text, Button } from '@chakra-ui/react'
 
 const Boilerplate = props => {
   const { formatMessage } = useIntl()
@@ -12,16 +12,25 @@ const Boilerplate = props => {
   return (
     <Box
       display={{ sm: 'block', lg: 'flex' }}
-      width={{ sm: 'full', lg: 'auto' }}
-      justifyContent="space-around"
-      alignItems="center"
+      width={{ sm: 'full', lg: '100%' }}
+      justifyContent="space-between"
       {...props}
     >
-      <Box>
-        <Heading as="h1">{f('jingle')}</Heading>
+      <Box w={{ lg: '33%' }} my={[4]}>
+        <Heading
+          m={0}
+          as="h1"
+          fontSize={{ base: '32px', md: '38px', lg: '56px' }}
+        >
+          {f('jingle')}
+        </Heading>
       </Box>
-      <Box>
-        <Heading as="h4" size="md">
+      <Box w={{ lg: '33%' }} my={[4]}>
+        <Heading
+          as="h4"
+          fontSize={{ base: '20px', md: '22px', lg: '24px' }}
+          my={[4]}
+        >
           AndersNormal GmbH & Co KG
         </Heading>
         <Text>
@@ -29,10 +38,18 @@ const Boilerplate = props => {
           10785 Berlin
         </Text>
       </Box>
-      <Box>
-        <Heading as="h4" size="md">
+      <Box w={{ lg: '33%' }} my={[4]}>
+        <Heading
+          as="h4"
+          fontSize={{ base: '20px', md: '22px', lg: '24px' }}
+          my={[4]}
+        >
           {f('startDialog')}
         </Heading>
+        <ul>
+          <li>+49 (0)30 000 000</li>
+          <li>ping@andersnormal.us</li>
+        </ul>
       </Box>
     </Box>
   )
