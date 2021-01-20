@@ -40,7 +40,7 @@ const Home: NextPage = ({ children }): JSX.Element => {
 
         <Box w={'100%'}>
           <Heading fontSize={{ base: '48px', md: '64px', lg: '76px' }}>
-            Say hello.
+            Say Hello.
           </Heading>
         </Box>
         <Box w={'100%'}>

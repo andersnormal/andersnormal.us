@@ -16,7 +16,7 @@ const Footer = props => {
         {...props}
       >
         {/* <FooterMenu items={[]} /> */}
-        <Boilerplate />
+        <Boilerplate data-testid="boilerplate" />
       </Flex>
     </Container>
   )

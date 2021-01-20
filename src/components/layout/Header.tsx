@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, Heading, Flex, Text, Container, Button } from '@chakra-ui/react'
 import HeaderMenu from './HeaderMenu'
 
-const Header = props => {
+const Header = (props): JSX.Element => {
   const [show, setShow] = useState(false)
   const handleToggle = () => setShow(!show)
 
@@ -17,7 +17,8 @@ const Header = props => {
       <Flex
         as="nav"
         wrap="wrap"
-        padding="1.5rem"
+        py={{ base: '1.5rem', md: '2.5rem', xl: '3.5rem' }}
+        px={{ base: '1.5rem' }}
         // bg="teal.500"
         color="gray.900"
         {...props}

@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "zM9c");
+/******/ 	return __webpack_require__(__webpack_require__.s = "181A");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -396,6 +396,51 @@ try {
   module.exports = __webpack_require__("P7XM");
 }
 
+
+/***/ }),
+
+/***/ "181A":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GX0O");
+/* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("KqAr");
+/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("fkL1");
+/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var private_dot_next_routes_manifest_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("Skye");
+var private_dot_next_routes_manifest_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t("Skye", 1);
+/* harmony import */ var next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("CpcB");
+/* harmony import */ var next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4__);
+
+        
+      const { processEnv } = __webpack_require__("fXeI")
+      processEnv([{"path":".env","contents":"# GraphQL v2 API endpoint (using GraphCMS vendor)\n# Used to fetch content from GraphCMS\n# Tip: The value being used below is valid, so that you can run the demo locally without having to create your own GraphCMS account\n# XXX We only use one stage (\"master\") due to the free plan's limitation, but using two stages is more secure for enterprise-grade apps\nGRAPHQL_API_ENDPOINT=https://api-eu-central-1.graphcms.com/v2/ckk2iqjmrrv0e01xs8shscgad/master\n\n# GraphQL API key (using GraphCMS vendor), can be found under \"Settings > API Access > Permanent Auth Tokens\"\n# Used to fetch content from GraphCMS, this token only has read-only permissions to avoid data tempering (especially since we made it public within NRN)\n# This variable is only used server-side\n# Tip: The value being used below is valid, so that you can run the demo locally without having to create your own GraphCMS account\n# XXX For the purpose of this demo, we're tracking this in git, but unless you're building an open API you'll want to move it to \".env.local\" (especially if this is your \"master\" token)\nGRAPHQL_API_KEY=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdjbXMtbWFpbi1wcm9kdWN0aW9uIn0.eyJ2ZXJzaW9uIjozLCJpYXQiOjE2MTA5NzE1NjcsImF1ZCI6WyJodHRwczovL2FwaS1ldS1jZW50cmFsLTEuZ3JhcGhjbXMuY29tL3YyL2NrazJpcWptcnJ2MGUwMXhzOHNoc2NnYWQvbWFzdGVyIl0sImlzcyI6Imh0dHBzOi8vbWFuYWdlbWVudC5ncmFwaGNtcy5jb20vIiwic3ViIjoiYWUwNTIxYjktZTZhMC00MTdiLWFlZGUtNDU1YmQ1ODhjNmUwIiwianRpIjoiY2trMml2bDZ2cm56OTAxemRnandhNmx2OSJ9.BCCwU46ID9sM8vlAe8Dmwsirw-4bi5OjsOZIb3xPxM42uxtz6JrCFmexLWpNDEADKg2UlKLBfBu5X3d26QU6gl_rLNdp2KHvPv_UPSdaO4-eQvr_4PNVCaAvQUVErB88p1Pys9WaB-zcDiXdusjTetXm02pWxEODGt_LJASJ6Q6Yu55xnTDp9hoWByCeRgMoarbEq5hcrm0TEYbs9Wb32sKgATIfebvhK4lRI6OholLfeFEYYC-LH4-_aDyLDl15VP53DhZMGLcHq6rX5ktJLjBE5puaPbyh-3yO-Wj5W5N_D5CUap_lffY5ToM_hdyRuKlAHXKefWb4vNRUtYd8fwd1vrP9ZUqh23iLYVsHuk4PdkkacQnEIOkspq3NiM_w_m4JcBKyuKan2w8VIQWR8MIp6kzx77Sb91nG2A9kgoJFg0XDDnxX3ali-MzCH_DgreUIcE1Sfe7bjrY3d5hwd5F7tDXPNFOq6vraNHw-wX76lyoOthZqhQvOMU0sij5pNX-aImSgGtW7xx6z9wQ9Nwh80Je5ufM_l382sSXaACcgvNxU_Hs5k07HK8wVeG1VZrzyWjInoJ3yw0evN8xaTBbUhghIy_wLdmjg7m61GRRQtHhuGBd1Y5NIggashEQo_yBTjsle49gy4gYod_za2H-EsvbS-M-a3pMxUdT_Cmk\n"}])
+    
+        
+        const runtimeConfig = {}
+        
+        
+        
+        
+  
+        
+  
+        const apiHandler = Object(next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4__["getApiHandler"])({
+          pageModule: __webpack_require__("oFlh"),
+          rewrites: private_dot_next_routes_manifest_json__WEBPACK_IMPORTED_MODULE_3__.rewrites,
+          i18n: {"locales":["en","de"],"defaultLocale":"en"},
+          page: "/api/redirect",
+          basePath: "",
+          pageIsDynamic: false,
+          encodedPreviewProps: {previewModeId:"f8e3d44f20f205cd252fc922b305b9fd",previewModeSigningKey:"9385bef8b3fabc9149bb2a9d4aca4e1e0c1132315f813b2707abeea881c847bd",previewModeEncryptionKey:"4d30e458ba338e0f3ee3b5a7f51c7a2bb15d100084eecabc4cd99edb86430e14"},
+          experimental: {
+            onError: next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__["default"],
+            initServer: next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__["default"],
+          }
+        })
+        /* harmony default export */ __webpack_exports__["default"] = (apiHandler);
+      
 
 /***/ }),
 
@@ -11597,51 +11642,6 @@ module.exports = function (input) {
     });
 };
 
-
-/***/ }),
-
-/***/ "zM9c":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GX0O");
-/* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("KqAr");
-/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("fkL1");
-/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var private_dot_next_routes_manifest_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("Skye");
-var private_dot_next_routes_manifest_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t("Skye", 1);
-/* harmony import */ var next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("CpcB");
-/* harmony import */ var next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4__);
-
-        
-      const { processEnv } = __webpack_require__("fXeI")
-      processEnv([])
-    
-        
-        const runtimeConfig = {}
-        
-        
-        
-        
-  
-        
-  
-        const apiHandler = Object(next_dist_build_webpack_loaders_next_serverless_loader_api_handler__WEBPACK_IMPORTED_MODULE_4__["getApiHandler"])({
-          pageModule: __webpack_require__("oFlh"),
-          rewrites: private_dot_next_routes_manifest_json__WEBPACK_IMPORTED_MODULE_3__.rewrites,
-          i18n: {"locales":["en","de"],"defaultLocale":"en"},
-          page: "/api/redirect",
-          basePath: "",
-          pageIsDynamic: false,
-          encodedPreviewProps: {previewModeId:"fc82f753ea0edeb79eb079d861a6da7e",previewModeSigningKey:"ae40f4c3abe3180482c9f57d7ac799a79667ddf9c6c7b082a57f60d5bae5d1d3",previewModeEncryptionKey:"507b0ddfdfccf0f65b63386b668a0a295c8eec2a203f67cf4ae20d843e93a478"},
-          experimental: {
-            onError: next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__["default"],
-            initServer: next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__["default"],
-          }
-        })
-        /* harmony default export */ __webpack_exports__["default"] = (apiHandler);
-      
 
 /***/ }),
 

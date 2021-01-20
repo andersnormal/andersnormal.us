@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://_N_E/node_modules/tailwindcss/tailwind.css"],"names":[],"mappings":"AAAA,cAAc,CAEd,oBAAoB,CAEpB,mBAAmB","file":"static/css/637f547112c6f6cb366b.css","sourcesContent":["@tailwind base;\n\n@tailwind components;\n\n@tailwind utilities;\n"],"sourceRoot":""}

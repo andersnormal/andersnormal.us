@@ -1,8 +1,6 @@
 import React from 'react'
-import NextLink from 'next/link'
-import { Box, AddIcon, Text, SearchIcon } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import { FaVideo } from 'react-icons/fa'
-import Icon from 'react-eva-icons'
 
 const ChatButton = props => {
   return (
