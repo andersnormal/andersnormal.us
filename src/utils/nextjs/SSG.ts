@@ -6,8 +6,10 @@ import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParam
 import { PreviewData } from '../../types/nextjs/PreviewData'
 import { StaticPropsInput } from '@type/nextjs/StaticPropsInput'
 import { SSGPageProps } from '@type/page/SSGPageProps'
+import { useRouter } from 'next/router'
 import createApolloClient from '@utils/graphql'
 import serializeSafe from '@utils/serializeSafe'
+import { defaultLocale } from '../../../i18n.config'
 
 /**
  * Only executed on the server side at build time.
@@ -66,13 +68,18 @@ export const getExamplesCommonStaticProps: GetStaticProps<
   const preview: boolean = props?.preview || false
   const previewData: PreviewData = props?.previewData || null
   const hasLocaleFromUrl = !!props?.params?.locale
+  const locale: string = hasLocaleFromUrl
+    ? props?.params?.locale
+    : defaultLocale
   const apolloClient = createApolloClient()
   const variables = {}
   const queryOptions = {
     displayName: 'LAYOUT_QUERY',
     query: LAYOUT_QUERY,
     variables,
-    context: {}
+    context: {
+      'gcms-locale': locale
+    }
   }
 
   const { data, errors, loading, networkStatus } = await apolloClient.query(
