@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { isBrowser } from '@utils/utils'
+import { useQuery, gql } from '@apollo/client'
+import { LAYOUT_QUERY } from '../../gql/common/layoutQuery'
 import { GlobalContextProvider } from '@state/state'
 import BrowserPageBootstrap, {
   BrowserPageBootstrapProps
@@ -12,6 +14,7 @@ import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import theme from '@theme/theme'
 import * as locales from '../../../content/locale'
 import { IntlProvider } from 'react-intl'
+import withApollo from '@hocs/withApollo'
 
 const MultiversalAppBootstrap = (props): JSX.Element => {
   const { pageProps, router } = props

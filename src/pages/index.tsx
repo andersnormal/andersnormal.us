@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import { CommonServerSideParams } from '@type/nextjs/CommonServerSideParams'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import DefaultLayout from '@components/layout/DefaultLayout'
