@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { isBrowser } from '@utils/utils'
-import { useQuery, gql } from '@apollo/client'
-import { LAYOUT_QUERY } from '../../gql/common/layoutQuery'
 import { GlobalContextProvider } from '@state/state'
 import BrowserPageBootstrap, {
   BrowserPageBootstrapProps
@@ -12,13 +10,11 @@ import ServerPageBootstrap, {
 } from '@components/bootstrap/ServerPageBootstrap'
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import theme from '@theme/theme'
-import * as locales from '../../../content/locale'
-import { IntlProvider } from 'react-intl'
-import withApollo from '@hocs/withApollo'
+import { appWithTranslation } from 'next-i18next/dist/commonjs'
 
 const MultiversalAppBootstrap = (props): JSX.Element => {
   const { pageProps, router } = props
-  const { locale, defaultLocale, pathname } = router
+  const { locale } = router
 
   const bootstrapProps = {
     ...props,
@@ -26,39 +22,27 @@ const MultiversalAppBootstrap = (props): JSX.Element => {
     pageProps: { ...pageProps }
   }
 
-  const localeCopy = locales[locale]
-  const messages = localeCopy[pathname]
-
   useEffect(() => router.pathname === '' && router.push(`/${locale}`))
 
   return (
     <GlobalContextProvider>
-      <IntlProvider
-        locale={locale}
-        defaultLocale={defaultLocale}
-        messages={messages}
-      >
-        <ChakraProvider theme={theme}>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-          </Head>
-          <CSSReset />
-          {isBrowser() ? (
-            <BrowserPageBootstrap
-              {...(bootstrapProps as BrowserPageBootstrapProps)}
-            />
-          ) : (
-            <ServerPageBootstrap
-              {...(bootstrapProps as ServerPageBootstrapProps)}
-            />
-          )}
-        </ChakraProvider>
-      </IntlProvider>
+      <ChakraProvider theme={theme}>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <CSSReset />
+        {isBrowser() ? (
+          <BrowserPageBootstrap
+            {...(bootstrapProps as BrowserPageBootstrapProps)}
+          />
+        ) : (
+          <ServerPageBootstrap
+            {...(bootstrapProps as ServerPageBootstrapProps)}
+          />
+        )}
+      </ChakraProvider>
     </GlobalContextProvider>
   )
 }
 
-export default MultiversalAppBootstrap
+export default appWithTranslation(MultiversalAppBootstrap)

@@ -8,6 +8,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 const i18n = require('./i18n.config')
+console.log(i18n)
 
 // next.config.js
 module.exports = withBundleAnalyzer(
@@ -80,10 +81,10 @@ module.exports = withBundleAnalyzer(
     i18n: {
       // These are all the locales you want to support in
       // your application
-      locales: i18n.supportedLanguages.map(locale => locale.lang),
+      locales: ['en', 'de'],
       // This is the default locale you want to be used when visiting
       // a non-locale prefixed path e.g. `/hello`
-      defaultLocale: i18n.defaultLocale
+      defaultLocale: 'en'
     }
   })
 )

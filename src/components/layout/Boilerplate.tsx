@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { useIntl } from 'react-intl'
 import {
   Box,
   Heading,
@@ -11,12 +10,12 @@ import {
   UnorderedList,
   ListItem
 } from '@chakra-ui/react'
+import { useTranslation } from 'next-i18next'
 
 const Boilerplate = props => {
-  const { formatMessage } = useIntl()
-  const f = id => formatMessage({ id })
   const router = useRouter()
   const { locale, locales, defaultLocale } = router
+  const { t } = useTranslation('footer')
 
   return (
     <Box
@@ -32,7 +31,7 @@ const Boilerplate = props => {
           as="h1"
           fontSize={{ base: '32px', md: '38px', lg: '56px' }}
         >
-          {f('jingle')}
+          {t('jingle')}
         </Heading>
       </Box>
       <Box w={{ lg: '33%' }} my={[4]}>
@@ -54,7 +53,7 @@ const Boilerplate = props => {
           fontSize={{ base: '20px', md: '22px', lg: '24px' }}
           my={[4]}
         >
-          {f('startDialog')}
+          {t('startDialog')}
         </Heading>
         <UnorderedList styleType="none" m={0}>
           <ListItem>+49 (0)30 000 000</ListItem>

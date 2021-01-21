@@ -6,10 +6,10 @@ import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParam
 import { PreviewData } from '../../types/nextjs/PreviewData'
 import { StaticPropsInput } from '@type/nextjs/StaticPropsInput'
 import { SSGPageProps } from '@type/page/SSGPageProps'
-import { useRouter } from 'next/router'
 import createApolloClient from '@utils/graphql'
 import serializeSafe from '@utils/serializeSafe'
 import { defaultLocale } from '../../../i18n.config'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 /**
  * Only executed on the server side at build time.
@@ -82,9 +82,7 @@ export const getExamplesCommonStaticProps: GetStaticProps<
     }
   }
 
-  const { data, errors, loading, networkStatus } = await apolloClient.query(
-    queryOptions
-  )
+  const { data, errors } = await apolloClient.query(queryOptions)
 
   if (errors) {
     console.error(errors)
@@ -100,7 +98,8 @@ export const getExamplesCommonStaticProps: GetStaticProps<
       isReadyToRender: true,
       isStaticRendering: true,
       preview,
-      previewData
+      previewData,
+      ...(await serverSideTranslations(locale, ['common', 'footer']))
     }
     // revalidate: false,
   }
