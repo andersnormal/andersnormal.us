@@ -6,8 +6,19 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import DefaultLayout from '@components/layout/DefaultLayout'
 import { Container, Box, Heading, Flex, Text, Button } from '@chakra-ui/react'
+import withApollo from '@hocs/withApollo'
+import { SSGPageProps } from '@type/page/SSGPageProps'
+import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
+import { getCommonStaticProps } from '@utils/nextjs/SSG'
 
-const Home: NextPage = ({ children }): JSX.Element => {
+type Props = SSGPageProps<Partial<OnlyBrowserPageProps>>
+
+export const getStaticProps: GetStaticProps<
+  SSGPageProps,
+  CommonServerSideParams
+> = getCommonStaticProps
+
+const Home: NextPage<Props> = ({ children }): JSX.Element => {
   const router = useRouter()
   const { locale, locales, defaultLocale } = router
 
@@ -56,4 +67,4 @@ const Home: NextPage = ({ children }): JSX.Element => {
   )
 }
 
-export default Home
+export default withApollo()(Home)

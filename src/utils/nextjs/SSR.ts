@@ -89,7 +89,7 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
   return {
     props: {
       apolloClient,
-      serializedDataset: null, // We don't send the dataset yet (we don't have any because we haven't fetched the database yet), but it must be done by SSR pages in"getServerSideProps"
+      //serializedDataset: null, // We don't send the dataset yet (we don't have any because we haven't fetched the database yet), but it must be done by SSR pages in"getServerSideProps"
       customerRef,
       isReadyToRender: true,
       isServerRendering: true,
