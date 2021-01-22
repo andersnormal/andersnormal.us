@@ -18,9 +18,10 @@ export const getStaticProps: GetStaticProps<
   CommonServerSideParams
 > = getCommonStaticProps
 
-const Home: NextPage<Props> = ({ children }): JSX.Element => {
+const Home: NextPage<Props> = (props): JSX.Element => {
   const router = useRouter()
   const { locale, locales, defaultLocale } = router
+  const { children } = props
 
   return (
     <DefaultLayout>

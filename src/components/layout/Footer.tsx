@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { Container, Box, Heading, Flex, Text, Button } from '@chakra-ui/react'
 import FooterMenu from './FooterMenu'
+import { MenuItem } from './FooterMenuItem'
 import Boilerplate from './Boilerplate'
 
-const Footer = props => {
+type FooterProps = {
+  items: MenuItem[]
+}
+
+const Footer = (props: FooterProps): JSX.Element => {
   return (
     <Container maxW={['640px', '768px', '1024px', '1280px']}>
       <Flex
@@ -14,7 +19,7 @@ const Footer = props => {
         color="gray.900"
         {...props}
       >
-        {/* <FooterMenu items={[]} /> */}
+        <FooterMenu items={props.items} />
         <Boilerplate data-testid="boilerplate" />
       </Flex>
     </Container>
