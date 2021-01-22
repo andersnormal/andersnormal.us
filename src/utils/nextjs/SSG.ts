@@ -1,4 +1,5 @@
 import { ApolloQueryResult } from 'apollo-client'
+import path from 'path'
 import { GetStaticProps, GetStaticPropsResult } from 'next'
 
 import { LAYOUT_QUERY } from '../../gql/common/layoutQuery'
@@ -8,7 +9,6 @@ import { StaticPropsInput } from '@type/nextjs/StaticPropsInput'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import createApolloClient from '@utils/graphql'
 import serializeSafe from '@utils/serializeSafe'
-import { defaultLocale } from '../../../i18n.config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 /**
@@ -67,10 +67,6 @@ export const getExamplesCommonStaticProps: GetStaticProps<
 ): Promise<GetStaticPropsResult<SSGPageProps>> => {
   const preview: boolean = props?.preview || false
   const previewData: PreviewData = props?.previewData || null
-  const hasLocaleFromUrl = !!props?.params?.locale
-  const locale: string = hasLocaleFromUrl
-    ? props?.params?.locale
-    : defaultLocale
   const apolloClient = createApolloClient()
   const variables = {}
   const queryOptions = {
@@ -78,7 +74,7 @@ export const getExamplesCommonStaticProps: GetStaticProps<
     query: LAYOUT_QUERY,
     variables,
     context: {
-      'gcms-locale': locale
+      'gcms-locale': props.locale
     }
   }
 
@@ -94,12 +90,13 @@ export const getExamplesCommonStaticProps: GetStaticProps<
     props: {
       apolloState: apolloClient.cache.extract(),
       serializedDataset: serializeSafe(data || {}),
-      hasLocaleFromUrl,
       isReadyToRender: true,
       isStaticRendering: true,
       preview,
       previewData,
-      ...(await serverSideTranslations(locale, ['common', 'footer']))
+      ...(await serverSideTranslations(props.locale, ['common', 'footer'], {
+        localePath: path.resolve('./public/locales')
+      }))
     }
     // revalidate: false,
   }

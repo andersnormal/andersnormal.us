@@ -7,9 +7,6 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE_BUNDLE === 'true'
 })
 
-const i18n = require('./i18n.config')
-console.log(i18n)
-
 // next.config.js
 module.exports = withBundleAnalyzer(
   withSourceMaps({

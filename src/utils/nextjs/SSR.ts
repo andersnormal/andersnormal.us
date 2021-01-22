@@ -69,14 +69,11 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
 > = async (
   context: GetServerSidePropsContext<CommonServerSideParams>
 ): Promise<GetServerSidePropsResult<GetCommonServerSidePropsResults>> => {
-  const { query, params, req, res } = context
-  const customerRef: string = process.env.NEXT_PUBLIC_CUSTOMER_REF
+  const { query, params, req, res, locale } = context
 
   // Resolve locale from query, fallback to browser headers
   const apolloClient = createApolloClient()
-  const variables = {
-    customerRef
-  }
+  const variables = {}
   const layoutQueryOptions = {
     displayName: 'LAYOUT_QUERY',
     query: LAYOUT_QUERY,
@@ -90,10 +87,10 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
     props: {
       apolloClient,
       //serializedDataset: null, // We don't send the dataset yet (we don't have any because we haven't fetched the database yet), but it must be done by SSR pages in"getServerSideProps"
-      customerRef,
       isReadyToRender: true,
       isServerRendering: true,
-      layoutQueryOptions
+      layoutQueryOptions,
+      locale
     }
   }
 }

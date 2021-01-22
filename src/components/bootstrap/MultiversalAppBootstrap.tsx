@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
+import path from 'path'
 import { isBrowser } from '@utils/utils'
 import { GlobalContextProvider } from '@state/state'
 import BrowserPageBootstrap, {

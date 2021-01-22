@@ -9,7 +9,6 @@ import { render, cleanup } from '@testing-library/react'
 import Footer from './Footer'
 import { IntlProvider } from 'react-intl'
 import config from '../../../next.config'
-import * as locales from '../../../content/locale'
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
