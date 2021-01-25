@@ -17,5 +17,6 @@ export type MultiversalPageProps<E extends {} = {}> = {
   // gcmsLocales: string
   isReadyToRender: boolean
   locale: string
+  serializedDataset: string
   statusCode?: number // Provided by Next.js framework, sometimes
 } & E

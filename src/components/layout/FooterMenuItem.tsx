@@ -1,21 +1,16 @@
 import React from 'react'
 import NextLink from 'next/link'
 import { Link } from '@chakra-ui/react'
+import { Page } from '../../generated-types'
 
 interface FooterMenuItemProps {
-  item: MenuItem
+  page: Pick<Page, 'id' | 'title' | 'slug'>
 }
 
-export type MenuItem = {
-  key: string
-  title: string
-  href: string
-}
-
-const HeaderMenuItem = ({ item }: FooterMenuItemProps): JSX.Element => {
+const HeaderMenuItem = ({ page }: FooterMenuItemProps): JSX.Element => {
   return (
-    <Link as={NextLink} href={item.href}>
-      {item.title}
+    <Link as={NextLink} href={`/${page.slug}`}>
+      {page.title}
     </Link>
   )
 }

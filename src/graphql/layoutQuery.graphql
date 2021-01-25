@@ -1,0 +1,7 @@
+query LayoutQuery {
+  pages(where: { isNavigation: true }) {
+    id
+    title
+    slug
+  }
+}

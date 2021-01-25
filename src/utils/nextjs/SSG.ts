@@ -2,7 +2,7 @@ import { ApolloQueryResult } from 'apollo-client'
 import path from 'path'
 import { GetStaticProps, GetStaticPropsResult } from 'next'
 
-import { LAYOUT_QUERY } from '../../gql/common/layoutQuery'
+import { LayoutQueryDocument } from '../../generated-types'
 import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParams'
 import { PreviewData } from '../../types/nextjs/PreviewData'
 import { StaticPropsInput } from '@type/nextjs/StaticPropsInput'
@@ -71,7 +71,7 @@ export const getExamplesCommonStaticProps: GetStaticProps<
   const variables = {}
   const queryOptions = {
     displayName: 'LAYOUT_QUERY',
-    query: LAYOUT_QUERY,
+    query: LayoutQueryDocument,
     variables,
     context: {
       'gcms-locale': props.locale

@@ -12,8 +12,18 @@ import ServerPageBootstrap, {
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import theme from '@theme/theme'
 import { appWithTranslation } from 'next-i18next/dist/commonjs'
+import { LayoutProvider } from '@state/layout'
+import deserializeSafe from '@utils/deserializeSafe'
+import { MultiversalAppBootstrapProps } from '@type/nextjs/MultiversalAppBootstrapProps'
+import { SSGPageProps } from '@type/page/SSGPageProps'
+import { SSRPageProps } from '@type/page/SSRPageProps'
+import { LayoutQueryQueryResult } from '../../generated-types'
 
-const MultiversalAppBootstrap = (props): JSX.Element => {
+export type Props =
+  | MultiversalAppBootstrapProps<SSGPageProps>
+  | MultiversalAppBootstrapProps<SSRPageProps>
+
+const MultiversalAppBootstrap = (props: Props): JSX.Element => {
   const { pageProps, router } = props
   const { locale } = router
 
@@ -23,26 +33,33 @@ const MultiversalAppBootstrap = (props): JSX.Element => {
     pageProps: { ...pageProps }
   }
 
-  useEffect(() => router.pathname === '' && router.push(`/${locale}`))
+  const layout: LayoutQueryQueryResult = deserializeSafe(
+    bootstrapProps.pageProps.serializedDataset
+  )
 
   return (
-    <GlobalContextProvider>
-      <ChakraProvider theme={theme}>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
-        <CSSReset />
-        {isBrowser() ? (
-          <BrowserPageBootstrap
-            {...(bootstrapProps as BrowserPageBootstrapProps)}
-          />
-        ) : (
-          <ServerPageBootstrap
-            {...(bootstrapProps as ServerPageBootstrapProps)}
-          />
-        )}
-      </ChakraProvider>
-    </GlobalContextProvider>
+    <LayoutProvider value={layout}>
+      <GlobalContextProvider>
+        <ChakraProvider theme={theme}>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+          </Head>
+          <CSSReset />
+          {isBrowser() ? (
+            <BrowserPageBootstrap
+              {...(bootstrapProps as BrowserPageBootstrapProps)}
+            />
+          ) : (
+            <ServerPageBootstrap
+              {...(bootstrapProps as ServerPageBootstrapProps)}
+            />
+          )}
+        </ChakraProvider>
+      </GlobalContextProvider>
+    </LayoutProvider>
   )
 }
 

@@ -1,12 +1,11 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
-import FooterMenuItem, { MenuItem } from './FooterMenuItem'
+import FooterMenuItem from './FooterMenuItem'
+import useLayoutContext from '@hooks/useLayout'
 
-interface FooterMenuProps {
-  items: MenuItem[]
-}
+const FooterMenu = (): JSX.Element => {
+  const layout = useLayoutContext()
 
-const FooterMenu = ({ items }: FooterMenuProps): JSX.Element => {
   return (
     <Box
       width={{ sm: 'full', md: 'auto' }}
@@ -14,8 +13,8 @@ const FooterMenu = ({ items }: FooterMenuProps): JSX.Element => {
       alignItems="center"
       flexGrow={1}
     >
-      {items.map(item => (
-        <FooterMenuItem item={item} key={item.key} />
+      {layout?.pages.map(page => (
+        <FooterMenuItem key={page.slug} page={page} />
       ))}
     </Box>
   )
