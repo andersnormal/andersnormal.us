@@ -21,6 +21,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
         {children}
       </Container>
       <Footer items={[]} />
+      <div id="modal-root" />
     </>
   )
 }
