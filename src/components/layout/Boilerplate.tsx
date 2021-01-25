@@ -22,8 +22,8 @@ const Boilerplate = props => {
       display={{ sm: 'block', lg: 'flex' }}
       width={{ sm: 'full', lg: '100%' }}
       justifyContent="space-between"
-      {...props}
       data-testid="boilerplate"
+      {...props}
     >
       <Box w={{ lg: '33%' }} my={[4]}>
         <Heading

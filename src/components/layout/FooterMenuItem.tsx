@@ -1,7 +1,7 @@
 import React from 'react'
-import NextLink from 'next/link'
-import { Link } from '@chakra-ui/react'
 import { Page } from '../../generated-types'
+import NextChakraLink from './NextChakraLink'
+import { Box } from '@chakra-ui/react'
 
 interface FooterMenuItemProps {
   page: Pick<Page, 'id' | 'title' | 'slug'>
@@ -9,9 +9,14 @@ interface FooterMenuItemProps {
 
 const HeaderMenuItem = ({ page }: FooterMenuItemProps): JSX.Element => {
   return (
-    <Link as={NextLink} href={`/${page.slug}`}>
-      {page.title}
-    </Link>
+    <NextChakraLink href={`/${page.slug}`}>
+      <Box
+        mr={[4, 6, 7, 12]}
+        fontSize={{ base: '20px', md: '22px', lg: '24px' }}
+      >
+        {page.title}
+      </Box>
+    </NextChakraLink>
   )
 }
 

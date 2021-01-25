@@ -1,6 +1,7 @@
 import React from 'react'
 import NextLink from 'next/link'
 import { Link, Box } from '@chakra-ui/react'
+import NextChakraLink from './NextChakraLink'
 
 interface HeaderMenuItemProps {
   item: MenuItem
@@ -14,14 +15,14 @@ export type MenuItem = {
 
 const HeaderMenuItem = ({ item }: HeaderMenuItemProps): JSX.Element => {
   return (
-    <Link as={NextLink} href={item.href}>
+    <NextChakraLink href={item.href}>
       <Box
         ml={[2, 4, 6, 8]}
         fontSize={{ base: '20px', md: '22px', lg: '24px' }}
       >
         {item.title}
       </Box>
-    </Link>
+    </NextChakraLink>
   )
 }
 
