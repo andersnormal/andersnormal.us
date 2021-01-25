@@ -23,11 +23,10 @@ const ChatButton = props => {
       bg="#000"
       color="#fff"
       transform={'translate3d(-50%,0,0)'}
+      outline={'none'}
       _hover={{ bg: '#fff', color: '#000' }}
       _active={{
-        bg: '#dddfe2',
-        transform: 'scale(0.98)',
-        borderColor: '#bec3c9'
+        transform: 'translate3d(-50%,-25%,0)'
       }}
       _focus={{
         borderColor: 'black'
