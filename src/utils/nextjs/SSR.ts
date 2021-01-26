@@ -6,7 +6,7 @@ import {
   GetServerSidePropsResult
 } from 'next'
 
-import { LAYOUT_QUERY } from '../../gql/common/layoutQuery'
+import { LayoutQueryDocument } from '../../generated-types'
 import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParams'
 import { ApolloQueryOptions } from '@type/gql/ApolloQueryOptions'
 import { SSRPageProps } from '@type/page/SSRPageProps'
@@ -76,9 +76,11 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
   const variables = {}
   const layoutQueryOptions = {
     displayName: 'LAYOUT_QUERY',
-    query: LAYOUT_QUERY,
+    query: LayoutQueryDocument,
     variables,
-    context: {}
+    context: {
+      'gcms-locales': locale
+    }
   }
 
   // Most props returned here will be necessary for the app to work properly (see "SSRPageProps")
@@ -86,7 +88,7 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
   return {
     props: {
       apolloClient,
-      //serializedDataset: null, // We don't send the dataset yet (we don't have any because we haven't fetched the database yet), but it must be done by SSR pages in"getServerSideProps"
+      serializedDataset: null, // We don't send the dataset yet (we don't have any because we haven't fetched the database yet), but it must be done by SSR pages in"getServerSideProps"
       isReadyToRender: true,
       isServerRendering: true,
       layoutQueryOptions,

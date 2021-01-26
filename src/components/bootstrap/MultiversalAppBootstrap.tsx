@@ -33,7 +33,7 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
     pageProps: { ...pageProps }
   }
 
-  const layout: LayoutQueryQueryResult = deserializeSafe(
+  const layout = deserializeSafe<LayoutQueryQueryResult>(
     bootstrapProps.pageProps.serializedDataset
   )
 

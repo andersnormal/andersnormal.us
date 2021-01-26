@@ -2,10 +2,14 @@ import React from 'react'
 import { Box, Text } from '@chakra-ui/react'
 import { FaVideo } from 'react-icons/fa'
 import useModal from '@hooks/useModal'
-import Modal from '@components/modal/modal'
+import Overlay from '@components/modal/Overlay'
 
 const ChatButton = props => {
-  const { show, RenderModal } = useModal(Modal)
+  if (!process.browser) {
+    return null
+  }
+
+  const { show, RenderModal } = useModal(Overlay)
 
   return (
     <>

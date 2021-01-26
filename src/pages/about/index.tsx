@@ -1,6 +1,16 @@
 import React from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
+import { getCommonStaticProps } from '@utils/nextjs/SSG'
+import { SSGPageProps } from '@type/page/SSGPageProps'
+import { CommonServerSideParams } from '@type/nextjs/CommonServerSideParams'
+
+export const getStaticProps: GetStaticProps<
+  SSGPageProps,
+  CommonServerSideParams
+> = getCommonStaticProps
 
 const About: NextPage = (): JSX.Element => {
   const router = useRouter()

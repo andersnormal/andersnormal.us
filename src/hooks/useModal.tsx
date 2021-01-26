@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 export type ModalProps = {
   children: React.ReactNode
+  show: boolean
   close: VoidFunction
 }
 export type Modal = React.FC<ModalProps>
@@ -25,9 +26,13 @@ export const useModal = (Modal: Modal): UseModal => {
   const hide = () => setIsVisible(false)
 
   const RenderModal = ({ children }: { children: React.ReactChild }) => (
-    <React.Fragment>
-      {isVisible && <Modal close={hide}>{children}</Modal>}
-    </React.Fragment>
+    <>
+      {isVisible && (
+        <Modal close={hide} show={isVisible}>
+          {children}
+        </Modal>
+      )}
+    </>
   )
 
   return {

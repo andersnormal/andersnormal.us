@@ -1,4 +1,3 @@
-import { ApolloQueryResult } from 'apollo-client'
 import path from 'path'
 import { GetStaticProps, GetStaticPropsResult } from 'next'
 
