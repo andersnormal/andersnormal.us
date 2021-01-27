@@ -12,12 +12,11 @@ import ServerPageBootstrap, {
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import theme from '@theme/theme'
 import { appWithTranslation } from 'next-i18next/dist/commonjs'
-import { LayoutProvider } from '@state/layout'
+import { LayoutProvider, LayoutQueryResult } from '@state/layout'
 import deserializeSafe from '@utils/deserializeSafe'
 import { MultiversalAppBootstrapProps } from '@type/nextjs/MultiversalAppBootstrapProps'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { SSRPageProps } from '@type/page/SSRPageProps'
-import { LayoutQueryQueryResult } from '../../generated-types'
 
 export type Props =
   | MultiversalAppBootstrapProps<SSGPageProps>
@@ -33,12 +32,12 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
     pageProps: { ...pageProps }
   }
 
-  const layout = deserializeSafe<LayoutQueryQueryResult>(
-    bootstrapProps.pageProps.serializedDataset
+  const layout = deserializeSafe<LayoutQueryResult>(
+    bootstrapProps.pageProps?.serializedDataset
   )
 
   return (
-    <LayoutProvider value={layout}>
+    <LayoutProvider layout={layout}>
       <GlobalContextProvider>
         <ChakraProvider theme={theme}>
           <Head>

@@ -16,7 +16,7 @@ import { GenericObject } from '@type/GenericObject'
  * @param value
  * @see deserializeSafe
  */
-export const serializeSafe = <T>(value: GenericObject | any[]): Flatted<T> => {
+export const serializeSafe = <T>(value: GenericObject | []): Flatted<T> => {
   return stringifySafe(value)
 }
 

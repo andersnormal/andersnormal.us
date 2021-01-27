@@ -1,9 +1,8 @@
 import React from 'react'
-import { Grid, GridItem, Container } from '@chakra-ui/react'
+import { Container } from '@chakra-ui/react'
 import Header from './Header'
 import Footer from './Footer'
 import ChatButton from './ChatButton'
-import deserializeSafe from '@utils/deserializeSafe'
 
 type DefaultLayoutProps = {
   children: React.ReactNode

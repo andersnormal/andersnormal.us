@@ -1,5 +1,10 @@
 import path from 'path'
-import { GetStaticProps, GetStaticPropsResult } from 'next'
+import {
+  GetStaticProps,
+  GetStaticPropsResult,
+  NextComponentType,
+  NextPage
+} from 'next'
 
 import { LayoutQueryDocument } from '../../generated-types'
 import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParams'
