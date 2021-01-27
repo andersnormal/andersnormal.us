@@ -1,20 +1,30 @@
 import React from 'react'
-import { LayoutQueryQuery } from '../generated-types'
+import { LayoutQueryQuery, useLayoutQueryQuery } from '../generated-types'
 
 export type LayoutQueryResult = LayoutQueryQuery
 export interface LayoutProviderProps {
   children: React.ReactNode
-  layout: LayoutQueryResult
+  locale: string
 }
 
 const LayoutContext = React.createContext<LayoutQueryResult | null>(null)
 
 export const LayoutProvider = ({
   children,
-  layout
+  locale
 }: LayoutProviderProps): JSX.Element => {
+  const queryOptions = {
+    displayName: 'LAYOUT_QUERY',
+    variables: {},
+    context: {
+      'gcms-locale': locale
+    }
+  }
+
+  const { data } = useLayoutQueryQuery(queryOptions)
+
   return (
-    <LayoutContext.Provider value={layout}>{children}</LayoutContext.Provider>
+    <LayoutContext.Provider value={data}>{children}</LayoutContext.Provider>
   )
 }
 export const LayoutConsumer = LayoutContext.Consumer

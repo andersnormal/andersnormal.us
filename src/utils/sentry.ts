@@ -19,7 +19,6 @@ const configureSentry = () => {
   // Scope configured by default, subsequent calls to "configureScope" will add additional data
   Sentry.configureScope(scope => {
     // See https://www.npmjs.com/package/@sentry/node
-    scope.setTag('customerRef', process.env.NEXT_PUBLIC_CUSTOMER_REF)
     scope.setTag('appStage', process.env.NEXT_PUBLIC_APP_STAGE)
     scope.setTag('appName', process.env.NEXT_PUBLIC_APP_NAME)
     scope.setTag('appVersion', process.env.NEXT_PUBLIC_APP_VERSION)

@@ -1,12 +1,10 @@
 import React from 'react'
 
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import { CommonServerSideParams } from '@type/nextjs/CommonServerSideParams'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import DefaultLayout from '@components/layout/DefaultLayout'
-import { Container, Box, Heading, Flex, Text, Button } from '@chakra-ui/react'
-import withApollo from '@hocs/withApollo'
+import { Box, Heading, Flex } from '@chakra-ui/react'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
 import { getCommonStaticProps } from '@utils/nextjs/SSG'
@@ -18,11 +16,7 @@ export const getStaticProps: GetStaticProps<
   CommonServerSideParams
 > = getCommonStaticProps
 
-const Home: NextPage<Props> = (props): JSX.Element => {
-  const router = useRouter()
-  const { locale, locales, defaultLocale } = router
-  const { children } = props
-
+const Home: NextPage<Props> = (): JSX.Element => {
   return (
     <DefaultLayout>
       <Flex
@@ -38,11 +32,6 @@ const Home: NextPage<Props> = (props): JSX.Element => {
           bgGradient="linear(to-tl, #6ee7b7,#000)"
           borderRadius="1em"
           backgroundClip="text"
-          // borderBottom="8px solid"
-          // style={{
-          //   borderImageSource: 'linear-gradient(-45deg, #6ee7b7, #000)',
-          //   borderImageSlice: 1
-          // }}
         >
           <Heading
             fontSize={{ base: '48px', md: '64px', lg: '76px' }}
@@ -68,4 +57,4 @@ const Home: NextPage<Props> = (props): JSX.Element => {
   )
 }
 
-export default withApollo()(Home)
+export default Home

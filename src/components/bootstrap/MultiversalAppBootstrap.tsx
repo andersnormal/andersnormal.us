@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import path from 'path'
+import { useApollo } from '@utils/apollo'
 import { isBrowser } from '@utils/utils'
 import { GlobalContextProvider } from '@state/state'
 import BrowserPageBootstrap, {
@@ -12,11 +12,11 @@ import ServerPageBootstrap, {
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import theme from '@theme/theme'
 import { appWithTranslation } from 'next-i18next/dist/commonjs'
-import { LayoutProvider, LayoutQueryResult } from '@state/layout'
-import deserializeSafe from '@utils/deserializeSafe'
+import { LayoutProvider } from '@state/layout'
 import { MultiversalAppBootstrapProps } from '@type/nextjs/MultiversalAppBootstrapProps'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { SSRPageProps } from '@type/page/SSRPageProps'
+import { ApolloProvider } from '@apollo/react-hooks'
 
 export type Props =
   | MultiversalAppBootstrapProps<SSGPageProps>
@@ -24,7 +24,7 @@ export type Props =
 
 const MultiversalAppBootstrap = (props: Props): JSX.Element => {
   const { pageProps, router } = props
-  const { locale } = router
+  const client = useApollo(pageProps.apolloState)
 
   const bootstrapProps = {
     ...props,
@@ -32,33 +32,31 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
     pageProps: { ...pageProps }
   }
 
-  const layout = deserializeSafe<LayoutQueryResult>(
-    bootstrapProps.pageProps?.serializedDataset
-  )
-
   return (
-    <LayoutProvider layout={layout}>
-      <GlobalContextProvider>
-        <ChakraProvider theme={theme}>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-          </Head>
-          <CSSReset />
-          {isBrowser() ? (
-            <BrowserPageBootstrap
-              {...(bootstrapProps as BrowserPageBootstrapProps)}
-            />
-          ) : (
-            <ServerPageBootstrap
-              {...(bootstrapProps as ServerPageBootstrapProps)}
-            />
-          )}
-        </ChakraProvider>
-      </GlobalContextProvider>
-    </LayoutProvider>
+    <ApolloProvider client={client}>
+      <LayoutProvider locale={pageProps.locale}>
+        <GlobalContextProvider>
+          <ChakraProvider theme={theme}>
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+              />
+            </Head>
+            <CSSReset />
+            {isBrowser() ? (
+              <BrowserPageBootstrap
+                {...(bootstrapProps as BrowserPageBootstrapProps)}
+              />
+            ) : (
+              <ServerPageBootstrap
+                {...(bootstrapProps as ServerPageBootstrapProps)}
+              />
+            )}
+          </ChakraProvider>
+        </GlobalContextProvider>
+      </LayoutProvider>
+    </ApolloProvider>
   )
 }
 
