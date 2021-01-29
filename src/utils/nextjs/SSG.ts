@@ -6,7 +6,7 @@ import {
   GetStaticPathsContext
 } from 'next'
 
-import { LayoutQueryDocument, LayoutQueryQuery } from '../../generated-types'
+import { LayoutDocument, LayoutQuery } from '../../generated-types'
 import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParams'
 import { PreviewData } from '../../types/nextjs/PreviewData'
 import { StaticPropsInput } from '@type/nextjs/StaticPropsInput'
@@ -65,7 +65,7 @@ export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams
   const variables = {}
   const queryOptions = {
     displayName: 'LAYOUT_QUERY',
-    query: LayoutQueryDocument,
+    query: LayoutDocument,
     variables,
     context: {
       'gcms-locale': locale
@@ -79,7 +79,7 @@ export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams
     throw new Error('Errors were detected in GraphQL query.')
   }
 
-  const query: LayoutQueryQuery = data
+  const query: LayoutQuery = data
   const paths: StaticPath[] = query.pages.map(page => ({
     params: {
       slug: page.slug
@@ -149,10 +149,12 @@ export const getExamplesCommonStaticProps: GetStaticProps<
   const preview: boolean = props?.preview || false
   const previewData: PreviewData = props?.previewData || null
   const apolloClient = initializeApollo()
-  const variables = {}
+  const variables = {
+    slug: props?.params?.slug
+  }
   const queryOptions = {
     displayName: 'LAYOUT_QUERY',
-    query: LayoutQueryDocument,
+    query: LayoutDocument,
     variables,
     context: {
       'gcms-locale': props.locale

@@ -34,7 +34,10 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
 
   return (
     <ApolloProvider client={client}>
-      <LayoutProvider locale={pageProps.locale}>
+      <LayoutProvider
+        locale={pageProps.locale}
+        slug={router.query['slug'] as string}
+      >
         <GlobalContextProvider>
           <ChakraProvider theme={theme}>
             <Head>

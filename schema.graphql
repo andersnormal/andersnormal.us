@@ -1930,6 +1930,7 @@ type Page implements Node {
   title: String!
   isNavigation: Boolean!
   isHeader: Boolean!
+  content: [String!]!
 
   """List of Page versions"""
   history(
@@ -1956,14 +1957,15 @@ type PageConnection {
 input PageCreateInput {
   createdAt: DateTime
   updatedAt: DateTime
-
-  """slug input for default locale (en)"""
   slug: String!
 
   """title input for default locale (en)"""
   title: String!
   isNavigation: Boolean!
   isHeader: Boolean!
+
+  """content input for default locale (en)"""
+  content: [String!]
 
   """
   Inline mutations for managing document localizations excluding the default locale
@@ -1974,8 +1976,8 @@ input PageCreateInput {
 input PageCreateLocalizationDataInput {
   createdAt: DateTime
   updatedAt: DateTime
-  slug: String!
   title: String!
+  content: [String!]
 }
 
 input PageCreateLocalizationInput {
@@ -2123,6 +2125,34 @@ input PageManyWhereInput {
 
   """All values greater than or equal the given value."""
   publishedAt_gte: DateTime
+  slug: String
+
+  """All values that are not equal to given value."""
+  slug_not: String
+
+  """All values that are contained in given list."""
+  slug_in: [String!]
+
+  """All values that are not contained in given list."""
+  slug_not_in: [String!]
+
+  """All values containing the given string."""
+  slug_contains: String
+
+  """All values not containing the given string."""
+  slug_not_contains: String
+
+  """All values starting with the given string."""
+  slug_starts_with: String
+
+  """All values not starting with the given string."""
+  slug_not_starts_with: String
+
+  """All values ending with the given string."""
+  slug_ends_with: String
+
+  """All values not ending with the given string"""
+  slug_not_ends_with: String
   isNavigation: Boolean
 
   """All values that are not equal to given value."""
@@ -2150,10 +2180,11 @@ enum PageOrderByInput {
   isNavigation_DESC
   isHeader_ASC
   isHeader_DESC
+  content_ASC
+  content_DESC
 }
 
 input PageUpdateInput {
-  """slug input for default locale (en)"""
   slug: String
 
   """title input for default locale (en)"""
@@ -2161,13 +2192,16 @@ input PageUpdateInput {
   isNavigation: Boolean
   isHeader: Boolean
 
+  """content input for default locale (en)"""
+  content: [String!]
+
   """Manage document localizations"""
   localizations: PageUpdateLocalizationsInput
 }
 
 input PageUpdateLocalizationDataInput {
-  slug: String
   title: String
+  content: [String!]
 }
 
 input PageUpdateLocalizationInput {
@@ -2190,6 +2224,26 @@ input PageUpdateLocalizationsInput {
 input PageUpdateManyInput {
   isNavigation: Boolean
   isHeader: Boolean
+
+  """content input for default locale (en)"""
+  content: [String!]
+
+  """Optional updates to localizations"""
+  localizations: PageUpdateManyLocalizationsInput
+}
+
+input PageUpdateManyLocalizationDataInput {
+  content: [String!]
+}
+
+input PageUpdateManyLocalizationInput {
+  data: PageUpdateManyLocalizationDataInput!
+  locale: Locale!
+}
+
+input PageUpdateManyLocalizationsInput {
+  """Localizations to update"""
+  update: [PageUpdateManyLocalizationInput!]
 }
 
 input PageUpdateManyWithNestedWhereInput {
@@ -2401,11 +2455,35 @@ input PageWhereInput {
 
   """All values that are not equal to given value."""
   isHeader_not: Boolean
+
+  """
+  Matches if the field array contains *all* items provided to the filter and order does match
+  """
+  content: [String!]
+
+  """
+  Matches if the field array does not contains *all* items provided to the filter or order does not match
+  """
+  content_not: [String!]
+
+  """Matches if the field array contains *all* items provided to the filter"""
+  content_contains_all: [String!]
+
+  """
+  Matches if the field array contains at least one item provided to the filter
+  """
+  content_contains_some: [String!]
+
+  """
+  Matches if the field array does not contain any of the items provided to the filter
+  """
+  content_contains_none: [String!]
 }
 
 """References Page record uniquely"""
 input PageWhereUniqueInput {
   id: ID
+  slug: String
 }
 
 input PublishLocaleInput {

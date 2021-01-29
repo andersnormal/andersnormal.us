@@ -1,7 +1,14 @@
-query LayoutQuery {
+query Layout($slug: String = "home") {
   pages(where: { isNavigation: true }) {
     id
     title
     slug
+  }
+
+  page(where: { slug: $slug }, stage: PUBLISHED ) {
+    id
+    title
+    slug
+    content
   }
 }

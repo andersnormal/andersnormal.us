@@ -1414,6 +1414,7 @@ export type Page = Node & {
   title: Scalars['String']
   isNavigation: Scalars['Boolean']
   isHeader: Scalars['Boolean']
+  content: Array<Scalars['String']>
   /** List of Page versions */
   history: Array<Version>
 }
@@ -1460,12 +1461,13 @@ export type PageConnection = {
 export type PageCreateInput = {
   createdAt?: Maybe<Scalars['DateTime']>
   updatedAt?: Maybe<Scalars['DateTime']>
-  /** slug input for default locale (en) */
   slug: Scalars['String']
   /** title input for default locale (en) */
   title: Scalars['String']
   isNavigation: Scalars['Boolean']
   isHeader: Scalars['Boolean']
+  /** content input for default locale (en) */
+  content?: Maybe<Array<Scalars['String']>>
   /** Inline mutations for managing document localizations excluding the default locale */
   localizations?: Maybe<PageCreateLocalizationsInput>
 }
@@ -1473,8 +1475,8 @@ export type PageCreateInput = {
 export type PageCreateLocalizationDataInput = {
   createdAt?: Maybe<Scalars['DateTime']>
   updatedAt?: Maybe<Scalars['DateTime']>
-  slug: Scalars['String']
   title: Scalars['String']
+  content?: Maybe<Array<Scalars['String']>>
 }
 
 export type PageCreateLocalizationInput = {
@@ -1586,6 +1588,25 @@ export type PageManyWhereInput = {
   publishedAt_gt?: Maybe<Scalars['DateTime']>
   /** All values greater than or equal the given value. */
   publishedAt_gte?: Maybe<Scalars['DateTime']>
+  slug?: Maybe<Scalars['String']>
+  /** All values that are not equal to given value. */
+  slug_not?: Maybe<Scalars['String']>
+  /** All values that are contained in given list. */
+  slug_in?: Maybe<Array<Scalars['String']>>
+  /** All values that are not contained in given list. */
+  slug_not_in?: Maybe<Array<Scalars['String']>>
+  /** All values containing the given string. */
+  slug_contains?: Maybe<Scalars['String']>
+  /** All values not containing the given string. */
+  slug_not_contains?: Maybe<Scalars['String']>
+  /** All values starting with the given string. */
+  slug_starts_with?: Maybe<Scalars['String']>
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: Maybe<Scalars['String']>
+  /** All values ending with the given string. */
+  slug_ends_with?: Maybe<Scalars['String']>
+  /** All values not ending with the given string */
+  slug_not_ends_with?: Maybe<Scalars['String']>
   isNavigation?: Maybe<Scalars['Boolean']>
   /** All values that are not equal to given value. */
   isNavigation_not?: Maybe<Scalars['Boolean']>
@@ -1610,23 +1631,26 @@ export enum PageOrderByInput {
   IsNavigationAsc = 'isNavigation_ASC',
   IsNavigationDesc = 'isNavigation_DESC',
   IsHeaderAsc = 'isHeader_ASC',
-  IsHeaderDesc = 'isHeader_DESC'
+  IsHeaderDesc = 'isHeader_DESC',
+  ContentAsc = 'content_ASC',
+  ContentDesc = 'content_DESC'
 }
 
 export type PageUpdateInput = {
-  /** slug input for default locale (en) */
   slug?: Maybe<Scalars['String']>
   /** title input for default locale (en) */
   title?: Maybe<Scalars['String']>
   isNavigation?: Maybe<Scalars['Boolean']>
   isHeader?: Maybe<Scalars['Boolean']>
+  /** content input for default locale (en) */
+  content?: Maybe<Array<Scalars['String']>>
   /** Manage document localizations */
   localizations?: Maybe<PageUpdateLocalizationsInput>
 }
 
 export type PageUpdateLocalizationDataInput = {
-  slug?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
+  content?: Maybe<Array<Scalars['String']>>
 }
 
 export type PageUpdateLocalizationInput = {
@@ -1647,6 +1671,24 @@ export type PageUpdateLocalizationsInput = {
 export type PageUpdateManyInput = {
   isNavigation?: Maybe<Scalars['Boolean']>
   isHeader?: Maybe<Scalars['Boolean']>
+  /** content input for default locale (en) */
+  content?: Maybe<Array<Scalars['String']>>
+  /** Optional updates to localizations */
+  localizations?: Maybe<PageUpdateManyLocalizationsInput>
+}
+
+export type PageUpdateManyLocalizationDataInput = {
+  content?: Maybe<Array<Scalars['String']>>
+}
+
+export type PageUpdateManyLocalizationInput = {
+  data: PageUpdateManyLocalizationDataInput
+  locale: Locale
+}
+
+export type PageUpdateManyLocalizationsInput = {
+  /** Localizations to update */
+  update?: Maybe<Array<PageUpdateManyLocalizationInput>>
 }
 
 export type PageUpdateManyWithNestedWhereInput = {
@@ -1801,11 +1843,22 @@ export type PageWhereInput = {
   isHeader?: Maybe<Scalars['Boolean']>
   /** All values that are not equal to given value. */
   isHeader_not?: Maybe<Scalars['Boolean']>
+  /** Matches if the field array contains *all* items provided to the filter and order does match */
+  content?: Maybe<Array<Scalars['String']>>
+  /** Matches if the field array does not contains *all* items provided to the filter or order does not match */
+  content_not?: Maybe<Array<Scalars['String']>>
+  /** Matches if the field array contains *all* items provided to the filter */
+  content_contains_all?: Maybe<Array<Scalars['String']>>
+  /** Matches if the field array contains at least one item provided to the filter */
+  content_contains_some?: Maybe<Array<Scalars['String']>>
+  /** Matches if the field array does not contain any of the items provided to the filter */
+  content_contains_none?: Maybe<Array<Scalars['String']>>
 }
 
 /** References Page record uniquely */
 export type PageWhereUniqueInput = {
   id?: Maybe<Scalars['ID']>
+  slug?: Maybe<Scalars['String']>
 }
 
 export type PublishLocaleInput = {
@@ -2102,78 +2155,82 @@ export enum _SystemDateTimeFieldVariation {
   Combined = 'combined'
 }
 
-export type LayoutQueryQueryVariables = Exact<{ [key: string]: never }>
+export type LayoutQueryVariables = Exact<{
+  slug?: Maybe<Scalars['String']>
+}>
 
-export type LayoutQueryQuery = { __typename?: 'Query' } & {
+export type LayoutQuery = { __typename?: 'Query' } & {
   pages: Array<{ __typename?: 'Page' } & Pick<Page, 'id' | 'title' | 'slug'>>
+  page?: Maybe<
+    { __typename?: 'Page' } & Pick<Page, 'id' | 'title' | 'slug' | 'content'>
+  >
 }
 
-export const LayoutQueryDocument = gql`
-  query LayoutQuery {
+export const LayoutDocument = gql`
+  query Layout($slug: String = "home") {
     pages(where: { isNavigation: true }) {
       id
       title
       slug
     }
+    page(where: { slug: $slug }, stage: PUBLISHED) {
+      id
+      title
+      slug
+      content
+    }
   }
 `
-export type LayoutQueryComponentProps = Omit<
+export type LayoutComponentProps = Omit<
   ApolloReactComponents.QueryComponentOptions<
-    LayoutQueryQuery,
-    LayoutQueryQueryVariables
+    LayoutQuery,
+    LayoutQueryVariables
   >,
   'query'
 >
 
-export const LayoutQueryComponent = (props: LayoutQueryComponentProps) => (
-  <ApolloReactComponents.Query<LayoutQueryQuery, LayoutQueryQueryVariables>
-    query={LayoutQueryDocument}
+export const LayoutComponent = (props: LayoutComponentProps) => (
+  <ApolloReactComponents.Query<LayoutQuery, LayoutQueryVariables>
+    query={LayoutDocument}
     {...props}
   />
 )
 
 /**
- * __useLayoutQueryQuery__
+ * __useLayoutQuery__
  *
- * To run a query within a React component, call `useLayoutQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useLayoutQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useLayoutQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLayoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useLayoutQueryQuery({
+ * const { data, loading, error } = useLayoutQuery({
  *   variables: {
+ *      slug: // value for 'slug'
  *   },
  * });
  */
-export function useLayoutQueryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    LayoutQueryQuery,
-    LayoutQueryQueryVariables
-  >
+export function useLayoutQuery(
+  baseOptions?: Apollo.QueryHookOptions<LayoutQuery, LayoutQueryVariables>
 ) {
-  return Apollo.useQuery<LayoutQueryQuery, LayoutQueryQueryVariables>(
-    LayoutQueryDocument,
+  return Apollo.useQuery<LayoutQuery, LayoutQueryVariables>(
+    LayoutDocument,
     baseOptions
   )
 }
-export function useLayoutQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    LayoutQueryQuery,
-    LayoutQueryQueryVariables
-  >
+export function useLayoutLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<LayoutQuery, LayoutQueryVariables>
 ) {
-  return Apollo.useLazyQuery<LayoutQueryQuery, LayoutQueryQueryVariables>(
-    LayoutQueryDocument,
+  return Apollo.useLazyQuery<LayoutQuery, LayoutQueryVariables>(
+    LayoutDocument,
     baseOptions
   )
 }
-export type LayoutQueryQueryHookResult = ReturnType<typeof useLayoutQueryQuery>
-export type LayoutQueryLazyQueryHookResult = ReturnType<
-  typeof useLayoutQueryLazyQuery
->
-export type LayoutQueryQueryResult = Apollo.QueryResult<
-  LayoutQueryQuery,
-  LayoutQueryQueryVariables
+export type LayoutQueryHookResult = ReturnType<typeof useLayoutQuery>
+export type LayoutLazyQueryHookResult = ReturnType<typeof useLayoutLazyQuery>
+export type LayoutQueryResult = Apollo.QueryResult<
+  LayoutQuery,
+  LayoutQueryVariables
 >
