@@ -1,20 +1,28 @@
 import React from 'react'
 
-import { GetStaticProps } from 'next'
-import { CommonServerSideParams } from '@type/nextjs/CommonServerSideParams'
 import { NextPage } from 'next'
 import DefaultLayout from '@components/layout/DefaultLayout'
-import { Box, Heading, Flex } from '@chakra-ui/react'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
 import { getCommonStaticProps, getCommonStaticPaths } from '@utils/nextjs/SSG'
+import hydrate from 'next-mdx-remote/hydrate'
+import { Heading, Code, Flex, Image, Text } from '@chakra-ui/react'
+
+const components = {
+  img: Image,
+  h1: Heading,
+  p: Text,
+  inlineCode: Code
+}
 
 type Props = SSGPageProps<Partial<OnlyBrowserPageProps>>
 
 export const getStaticProps = getCommonStaticProps
 export const getStaticPaths = getCommonStaticPaths
 
-const Page: NextPage<Props> = (): JSX.Element => {
+const Page: NextPage<Props> = ({ mdxSource }): JSX.Element => {
+  const content = hydrate(mdxSource, { components })
+
   return (
     <DefaultLayout>
       <Flex
@@ -23,7 +31,7 @@ const Page: NextPage<Props> = (): JSX.Element => {
         // bg="teal.500"
         color="gray.900"
       >
-        Slug
+        <div className="wrapper">{content}</div>
       </Flex>
     </DefaultLayout>
   )
