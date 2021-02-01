@@ -168,12 +168,15 @@ export const getExamplesCommonStaticProps: GetStaticProps<
   const variables = {
     slug: props?.params?.slug
   }
+
   const queryOptions = {
     displayName: 'LAYOUT_QUERY',
     query: LayoutDocument,
     variables,
     context: {
-      'gcms-locale': props.locale
+      headers: {
+        'gcms-locales': props.locale
+      }
     }
   }
 

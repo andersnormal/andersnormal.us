@@ -79,7 +79,9 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
     query: LayoutQueryDocument,
     variables,
     context: {
-      'gcms-locales': locale
+      headers: {
+        'gcms-locales': locale
+      }
     }
   }
 

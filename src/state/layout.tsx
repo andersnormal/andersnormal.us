@@ -1,5 +1,6 @@
 import React from 'react'
-import { LayoutQuery, useLayoutQuery } from '../generated-types'
+import { useQuery } from '@apollo/react-hooks'
+import { LayoutDocument, LayoutQuery } from '../generated-types'
 
 export type LayoutQueryResult = LayoutQuery
 export interface LayoutProviderProps {
@@ -16,16 +17,17 @@ export const LayoutProvider = ({
   slug
 }: LayoutProviderProps): JSX.Element => {
   const queryOptions = {
-    displayName: 'LAYOUT_QUERY',
     variables: {
       slug
     },
     context: {
-      'gcms-locale': locale
+      headers: {
+        'gcms-locales': locale
+      }
     }
   }
 
-  const { data } = useLayoutQuery(queryOptions)
+  const { data } = useQuery(LayoutDocument, queryOptions)
 
   return (
     <LayoutContext.Provider value={data}>{children}</LayoutContext.Provider>

@@ -25,6 +25,7 @@ export type Props =
 const MultiversalAppBootstrap = (props: Props): JSX.Element => {
   const { pageProps, router } = props
   const client = useApollo(pageProps.apolloState)
+  const { locale } = router
 
   const bootstrapProps = {
     ...props,
@@ -34,10 +35,7 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
 
   return (
     <ApolloProvider client={client}>
-      <LayoutProvider
-        locale={pageProps.locale}
-        slug={router.query['slug'] as string}
-      >
+      <LayoutProvider locale={locale} slug={router.query['slug'] as string}>
         <GlobalContextProvider>
           <ChakraProvider theme={theme}>
             <Head>
