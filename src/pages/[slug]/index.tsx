@@ -7,7 +7,6 @@ import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
 import { getCommonStaticProps, getCommonStaticPaths } from '@utils/nextjs/SSG'
 import hydrate from 'next-mdx-remote/hydrate'
 import { Heading, Code, Flex, Image, Text } from '@chakra-ui/react'
-import useLayoutContext from '@hooks/useLayout'
 
 const components = {
   img: Image,
@@ -23,10 +22,9 @@ export const getStaticPaths = getCommonStaticPaths
 
 const Page: NextPage<Props> = ({ mdxSource }): JSX.Element => {
   const content = mdxSource ? hydrate(mdxSource, { components }) : null
-  const layout = useLayoutContext()
 
   return (
-    <DefaultLayout headProps={{ seoTitle: layout?.page.title }}>
+    <DefaultLayout>
       <Flex wrap="wrap" padding="1.5rem" color="gray.900">
         <div className="wrapper">{content}</div>
       </Flex>

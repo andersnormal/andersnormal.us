@@ -69,7 +69,7 @@ export const getCommonStaticPaths: GetStaticPaths<CommonServerSideParams> = asyn
 export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams> = async (
   context: GetStaticPathsContext
 ): Promise<StaticPathsOutput> => {
-  const { defaultLocale, locales } = context
+  const { defaultLocale } = context
   const apolloClient = initializeApollo()
   const variables = {}
   const queryOptions = {
@@ -177,7 +177,7 @@ export const getExamplesCommonStaticProps: GetStaticProps<
 
   const { errors, data } = await apolloClient.query(queryOptions)
 
-  const mdxSource = await renderToString(data.page.content?.[0], {
+  const mdxSource = await renderToString(data?.page?.content, {
     components
   })
 

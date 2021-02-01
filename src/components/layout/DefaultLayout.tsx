@@ -3,20 +3,19 @@ import { Container } from '@chakra-ui/react'
 import Header from './Header'
 import Footer from './Footer'
 import ChatButton from './ChatButton'
-import Head, { HeadProps } from './Head'
+import Head from './Head'
+import useLayoutContext from '@hooks/useLayout'
 
 type DefaultLayoutProps = {
   children: React.ReactNode
-  headProps: HeadProps
 }
 
-const DefaultLayout = ({
-  children,
-  headProps = {}
-}: DefaultLayoutProps): JSX.Element => {
+const DefaultLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
+  const layout = useLayoutContext()
+
   return (
     <>
-      <Head {...headProps} />
+      <Head {...{ seoTitle: layout?.page.title }} />
       <ChatButton />
       <Header />
       <Container
