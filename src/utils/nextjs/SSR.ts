@@ -6,7 +6,7 @@ import {
   GetServerSidePropsResult
 } from 'next'
 
-import { LayoutQueryDocument } from '../../generated-types'
+import { LayoutDocument } from '../../generated-types'
 import { CommonServerSideParams } from '../../types/nextjs/CommonServerSideParams'
 import { ApolloQueryOptions } from '@type/gql/ApolloQueryOptions'
 import { SSRPageProps } from '@type/page/SSRPageProps'
@@ -76,7 +76,7 @@ export const getExamplesCommonServerSideProps: GetServerSideProps<
   const variables = {}
   const layoutQueryOptions = {
     displayName: 'LAYOUT_QUERY',
-    query: LayoutQueryDocument,
+    query: LayoutDocument,
     variables,
     context: {
       headers: {

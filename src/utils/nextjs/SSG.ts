@@ -77,7 +77,9 @@ export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams
     query: LayoutDocument,
     variables,
     context: {
-      'gcms-locale': defaultLocale
+      headers: {
+        'gcms-locales': defaultLocale
+      }
     }
   }
 
@@ -89,21 +91,14 @@ export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams
   }
 
   const query: LayoutQuery = data
-  const paths: StaticPath[] = query.pages.reduce(
-    (prev, curr) => [
-      ...prev,
-      ...locales.map(locale => ({
-        params: {
-          slug: curr.slug
-        },
-        locale
-      }))
-    ],
-    []
-  )
+  const paths: StaticPath[] = query.pages.map(path => ({
+    params: {
+      slug: path.slug
+    }
+  }))
 
   return {
-    fallback: false,
+    fallback: true,
     paths
   }
 }

@@ -22,11 +22,11 @@ export const getStaticProps = getCommonStaticProps
 export const getStaticPaths = getCommonStaticPaths
 
 const Page: NextPage<Props> = ({ mdxSource }): JSX.Element => {
-  const content = hydrate(mdxSource, { components })
+  const content = mdxSource ? hydrate(mdxSource, { components }) : null
   const layout = useLayoutContext()
 
   return (
-    <DefaultLayout headProps={{ seoTitle: layout.page.title }}>
+    <DefaultLayout headProps={{ seoTitle: layout?.page.title }}>
       <Flex wrap="wrap" padding="1.5rem" color="gray.900">
         <div className="wrapper">{content}</div>
       </Flex>
