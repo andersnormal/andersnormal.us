@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Container, Box, Heading, Flex, Text, Button } from '@chakra-ui/react'
+import React from 'react'
+import { Container, Flex } from '@chakra-ui/react'
 import FooterMenu from './FooterMenu'
 import Boilerplate from './Boilerplate'
 

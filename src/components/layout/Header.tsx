@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Box, Heading, Flex, Text, Container, Button } from '@chakra-ui/react'
+import { Box, Flex, Container } from '@chakra-ui/react'
 import HeaderMenu from './HeaderMenu'
 import Logo from './Logo'
+import NextChakraLink from './NextChakraLink'
 
 const Header = (props): JSX.Element => {
   const [show, setShow] = useState(false)
@@ -24,9 +25,13 @@ const Header = (props): JSX.Element => {
         alignItems={'center'}
         {...props}
       >
-        <Flex height={{ base: '25px', lg: '39px' }} width={'239px'}>
+        <NextChakraLink
+          href={'/'}
+          height={{ base: '25px', lg: '39px' }}
+          width={'239px'}
+        >
           <Logo />
-        </Flex>
+        </NextChakraLink>
 
         <Box display={{ base: 'block', md: 'none' }} onClick={handleToggle}>
           <svg

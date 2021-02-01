@@ -16,7 +16,7 @@ import { StaticPath } from '@type/nextjs//StaticPath'
 import { StaticPathsOutput } from '@type/nextjs/StaticPathsOutput'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import renderToString from 'next-mdx-remote/render-to-string'
-import { Heading, Code, Flex, Image, Text } from '@chakra-ui/react'
+import { Heading, Code, Image, Text } from '@chakra-ui/react'
 
 const components = {
   img: Image,
@@ -69,7 +69,7 @@ export const getCommonStaticPaths: GetStaticPaths<CommonServerSideParams> = asyn
 export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams> = async (
   context: GetStaticPathsContext
 ): Promise<StaticPathsOutput> => {
-  const { locale } = context
+  const { defaultLocale, locales } = context
   const apolloClient = initializeApollo()
   const variables = {}
   const queryOptions = {
@@ -77,7 +77,7 @@ export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams
     query: LayoutDocument,
     variables,
     context: {
-      'gcms-locale': locale
+      'gcms-locale': defaultLocale
     }
   }
 
@@ -89,11 +89,18 @@ export const getExamplesCommonStaticPaths: GetStaticPaths<CommonServerSideParams
   }
 
   const query: LayoutQuery = data
-  const paths: StaticPath[] = query.pages.map(page => ({
-    params: {
-      slug: page.slug
-    }
-  }))
+  const paths: StaticPath[] = query.pages.reduce(
+    (prev, curr) => [
+      ...prev,
+      ...locales.map(locale => ({
+        params: {
+          slug: curr.slug
+        },
+        locale
+      }))
+    ],
+    []
+  )
 
   return {
     fallback: false,

@@ -8,6 +8,7 @@ import { Box, Heading, Flex } from '@chakra-ui/react'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
 import { getCommonStaticProps } from '@utils/nextjs/SSG'
+import useLayoutContext from '@hooks/useLayout'
 
 type Props = SSGPageProps<Partial<OnlyBrowserPageProps>>
 
@@ -17,14 +18,11 @@ export const getStaticProps: GetStaticProps<
 > = getCommonStaticProps
 
 const Home: NextPage<Props> = (): JSX.Element => {
+  const layout = useLayoutContext()
+
   return (
-    <DefaultLayout>
-      <Flex
-        wrap="wrap"
-        padding="1.5rem"
-        // bg="teal.500"
-        color="gray.900"
-      >
+    <DefaultLayout headProps={{ seoTitle: layout.page.title }}>
+      <Flex wrap="wrap" padding="1.5rem" color="gray.900">
         <Box
           w={{ md: '66%', lg: '50%' }}
           py={8}
