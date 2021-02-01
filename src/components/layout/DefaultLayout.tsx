@@ -25,7 +25,7 @@ const DefaultLayout = ({
       >
         {children}
       </Container>
-      <Footer items={[]} />
+      <Footer />
       <div id="modal-root" />
     </>
   )

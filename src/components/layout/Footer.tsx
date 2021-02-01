@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, Flex } from '@chakra-ui/react'
 import FooterMenu from './FooterMenu'
+import SocialMenu from './SocialMenu'
 import Boilerplate from './Boilerplate'
 
 const Footer = (props): JSX.Element => {
@@ -15,6 +16,11 @@ const Footer = (props): JSX.Element => {
         {...props}
       >
         <FooterMenu />
+        <SocialMenu
+          display={{ base: 'flex', md: 'none' }}
+          width={'100%'}
+          my={'1rem'}
+        />
         <Boilerplate data-testid="boilerplate" />
       </Flex>
     </Container>

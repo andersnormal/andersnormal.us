@@ -1,13 +1,10 @@
-import React, { useState } from 'react'
-import { Box, Flex, Container } from '@chakra-ui/react'
-import HeaderMenu from './HeaderMenu'
+import React from 'react'
+import { Flex, Container } from '@chakra-ui/react'
+import SocialMenu from './SocialMenu'
 import Logo from './Logo'
 import NextChakraLink from './NextChakraLink'
 
 const Header = (props): JSX.Element => {
-  const [show, setShow] = useState(false)
-  const handleToggle = () => setShow(!show)
-
   return (
     <Container
       maxW={['640px', '768px', '1024px', '1280px']}
@@ -25,32 +22,14 @@ const Header = (props): JSX.Element => {
         alignItems={'center'}
         {...props}
       >
-        <NextChakraLink
-          href={'/'}
-          height={{ base: '25px', lg: '39px' }}
-          width={'239px'}
-        >
-          <Logo />
+        <NextChakraLink href={'/'}>
+          <Logo height={{ base: '25px', lg: '39px' }} width={'239px'} />
         </NextChakraLink>
 
-        <Box display={{ base: 'block', md: 'none' }} onClick={handleToggle}>
-          <svg
-            fill="white"
-            width="12px"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-          </svg>
-        </Box>
-
-        <HeaderMenu
-          items={[
-            { key: 'test', title: 'Services', href: '/products' },
-            { key: 'test', title: 'Contact', href: '/products' }
-          ]}
-          show={show}
+        <SocialMenu
+          display={{ base: 'none', md: 'flex' }}
+          justifyContent={'flex-end'}
+          flexGrow={1}
         />
       </Flex>
     </Container>

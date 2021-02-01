@@ -2168,7 +2168,7 @@ export type LayoutQuery = { __typename?: 'Query' } & {
 
 export const LayoutDocument = gql`
   query Layout($slug: String = "home") {
-    pages(where: { isNavigation: true }) {
+    pages(where: { isNavigation: true }, orderBy: slug_ASC) {
       id
       title
       slug

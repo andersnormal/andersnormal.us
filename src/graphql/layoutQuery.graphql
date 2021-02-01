@@ -1,5 +1,5 @@
 query Layout($slug: String = "home") {
-  pages(where: { isNavigation: true }) {
+  pages(where: { isNavigation: true }, orderBy: slug_ASC) {
     id
     title
     slug
