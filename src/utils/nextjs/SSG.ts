@@ -16,14 +16,7 @@ import { StaticPath } from '@type/nextjs//StaticPath'
 import { StaticPathsOutput } from '@type/nextjs/StaticPathsOutput'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import renderToString from 'next-mdx-remote/render-to-string'
-import { Heading, Code, Image, Text } from '@chakra-ui/react'
-
-const components = {
-  img: Image,
-  h1: Heading,
-  p: Text,
-  inlineCode: Code
-}
+import { MdxComponents as components } from '@components/layout/MdxRenderer'
 
 /**
  * Only executed on the server side at build time.

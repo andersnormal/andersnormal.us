@@ -18,6 +18,7 @@ import { SSGPageProps } from '@type/page/SSGPageProps'
 import { SSRPageProps } from '@type/page/SSRPageProps'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { MdxProvider } from '@state/mdx'
+import { init } from '@utils/sentry'
 
 export type Props =
   | MultiversalAppBootstrapProps<SSGPageProps>
@@ -33,6 +34,8 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
     router,
     pageProps: { ...pageProps }
   }
+
+  init()
 
   return (
     <ApolloProvider client={client}>

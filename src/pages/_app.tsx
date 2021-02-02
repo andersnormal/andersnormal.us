@@ -31,6 +31,20 @@ type Props =
   | MultiversalAppBootstrapProps<SSGPageProps>
   | MultiversalAppBootstrapProps<SSRPageProps>
 
+// /**
+//  * Will be called once for every metric that has to be reported
+//  *
+//  * There are, at minimum, 3 metrics being received (Next.js-hydration, FCP and TTFB)
+//  * Then, 2 other metrics can be received optionally (FID, LCP)
+//  *
+//  * @param metrics
+//  * @see https://web.dev/vitals/ Essential metrics for a healthy site
+//  * @see https://nextjs.org/blog/next-9-4#integrated-web-vitals-reporting Initial release notes
+//  */
+// export function reportWebVitals(metric: NextWebVitalsMetric) {
+
+// }
+
 /**
  * Renders the whole page
  * For the sake of readability/maintainability, we have decoupled what happens in the "render" to our "MultiversalAppBootstrap" component.

@@ -23,7 +23,10 @@ const Header = (props): JSX.Element => {
         {...props}
       >
         <NextChakraLink href={'/'}>
-          <Logo height={{ base: '25px', lg: '39px' }} width={'239px'} />
+          <Logo
+            height={{ base: '25px', lg: '39px' }}
+            width={{ base: '179px', md: '189px', lg: '219px', xl: '239px' }}
+          />
         </NextChakraLink>
 
         <SocialMenu

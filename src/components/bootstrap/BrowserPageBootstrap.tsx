@@ -1,7 +1,5 @@
 import React from 'react'
 // import { Amplitude, AmplitudeProvider } from '@amplitude/react-amplitude'
-import { jsx } from '@emotion/core'
-import * as Sentry from '@sentry/node'
 // import { AmplitudeClient } from 'amplitude-js'
 // import { useTheme } from 'emotion-theming'
 // import userConsentContext from '../../stores/userConsentContext'
