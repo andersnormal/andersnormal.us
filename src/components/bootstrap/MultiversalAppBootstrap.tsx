@@ -17,6 +17,7 @@ import { MultiversalAppBootstrapProps } from '@type/nextjs/MultiversalAppBootstr
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { SSRPageProps } from '@type/page/SSRPageProps'
 import { ApolloProvider } from '@apollo/react-hooks'
+import { MdxProvider } from '@state/mdx'
 
 export type Props =
   | MultiversalAppBootstrapProps<SSGPageProps>
@@ -36,26 +37,28 @@ const MultiversalAppBootstrap = (props: Props): JSX.Element => {
   return (
     <ApolloProvider client={client}>
       <LayoutProvider locale={locale} slug={router.query['slug'] as string}>
-        <GlobalContextProvider>
-          <ChakraProvider theme={theme}>
-            <Head>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1"
-              />
-            </Head>
-            <CSSReset />
-            {isBrowser() ? (
-              <BrowserPageBootstrap
-                {...(bootstrapProps as BrowserPageBootstrapProps)}
-              />
-            ) : (
-              <ServerPageBootstrap
-                {...(bootstrapProps as ServerPageBootstrapProps)}
-              />
-            )}
-          </ChakraProvider>
-        </GlobalContextProvider>
+        <MdxProvider source={pageProps.mdxSource}>
+          <GlobalContextProvider>
+            <ChakraProvider theme={theme}>
+              <Head>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1"
+                />
+              </Head>
+              <CSSReset />
+              {isBrowser() ? (
+                <BrowserPageBootstrap
+                  {...(bootstrapProps as BrowserPageBootstrapProps)}
+                />
+              ) : (
+                <ServerPageBootstrap
+                  {...(bootstrapProps as ServerPageBootstrapProps)}
+                />
+              )}
+            </ChakraProvider>
+          </GlobalContextProvider>
+        </MdxProvider>
       </LayoutProvider>
     </ApolloProvider>
   )

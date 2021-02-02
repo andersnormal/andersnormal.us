@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { GetStaticProps } from 'next'
 import { CommonServerSideParams } from '@type/nextjs/CommonServerSideParams'
 import { NextPage } from 'next'
@@ -8,6 +7,7 @@ import { Box, Heading, Flex } from '@chakra-ui/react'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
 import { getCommonStaticProps } from '@utils/nextjs/SSG'
+import { Code, Image, Text } from '@chakra-ui/react'
 import {
   Accordion,
   AccordionItem,
@@ -15,8 +15,23 @@ import {
   AccordionPanel,
   AccordionIcon
 } from '@chakra-ui/react'
+import MdxRenderer from '@components/layout/MdxRenderer'
 
 type Props = SSGPageProps<Partial<OnlyBrowserPageProps>>
+
+const components = {
+  img: Image,
+  h1: Heading,
+  p: Text,
+  inlineCode: Code,
+  Heading,
+  Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon
+}
 
 export const getStaticProps: GetStaticProps<
   SSGPageProps,
@@ -55,7 +70,11 @@ const Home: NextPage<Props> = (): JSX.Element => {
           </Heading>
         </Box> */}
 
-        <Box w={'100%'} py={'4rem'}>
+        <MdxRenderer components={components} />
+
+        {/* <Flex color="gray.900">{content}</Flex> */}
+
+        {/* <Box w={'100%'} py={'4rem'}>
           <Accordion defaultIndex={[0]} allowMultiple>
             <AccordionItem borderColor={'black'}>
               <AccordionButton px={0}>
@@ -111,7 +130,7 @@ const Home: NextPage<Props> = (): JSX.Element => {
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
-        </Box>
+        </Box> */}
       </Flex>
     </DefaultLayout>
   )
