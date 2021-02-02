@@ -16,7 +16,10 @@ import { StaticPath } from '@type/nextjs//StaticPath'
 import { StaticPathsOutput } from '@type/nextjs/StaticPathsOutput'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import renderToString from 'next-mdx-remote/render-to-string'
-import { MdxComponents as components } from '@components/layout/MdxRenderer'
+import {
+  MdxComponents as components,
+  MdxProvider as provider
+} from '@components/layout/MdxRenderer'
 
 /**
  * Only executed on the server side at build time.
@@ -171,7 +174,8 @@ export const getExamplesCommonStaticProps: GetStaticProps<
   const { errors, data } = await apolloClient.query(queryOptions)
 
   const mdxSource = await renderToString(data?.page?.content, {
-    components
+    components,
+    provider
   })
 
   if (errors) {

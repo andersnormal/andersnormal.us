@@ -1,6 +1,8 @@
 import React from 'react'
 import useMdxContext from '@hooks/useMdx'
 import hydrate from 'next-mdx-remote/hydrate'
+import { ChakraProvider } from '@chakra-ui/react'
+import theme from '@theme/theme'
 import { MdxRemote } from 'next-mdx-remote/types'
 import {
   Code,
@@ -19,6 +21,7 @@ export type MdxRenderComponents = MdxRemote.Components
 
 export interface MdxRendererProps {
   components?: MdxRemote.Components
+  provider?: MdxRemote.Provider
 }
 
 const CustomAccordion = ({ children, ...props }): JSX.Element => (
@@ -77,6 +80,8 @@ const CustomJingle = ({ children, ...props }): JSX.Element => (
   </Box>
 )
 
+export const MdxProvider = { component: ChakraProvider, props: { theme } }
+
 export const MdxComponents: MdxRenderComponents = {
   img: Image,
   h1: Heading,
@@ -93,10 +98,16 @@ export const MdxComponents: MdxRenderComponents = {
 }
 
 export const MdxRenderer = ({
-  components = MdxComponents
+  components = MdxComponents,
+  provider = MdxProvider
 }: MdxRendererProps): JSX.Element => {
   const mdx = useMdxContext()
-  const content = mdx ? hydrate(mdx, { components }) : null
+  const content = mdx
+    ? hydrate(mdx, {
+        components,
+        provider
+      })
+    : null
 
   return <>{content}</>
 }
