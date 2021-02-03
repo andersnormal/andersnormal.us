@@ -192,9 +192,13 @@ export const getExamplesCommonStaticProps: GetStaticProps<
       preview,
       previewData,
       mdxSource,
-      ...(await serverSideTranslations(props.locale, ['common', 'footer'], {
-        localePath: path.resolve('./public/locales')
-      }))
+      ...(await serverSideTranslations(
+        props.locale,
+        ['common', 'footer', 'chat'],
+        {
+          localePath: path.resolve('./public/locales')
+        }
+      ))
     }
     // revalidate: false,
   }

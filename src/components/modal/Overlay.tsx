@@ -1,15 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Flex } from '@chakra-ui/react'
-import {
-  Fade,
-  ScaleFade,
-  Slide,
-  SlideFade,
-  Container,
-  Box,
-  CloseButton
-} from '@chakra-ui/react'
+import { Fade, Container, Box, CloseButton } from '@chakra-ui/react'
 import { Modal } from '@hooks/useModal'
 
 const Overlay: Modal = ({ children, close, show }) => {
@@ -29,6 +21,7 @@ const Overlay: Modal = ({ children, close, show }) => {
         top={0}
         left={0}
         right={0}
+        color={'white'}
       >
         <Container maxW={['640px', '768px', '1024px']}>
           <Flex justifyContent={'flex-end'}>
