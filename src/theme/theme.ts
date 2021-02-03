@@ -1,14 +1,13 @@
 import { extendTheme } from '@chakra-ui/react'
-import { Style as CustomButton } from '@components/forms/Button'
 
 const config = {
-  initialColorMode: 'light',
-  useSystemColorMode: false,
-  components: {
-    CustomButton
+  config: { initialColorMode: 'light', useSystemColorMode: false },
+  fonts: {
+    heading: 'Roboto',
+    body: 'Roboto'
   }
 }
 
-const theme = extendTheme({ config })
+const theme = extendTheme({ ...config })
 
 export default theme

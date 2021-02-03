@@ -35,21 +35,24 @@ const Head: React.FunctionComponent<HeadProps> = (props): JSX.Element => {
     additionalContent = null
   } = props
 
-  // if (isBrowser()) {
-  //   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  //   const WebFontLoader = require('webfontloader')
+  if (process.browser) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const WebFontLoader = require('webfontloader')
 
-  //   // Load our fonts. Until they're loaded, fallback fonts will be used (configured in MultiversalGlobalStyles)
-  //   // This fixed an issue when loading fonts from external sources that don't show the text until the font is loaded
-  //   // With this, instead of not showing any text, it'll show the text using its fallback font, and then show the font once loaded
-  //   // XXX See https://github.com/typekit/webfontloader#custom
-  //   WebFontLoader.load({
-  //     custom: {
-  //       families: [NRN_DEFAULT_FONT],
-  //       urls: ['/static/fonts/NeuzeitGrotesk/font.css']
-  //     }
-  //   })
-  // }
+    // Load our fonts. Until they're loaded, fallback fonts will be used (configured in MultiversalGlobalStyles)
+    // This fixed an issue when loading fonts from external sources that don't show the text until the font is loaded
+    // With this, instead of not showing any text, it'll show the text using its fallback font, and then show the font once loaded
+    // XXX See https://github.com/typekit/webfontloader#custom
+    WebFontLoader.load({
+      google: {
+        families: ['Roboto:300,400,700']
+      }
+      // custom: {
+      //   families: [NRN_DEFAULT_FONT],
+      //   urls: ['/static/fonts/NeuzeitGrotesk/font.css']
+      // }
+    })
+  }
 
   return (
     <NextHead>
