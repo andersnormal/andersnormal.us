@@ -5,6 +5,9 @@ import { MultiversalAppBootstrapProps } from '@type/nextjs/MultiversalAppBootstr
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { SSRPageProps } from '@type/page/SSRPageProps'
 
+import 'react-datepicker/dist/react-datepicker.css'
+import '../components/layout/ChatButton.css'
+
 /**
  * WDYR (why-did-you-render) helps locate unnecessary re-renders and fix them
  * Applied in development environment, on the frontend only

@@ -1,36 +1,47 @@
-import React from 'react'
-import { Box, Text, Heading } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { Box, Text, Heading, useDisclosure, Portal } from '@chakra-ui/react'
+import { CustomButton } from '@components/forms/Button'
 import {
   FormControl,
   FormLabel,
   FormErrorMessage,
   VStack,
   HStack,
-  Button,
   Radio,
   RadioGroup,
   Input,
-  FormHelperText
+  FormHelperText,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  ModalOverlay,
+  ModalFooter,
+  Button
 } from '@chakra-ui/react'
 import { FaVideo } from 'react-icons/fa'
 import useModal from '@hooks/useModal'
 import Overlay from '@components/modal/Overlay'
 import { useTranslation } from 'next-i18next'
 import { useForm } from 'react-hook-form'
+import DatePicker from 'react-datepicker'
 
 const ChatButton = props => {
   if (!process.browser) {
     return null
   }
 
+  const [startDate, setStartDate] = useState(new Date())
   const { show, RenderModal } = useModal(Overlay)
   const { t } = useTranslation('chat')
   const { register, handleSubmit, watch, errors } = useForm()
   const onSubmit = data => console.log(data)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
-      <RenderModal>
+      {/* <RenderModal ref={props.containerRef}>
         <Box
           w={{ md: '78%' }}
           bgGradient="linear(to-tl,  #fff, #7928CA)"
@@ -45,47 +56,66 @@ const ChatButton = props => {
             {t('jingle')}
           </Heading>
         </Box>
-        <Box>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing="24px">
-              <FormControl id="name" isRequired>
-                <FormLabel>Name</FormLabel>
-                <Input placeholder="Name" />
-              </FormControl>
-              <FormControl id="company">
-                <FormLabel>Company</FormLabel>
-                <Input placeholder="Company" />
-              </FormControl>
-              <FormControl id="email">
-                <FormLabel>Email address</FormLabel>
-                <Input type="email" />
-                <FormHelperText>We'll never share your email.</FormHelperText>
-              </FormControl>
-              <FormControl as="fieldset">
-                <FormLabel as="legend">
-                  Favorite Video Conferencing Toll
-                </FormLabel>
-                <RadioGroup defaultValue="Itachi">
-                  <VStack align="stretch">
-                    <Radio value="Sasuke">Google Meet</Radio>
-                    <Radio value="Nagato">Zoom</Radio>
-                    <Radio value="Itachi">Microsoft Teams</Radio>
-                  </VStack>
-                </RadioGroup>
-                <FormHelperText>Select only if you're a fan.</FormHelperText>
-              </FormControl>
-              <Button
-                mt={4}
-                colorScheme="teal"
-                isLoading={props.isSubmitting}
-                type="submit"
-              >
-                Submit
-              </Button>
-            </VStack>
-          </form>
-        </Box>
-      </RenderModal>
+
+      </RenderModal> */}
+      <Modal
+        isCentered
+        onClose={onClose}
+        isOpen={isOpen}
+        motionPreset="slideInBottom"
+        scrollBehavior="inside"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Oh, Yes. Say Hi.</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <VStack spacing="24px">
+                  <FormControl id="name" isRequired>
+                    <FormLabel>Your name</FormLabel>
+                    <Input placeholder="Name" />
+                  </FormControl>
+                  <FormControl id="company">
+                    <FormLabel>Your company</FormLabel>
+                    <Input placeholder="Company" />
+                  </FormControl>
+                  <FormControl id="email" isRequired>
+                    <FormLabel>Email address</FormLabel>
+                    <Input type="email" />
+                    <FormHelperText>
+                      We'll never share your email.
+                    </FormHelperText>
+                  </FormControl>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={date => setStartDate(date)}
+                  />
+                  <FormControl as="fieldset" isRequired>
+                    <FormLabel as="legend">
+                      Favorite Video Conferencing Toll
+                    </FormLabel>
+                    <RadioGroup defaultValue="Itachi">
+                      <VStack align="stretch">
+                        <Radio value="Sasuke">Google Meet</Radio>
+                        <Radio value="Nagato">Zoom</Radio>
+                        <Radio value="Itachi">Microsoft Teams</Radio>
+                      </VStack>
+                    </RadioGroup>
+                    <FormHelperText>
+                      Select only if you're a fan.
+                    </FormHelperText>
+                  </FormControl>
+                </VStack>
+              </form>
+            </Box>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost">{t('submit')}</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Box
         as="button"
         display={'flex'}
@@ -113,7 +143,7 @@ const ChatButton = props => {
         _focus={{
           borderColor: 'black'
         }}
-        onClick={show}
+        onClick={onOpen}
       >
         <FaVideo style={{ marginRight: 4 }} />
         <Text px={2}>Let&apos;s have a chat!</Text>

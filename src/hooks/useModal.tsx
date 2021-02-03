@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Portal } from '@chakra-ui/react'
 
 export type ModalProps = {
   children: React.ReactNode
@@ -25,12 +26,14 @@ export const useModal = (Modal: Modal): UseModal => {
   const show = () => setIsVisible(true)
   const hide = () => setIsVisible(false)
 
-  const RenderModal = ({ children }: { children: React.ReactChild }) => (
+  const RenderModal = ({ children, containerRef }) => (
     <>
       {isVisible && (
-        <Modal close={hide} show={isVisible}>
-          {children}
-        </Modal>
+        <Portal containerRef={containerRef}>
+          <Modal close={hide} show={isVisible}>
+            {children}
+          </Modal>
+        </Portal>
       )}
     </>
   )

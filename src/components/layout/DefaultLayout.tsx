@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Container } from '@chakra-ui/react'
 import Header from './Header'
 import Footer from './Footer'
@@ -12,11 +12,12 @@ type DefaultLayoutProps = {
 
 const DefaultLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
   const layout = useLayoutContext()
+  const ref = useRef()
 
   return (
     <>
       <Head {...{ seoTitle: layout?.page.title }} />
-      <ChatButton />
+      <ChatButton containerRef={ref} />
       <Header />
       <Container
         maxW={['640px', '768px', '1024px', '1280px']}
@@ -25,7 +26,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
         {children}
       </Container>
       <Footer />
-      <div id="modal-root" />
+      <div ref={ref} />
     </>
   )
 }
