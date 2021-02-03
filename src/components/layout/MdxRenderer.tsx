@@ -69,10 +69,11 @@ const CustomJingle = ({ children, ...props }): JSX.Element => (
     bgGradient="linear(to-tl, #6ee7b7,#000)"
     borderRadius="1em"
     backgroundClip="text"
+    {...props}
   >
     <Heading
       fontSize={{ base: '48px', md: '64px', lg: '76px' }}
-      bgGradient="linear(to-tl, #6ee7b7,#000)"
+      bgGradient={props.bgGradient || 'linear(to-tl, #6ee7b7,#000)'}
       bgClip="text"
     >
       {children}
