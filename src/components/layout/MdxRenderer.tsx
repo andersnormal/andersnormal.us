@@ -58,7 +58,7 @@ const CustomAccordionItem = ({ children, ...props }): JSX.Element => (
 )
 
 const CustomBox = ({ children, ...props }): JSX.Element => (
-  <Box w={'100%'} pt={'4rem'} pb={'2rem'}>
+  <Box w={'100%'} pt={'4rem'} pb={'2rem'} {...props}>
     {children}
   </Box>
 )
