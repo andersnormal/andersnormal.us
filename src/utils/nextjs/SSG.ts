@@ -194,7 +194,7 @@ export const getExamplesCommonStaticProps: GetStaticProps<
       mdxSource,
       ...(await serverSideTranslations(
         props.locale,
-        ['common', 'footer', 'chat'],
+        ['common', 'footer', 'chat', 'consent'],
         {
           localePath: path.resolve('./public/locales')
         }

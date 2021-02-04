@@ -29,9 +29,11 @@ const CustomAccordion = ({ children, ...props }): JSX.Element => (
     {children}
   </Accordion>
 )
+
 const CustomAccordionIcon = (props): JSX.Element => (
   <AccordionIcon boxSize={12} {...props} />
 )
+
 const CustomAccordionButton = ({ children, ...props }): JSX.Element => (
   <AccordionButton px={0}>
     <Box flex="1" textAlign="left">
@@ -42,6 +44,7 @@ const CustomAccordionButton = ({ children, ...props }): JSX.Element => (
     <AccordionIcon boxSize={12} />
   </AccordionButton>
 )
+
 const CustomAccordionPanel = ({ children, ...props }): JSX.Element => (
   <AccordionPanel
     fontSize={{ base: '24px', md: '28px', lg: '34px' }}
@@ -51,6 +54,7 @@ const CustomAccordionPanel = ({ children, ...props }): JSX.Element => (
     {children}
   </AccordionPanel>
 )
+
 const CustomAccordionItem = ({ children, ...props }): JSX.Element => (
   <AccordionItem borderColor={'black'} {...props}>
     {children}
@@ -58,7 +62,7 @@ const CustomAccordionItem = ({ children, ...props }): JSX.Element => (
 )
 
 const CustomBox = ({ children, ...props }): JSX.Element => (
-  <Box w={'100%'} pt={'4rem'} pb={'2rem'} {...props}>
+  <Box w={'100%'} pt={'4rem'} pb={'4rem'} {...props}>
     {children}
   </Box>
 )
