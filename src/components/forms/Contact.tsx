@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Grid,
@@ -77,14 +77,29 @@ const variants = {
   }
 }
 
-const Step1 = ({ key, show, register = null, errors, onClick, validating }) => {
+const Step = ({
+  name,
+  inputRef,
+  placeholder,
+  label,
+  show,
+  register,
+  validating,
+  onSubmit
+}) => {
   return (
     <Box display={show ? 'block' : 'none'}>
-      <FormControl htmlFor="email" py={6} padding={0} colorScheme="black">
-        <SlideFade key={key} in={show} variants={variants} offsetY={32}>
+      <FormControl
+        id={name}
+        htmlFor={name}
+        py={6}
+        padding={0}
+        colorScheme="black"
+      >
+        <SlideFade in={show} variants={variants} offsetY={32}>
           <FormLabel>
             <Heading as="h3" size="2xl" py={4}>
-              What is your name?
+              {label}
             </Heading>
           </FormLabel>
         </SlideFade>
@@ -92,16 +107,19 @@ const Step1 = ({ key, show, register = null, errors, onClick, validating }) => {
           <Input
             focusBorderColor="none"
             fontSize="5xl"
-            name="email"
-            ref={register}
+            name={`${name}`}
+            ref={el => {
+              inputRef.current[name] = el
+              register(el)
+            }}
             borderRadius="0"
             border="none"
             background="gray.100"
-            placeholder="Sherlock Holmes"
+            placeholder={placeholder}
             py={12}
             onKeyPress={e => {
               if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-                onClick()
+                onSubmit()
               }
             }}
           />
@@ -109,6 +127,7 @@ const Step1 = ({ key, show, register = null, errors, onClick, validating }) => {
             <IconButton
               aria-label="Next"
               color="gray.400"
+              onClick={() => onSubmit()}
               icon={<ArrowForwardIcon boxSize={12} />}
               bg="transparent"
               isLoading={validating}
@@ -116,50 +135,8 @@ const Step1 = ({ key, show, register = null, errors, onClick, validating }) => {
           </InputRightAddon>
         </InputGroup>
         {/* <FormErrorMessage>
-          {errors.email && errors.email.message}
-        </FormErrorMessage> */}
-      </FormControl>
-    </Box>
-  )
-}
-
-const Step2 = ({ key, register = null, errors, onClick, show, validating }) => {
-  return (
-    <Box display={show ? 'block' : 'none'}>
-      <FormControl htmlFor="name" py={6} padding={0} colorScheme="gray">
-        <SlideFade key={key} in={show} variants={variants} offsetY={32}>
-          <FormLabel fontSize={{ base: '48px', md: '64px', lg: '76px' }}>
-            What is your name?
-          </FormLabel>
-        </SlideFade>
-        <InputGroup>
-          <Input
-            fontSize={{ base: '32px', md: '38px', lg: '42px' }}
-            name="name"
-            ref={register}
-            borderRadius="0"
-            border="none"
-            background="gray.100"
-            placeholder="Sherlock Holmes"
-            py={8}
-            onKeyPress={e => {
-              if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-                onClick()
-              }
-            }}
-          />
-          <InputRightAddon border="none" borderRadius="0" py={16}>
-            <IconButton
-              aria-label="Next"
-              icon={<ArrowForwardIcon boxSize={8} />}
-              bg="transparent"
-              isLoading={validating}
-            />
-          </InputRightAddon>
-        </InputGroup>
-        {/* <FormErrorMessage>
-          {errors.name && errors.name.message}
-        </FormErrorMessage> */}
+            {errors.email && errors.email.message}
+          </FormErrorMessage> */}
       </FormControl>
     </Box>
   )
@@ -167,19 +144,54 @@ const Step2 = ({ key, register = null, errors, onClick, show, validating }) => {
 
 const steps = [
   {
-    key: 'email',
-    Component: Step1
+    key: 'full_name',
+    label: 'What is your name?',
+    placeholder: 'Sherlock Holmes',
+    validation: yup.string().required(),
+    Component: Step
   },
   {
-    key: 'name',
-    Component: Step2
+    key: 'business',
+    label: 'What is your business name?',
+    placeholder: 'Holmes & Co',
+    validation: yup.string().required(),
+    Component: Step
+  },
+  {
+    key: 'email',
+    label: 'What is your email address?',
+    placeholder: 'sherlock@holmes.co.uk',
+    validation: yup.string().email().required(),
+    Component: Step
+  },
+  {
+    key: 'conferencing',
+    label: 'What is your preference?',
+    placeholder: 'sherlock@holmes.co.uk',
+    Component: Step
+  },
+  {
+    key: 'solution',
+    label: 'What do you want to talk about?',
+    placeholder: 'sherlock@holmes.co.uk',
+    Component: Step
   }
 ]
 
 export const Contact = () => {
   const [step, setStep] = useState(0)
+  const inputRef = useRef([])
   const { handleSubmit, errors, register, trigger, formState } = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(
+      yup
+        .object()
+        .shape(
+          steps.reduce(
+            (prev, curr) => ({ ...prev, [curr.key]: curr.validation }),
+            {}
+          )
+        )
+    )
   })
 
   const onSubmit = data => {
@@ -190,6 +202,8 @@ export const Contact = () => {
   const onClick = async key => {
     if (await trigger(key)) {
       setStep(() => step + 1)
+      const next = steps[steps.findIndex(step => step.key === key) + 1].key
+      inputRef.current[next].focus()
     }
   }
 
@@ -197,14 +211,16 @@ export const Contact = () => {
     <Box width="100%">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box>
-          {steps.map(({ Component, key }) => (
+          {steps.map(({ Component, key, ...props }) => (
             <Component
-              key={key}
+              key={`${key}`}
+              name={key}
               show={steps[step].key === key}
-              errors={errors}
               register={register}
-              onClick={() => onClick(key)}
+              onSubmit={() => onClick(key)}
               validating={formState.isValidating}
+              inputRef={inputRef}
+              {...props}
             />
           ))}
           <Box>
