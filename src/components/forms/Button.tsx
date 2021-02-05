@@ -1,8 +1,9 @@
 import React from 'react'
 import { Box, useStyleConfig } from '@chakra-ui/react'
+import theme from '@chakra-ui/theme'
 
 export const Style = {
-  CustomButton: {
+  CustomInput: {
     baseStyle: ({ colorMode }) => ({
       bg: colorMode === 'dark' ? 'green.300' : 'green.500',
       color: colorMode === 'dark' ? 'gray.800' : 'white',
