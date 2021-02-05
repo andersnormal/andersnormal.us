@@ -13,16 +13,22 @@ import {
   RadioGroup,
   Stack,
   Radio,
+  InputRightAddon,
   Flex,
+  InputLeftAddon,
   SlideFade,
+  IconButton,
   Button,
   EditableInput,
   forwardRef,
   Spacer,
   FormErrorMessage,
   Progress,
-  FormHelperText
+  Heading,
+  FormHelperText,
+  InputGroup
 } from '@chakra-ui/react'
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
@@ -71,63 +77,90 @@ const variants = {
   }
 }
 
-const Step1 = ({ key, show, register = null, errors, onClick }) => {
+const Step1 = ({ key, show, register = null, errors, onClick, validating }) => {
   return (
     <Box display={show ? 'block' : 'none'}>
-      <FormControl
-        htmlFor="email"
-        width={{ base: '100%', lg: '48%' }}
-        py={6}
-        isInvalid={errors.email}
-      >
-        <SlideFade key={key} in={show} variants={variants}>
-          <FormLabel>Email address</FormLabel>
+      <FormControl htmlFor="email" py={6} padding={0} colorScheme="black">
+        <SlideFade key={key} in={show} variants={variants} offsetY={32}>
+          <FormLabel>
+            <Heading as="h3" size="2xl" py={4}>
+              What is your name?
+            </Heading>
+          </FormLabel>
         </SlideFade>
-        <Input
-          name="email"
-          ref={register}
-          onKeyPress={e => {
-            if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-              onClick()
-            }
-          }}
-        />
-        <FormErrorMessage>
+        <InputGroup>
+          <Input
+            focusBorderColor="none"
+            fontSize="5xl"
+            name="email"
+            ref={register}
+            borderRadius="0"
+            border="none"
+            background="gray.100"
+            placeholder="Sherlock Holmes"
+            py={12}
+            onKeyPress={e => {
+              if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+                onClick()
+              }
+            }}
+          />
+          <InputRightAddon border="none" borderRadius="0" height="auto">
+            <IconButton
+              aria-label="Next"
+              color="gray.400"
+              icon={<ArrowForwardIcon boxSize={12} />}
+              bg="transparent"
+              isLoading={validating}
+            />
+          </InputRightAddon>
+        </InputGroup>
+        {/* <FormErrorMessage>
           {errors.email && errors.email.message}
-        </FormErrorMessage>
+        </FormErrorMessage> */}
       </FormControl>
-      <Button onClick={onClick}>Test</Button>
     </Box>
   )
 }
 
-const Step2 = ({ key, register = null, errors, onClick, show }) => {
+const Step2 = ({ key, register = null, errors, onClick, show, validating }) => {
   return (
     <Box display={show ? 'block' : 'none'}>
-      <FormControl
-        htmlFor="name"
-        width={{ base: '100%', lg: '48%' }}
-        py={6}
-        isInvalid={errors.name}
-      >
-        <SlideFade key={key} in={show} variants={variants}>
-          <FormLabel>Name</FormLabel>
+      <FormControl htmlFor="name" py={6} padding={0} colorScheme="gray">
+        <SlideFade key={key} in={show} variants={variants} offsetY={32}>
+          <FormLabel fontSize={{ base: '48px', md: '64px', lg: '76px' }}>
+            What is your name?
+          </FormLabel>
         </SlideFade>
-
-        <Input
-          name="name"
-          ref={register}
-          onKeyDown={e => {
-            if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-              onClick()
-            }
-          }}
-        />
-        <FormErrorMessage>
+        <InputGroup>
+          <Input
+            fontSize={{ base: '32px', md: '38px', lg: '42px' }}
+            name="name"
+            ref={register}
+            borderRadius="0"
+            border="none"
+            background="gray.100"
+            placeholder="Sherlock Holmes"
+            py={8}
+            onKeyPress={e => {
+              if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+                onClick()
+              }
+            }}
+          />
+          <InputRightAddon border="none" borderRadius="0" py={16}>
+            <IconButton
+              aria-label="Next"
+              icon={<ArrowForwardIcon boxSize={8} />}
+              bg="transparent"
+              isLoading={validating}
+            />
+          </InputRightAddon>
+        </InputGroup>
+        {/* <FormErrorMessage>
           {errors.name && errors.name.message}
-        </FormErrorMessage>
+        </FormErrorMessage> */}
       </FormControl>
-      <Button onClick={onClick}>Test</Button>
     </Box>
   )
 }
@@ -171,10 +204,21 @@ export const Contact = () => {
               errors={errors}
               register={register}
               onClick={() => onClick(key)}
+              validating={formState.isValidating}
             />
           ))}
-          <Progress value={(step / steps.length) * 100} />
-          <Text>{`${step + 1} / ${steps.length}`}</Text>
+          <Box>
+            <Progress
+              colorScheme="gray"
+              background="gray.200"
+              value={(step / steps.length) * 100}
+            />
+            <Flex justifyContent="flex-end">
+              <Heading as="h4" size="md" colorScheme="gray">
+                {`${step + 1} / ${steps.length}`}
+              </Heading>
+            </Flex>
+          </Box>
         </Box>
 
         {/* <Flex justifyContent="space-between" wrap="wrap">
@@ -207,7 +251,6 @@ export const Contact = () => {
             <Button>Send</Button>
           </Box>
         </Flex> */}
-        <Button type="submit">Submit</Button>
       </form>
     </Box>
   )
