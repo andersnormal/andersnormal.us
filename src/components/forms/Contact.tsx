@@ -176,8 +176,8 @@ const steps = [
     label: 'What is your business name?',
     placeholder: 'Holmes & Co',
     validation: yup.string().label('Business name').required(),
-    Component: props => (
-      <StepSelect {...props}>
+    component: (
+      <StepSelect>
         <option value="">Option 1</option>
         <option value="option2">Option 2</option>
         <option value="option3">Option 3</option>
@@ -225,12 +225,6 @@ export const Contact = () => {
   )
 
   const onSubmit = async data => {
-    function timeout(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
-    await timeout(3000)
-
     reset()
     setStep(() => 0)
     const next = steps[0].key
