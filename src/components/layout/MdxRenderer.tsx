@@ -16,6 +16,7 @@ import {
   AccordionPanel,
   AccordionIcon
 } from '@chakra-ui/react'
+import Contact from '@components/forms/Contact'
 
 export type MdxRenderComponents = MdxRemote.Components
 
@@ -95,6 +96,7 @@ export const MdxComponents: MdxRenderComponents = {
   Heading,
   Jingle: CustomJingle,
   Box: CustomBox,
+  Contact,
   Accordion: CustomAccordion,
   AccordionItem: CustomAccordionItem,
   AccordionButton: CustomAccordionButton,
