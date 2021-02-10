@@ -1850,17 +1850,17 @@ union FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes = FormChec
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesConnectInput {
   FormInput: FormInputConnectInput
-  FormOption: FormOptionConnectInput
-  FormSelect: FormSelectConnectInput
   FormTextarea: FormTextareaConnectInput
+  FormSelect: FormSelectConnectInput
+  FormOption: FormOptionConnectInput
   FormCheckbox: FormCheckboxConnectInput
 }
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput {
   FormInput: FormInputCreateInput
-  FormOption: FormOptionCreateInput
-  FormSelect: FormSelectCreateInput
   FormTextarea: FormTextareaCreateInput
+  FormSelect: FormSelectCreateInput
+  FormOption: FormOptionCreateInput
   FormCheckbox: FormCheckboxCreateInput
 }
 
@@ -1890,9 +1890,9 @@ input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateOneIn
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateInput {
   FormInput: FormInputUpdateInput
-  FormOption: FormOptionUpdateInput
-  FormSelect: FormSelectUpdateInput
   FormTextarea: FormTextareaUpdateInput
+  FormSelect: FormSelectUpdateInput
+  FormOption: FormOptionUpdateInput
   FormCheckbox: FormCheckboxUpdateInput
 }
 
@@ -1935,9 +1935,9 @@ input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyI
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyWithNestedWhereInput {
   FormInput: FormInputUpdateManyWithNestedWhereInput
-  FormOption: FormOptionUpdateManyWithNestedWhereInput
-  FormSelect: FormSelectUpdateManyWithNestedWhereInput
   FormTextarea: FormTextareaUpdateManyWithNestedWhereInput
+  FormSelect: FormSelectUpdateManyWithNestedWhereInput
+  FormOption: FormOptionUpdateManyWithNestedWhereInput
   FormCheckbox: FormCheckboxUpdateManyWithNestedWhereInput
 }
 
@@ -1975,33 +1975,33 @@ input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateOneIn
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateWithNestedWhereUniqueInput {
   FormInput: FormInputUpdateWithNestedWhereUniqueInput
-  FormOption: FormOptionUpdateWithNestedWhereUniqueInput
-  FormSelect: FormSelectUpdateWithNestedWhereUniqueInput
   FormTextarea: FormTextareaUpdateWithNestedWhereUniqueInput
+  FormSelect: FormSelectUpdateWithNestedWhereUniqueInput
+  FormOption: FormOptionUpdateWithNestedWhereUniqueInput
   FormCheckbox: FormCheckboxUpdateWithNestedWhereUniqueInput
 }
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpsertWithNestedWhereUniqueInput {
   FormInput: FormInputUpsertWithNestedWhereUniqueInput
-  FormOption: FormOptionUpsertWithNestedWhereUniqueInput
-  FormSelect: FormSelectUpsertWithNestedWhereUniqueInput
   FormTextarea: FormTextareaUpsertWithNestedWhereUniqueInput
+  FormSelect: FormSelectUpsertWithNestedWhereUniqueInput
+  FormOption: FormOptionUpsertWithNestedWhereUniqueInput
   FormCheckbox: FormCheckboxUpsertWithNestedWhereUniqueInput
 }
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereInput {
   FormInput: FormInputWhereInput
-  FormOption: FormOptionWhereInput
-  FormSelect: FormSelectWhereInput
   FormTextarea: FormTextareaWhereInput
+  FormSelect: FormSelectWhereInput
+  FormOption: FormOptionWhereInput
   FormCheckbox: FormCheckboxWhereInput
 }
 
 input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput {
   FormInput: FormInputWhereUniqueInput
-  FormOption: FormOptionWhereUniqueInput
-  FormSelect: FormSelectWhereUniqueInput
   FormTextarea: FormTextareaWhereUniqueInput
+  FormSelect: FormSelectWhereUniqueInput
+  FormOption: FormOptionWhereUniqueInput
   FormCheckbox: FormCheckboxWhereUniqueInput
 }
 
@@ -2050,6 +2050,7 @@ type FormInput implements Node {
   placeholder: String
   required: Boolean!
   label: String
+  rules: Json
 
   """List of FormInput versions"""
   history(
@@ -2092,6 +2093,7 @@ input FormInputCreateInput {
   placeholder: String
   required: Boolean!
   label: String
+  rules: Json
 }
 
 input FormInputCreateManyInlineInput {
@@ -2361,6 +2363,7 @@ input FormInputUpdateInput {
   placeholder: String
   required: Boolean
   label: String
+  rules: Json
 }
 
 input FormInputUpdateManyInlineInput {
@@ -2394,6 +2397,7 @@ input FormInputUpdateManyInput {
   placeholder: String
   required: Boolean
   label: String
+  rules: Json
 }
 
 input FormInputUpdateManyWithNestedWhereInput {
@@ -3407,6 +3411,7 @@ type FormSelect implements Node {
   label: String
   name: String
   required: Boolean!
+  rules: Json
 
   """List of FormSelect versions"""
   history(
@@ -3448,6 +3453,7 @@ input FormSelectCreateInput {
   label: String
   name: String
   required: Boolean!
+  rules: Json
 }
 
 input FormSelectCreateManyInlineInput {
@@ -3671,6 +3677,7 @@ input FormSelectUpdateInput {
   label: String
   name: String
   required: Boolean
+  rules: Json
 }
 
 input FormSelectUpdateManyInlineInput {
@@ -3702,6 +3709,7 @@ input FormSelectUpdateManyInput {
   label: String
   name: String
   required: Boolean
+  rules: Json
 }
 
 input FormSelectUpdateManyWithNestedWhereInput {

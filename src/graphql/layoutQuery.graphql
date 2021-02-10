@@ -16,13 +16,15 @@ query Layout($slug: String = "home") {
        ... on FormInput {
           name
           type
-          inputLabel: label
+          label
+          rules
           placeholder
         	required
         }
         ... on FormSelect {
           name
-          selectLabel: label
+          label
+          rules
           options {
             value
             option

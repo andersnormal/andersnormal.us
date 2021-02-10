@@ -1,7 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import useLayout from '@hooks/useLayout'
-import { FormInput } from '../../generated-types'
 import {
   Box,
   EASINGS,
@@ -18,8 +17,6 @@ import {
   InputGroup
 } from '@chakra-ui/react'
 import { ArrowForwardIcon } from '@chakra-ui/icons'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 
 const transitions = {
   enter: {
@@ -62,21 +59,25 @@ const variants = {
 }
 
 const StepInput = ({
-  inputRef,
   register,
   name,
   isSubmitting,
   placeholder,
-  onSubmit
+  onSubmit,
+  ...props
 }) => {
   return (
     <Input
       focusBorderColor="none"
       fontSize="5xl"
+      autoFocus
       name={`${name}`}
       ref={el => {
-        inputRef.current[name] = el
-        register(el)
+        if (el) el.focus()
+        return register(
+          { name: name },
+          { ...{ ref: el, required: props.required }, ...props.rules }
+        )
       }}
       isDisabled={isSubmitting}
       borderRadius="0"
@@ -86,7 +87,7 @@ const StepInput = ({
       py={12}
       onKeyPress={e => {
         if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-          onSubmit()
+          onSubmit(name)
         }
       }}
     />
@@ -94,13 +95,12 @@ const StepInput = ({
 }
 
 const StepSelect = ({
-  children,
   name,
-  inputRef,
   placeholder,
   register,
   isSubmitting,
-  onSubmit
+  onSubmit,
+  ...props
 }) => {
   return (
     <Select
@@ -115,16 +115,23 @@ const StepSelect = ({
       border="none"
       name={`${name}`}
       ref={el => {
-        inputRef.current[name] = el
-        register(el)
+        if (el) el.focus()
+        return register(
+          { name: name },
+          { ...{ ref: el, required: props.required }, ...props.rules }
+        )
       }}
       onKeyPress={e => {
         if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-          onSubmit()
+          onSubmit(name)
         }
       }}
     >
-      {children}
+      {props.options.map((option, index) => (
+        <option key={index} value={option.value}>
+          {option.option}
+        </option>
+      ))}
     </Select>
   )
 }
@@ -165,79 +172,38 @@ const Step = ({ cmp: Component, ...props }) => {
   )
 }
 
-const steps = [
-  {
-    key: 'full_name',
-    label: 'What is your name?',
-    placeholder: 'Sherlock Holmes',
-    validation: yup.string().label('Full Name').required(),
-    Component: StepInput
-  },
-
-  {
-    key: 'email',
-    label: 'What is your email address?',
-    placeholder: 'sherlock@holmes.co.uk',
-    validation: yup.string().email().required(),
-    Component: StepInput
-  },
-  {
-    key: 'conferencing',
-    label: 'What is your preference?',
-    placeholder: 'sherlock@holmes.co.uk',
-    Component: StepInput
-  },
-  {
-    key: 'solution',
-    label: 'What do you want to talk about?',
-    placeholder: 'sherlock@holmes.co.uk',
-    Component: StepInput
-  }
-]
-
 export const Contact = () => {
   const layout = useLayout()
   const [step, setStep] = useState(0)
 
-  const inputRef = useRef([])
   const formRef = useRef()
-  const { handleSubmit, errors, register, reset, trigger, formState } = useForm(
-    {
-      resolver: yupResolver(
-        yup
-          .object()
-          .shape(
-            steps.reduce(
-              (prev, curr) => ({ ...prev, [curr.key]: curr.validation }),
-              {}
-            )
-          )
-      )
-    }
-  )
+  const {
+    handleSubmit,
+    errors,
+    register,
+    reset,
+    trigger,
+    formState
+  } = useForm()
 
   const onSubmit = async data => {
     reset()
     setStep(() => 0)
-    const next = steps[0].key
-    inputRef.current[next].focus()
 
     return true
   }
 
-  const onClick = async key => {
+  const onClick = async (key?) => {
     if (!(await trigger(key))) {
       return
     }
 
-    if (step + 1 === steps.length) {
+    if (step + 1 === layout.page.form.fields.length) {
       await handleSubmit(onSubmit)()
       return
     }
 
     setStep(() => step + 1)
-    const next = steps[steps.findIndex(step => step.key === key) + 1].key
-    inputRef.current[next].focus()
   }
 
   const fields = new Map([
@@ -260,34 +226,19 @@ export const Contact = () => {
                 key={index}
                 show={step === index}
                 validating={formState.isValidating}
-                inputRef={inputRef}
                 isSubmitting={formState.isSubmitting}
                 register={register}
-                onSubmit={() => onClick(key)}
+                onSubmit={onClick}
                 {...props}
               />
             )
           })}
 
-          {/* {steps.map(({ Component, key, ...props }) => (
-            <Step
-              cmp={fields}
-              key={`${key}`}
-              name={key}
-              show={steps[step].key === key}
-              register={register}
-              onSubmit={() => onClick(key)}
-              validating={formState.isValidating}
-              inputRef={inputRef}
-              isSubmitting={formState.isSubmitting}
-              {...props}
-            />
-          ))} */}
           <Box>
             <Progress
               colorScheme="gray"
               background="gray.200"
-              value={(step / steps.length) * 100}
+              value={(step / layout.page.form.fields.length) * 100}
               isIndeterminate={formState.isSubmitting}
             />
             <Flex justifyContent="flex-end">
@@ -295,7 +246,7 @@ export const Contact = () => {
                 {Object.values(errors)?.shift()?.message}
               </Heading>
               <Heading as="h4" size="md" colorScheme="gray">
-                {`${step + 1} / ${steps.length}`}
+                {`${step + 1} / ${layout.page.form.fields.length}`}
               </Heading>
             </Flex>
           </Box>

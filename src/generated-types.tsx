@@ -1332,17 +1332,17 @@ export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes =
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesConnectInput = {
   FormInput?: Maybe<FormInputConnectInput>
-  FormOption?: Maybe<FormOptionConnectInput>
-  FormSelect?: Maybe<FormSelectConnectInput>
   FormTextarea?: Maybe<FormTextareaConnectInput>
+  FormSelect?: Maybe<FormSelectConnectInput>
+  FormOption?: Maybe<FormOptionConnectInput>
   FormCheckbox?: Maybe<FormCheckboxConnectInput>
 }
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput = {
   FormInput?: Maybe<FormInputCreateInput>
-  FormOption?: Maybe<FormOptionCreateInput>
-  FormSelect?: Maybe<FormSelectCreateInput>
   FormTextarea?: Maybe<FormTextareaCreateInput>
+  FormSelect?: Maybe<FormSelectCreateInput>
+  FormOption?: Maybe<FormOptionCreateInput>
   FormCheckbox?: Maybe<FormCheckboxCreateInput>
 }
 
@@ -1366,9 +1366,9 @@ export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreat
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateInput = {
   FormInput?: Maybe<FormInputUpdateInput>
-  FormOption?: Maybe<FormOptionUpdateInput>
-  FormSelect?: Maybe<FormSelectUpdateInput>
   FormTextarea?: Maybe<FormTextareaUpdateInput>
+  FormSelect?: Maybe<FormSelectUpdateInput>
+  FormOption?: Maybe<FormOptionUpdateInput>
   FormCheckbox?: Maybe<FormCheckboxUpdateInput>
 }
 
@@ -1405,9 +1405,9 @@ export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdat
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyWithNestedWhereInput = {
   FormInput?: Maybe<FormInputUpdateManyWithNestedWhereInput>
-  FormOption?: Maybe<FormOptionUpdateManyWithNestedWhereInput>
-  FormSelect?: Maybe<FormSelectUpdateManyWithNestedWhereInput>
   FormTextarea?: Maybe<FormTextareaUpdateManyWithNestedWhereInput>
+  FormSelect?: Maybe<FormSelectUpdateManyWithNestedWhereInput>
+  FormOption?: Maybe<FormOptionUpdateManyWithNestedWhereInput>
   FormCheckbox?: Maybe<FormCheckboxUpdateManyWithNestedWhereInput>
 }
 
@@ -1428,33 +1428,33 @@ export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdat
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateWithNestedWhereUniqueInput = {
   FormInput?: Maybe<FormInputUpdateWithNestedWhereUniqueInput>
-  FormOption?: Maybe<FormOptionUpdateWithNestedWhereUniqueInput>
-  FormSelect?: Maybe<FormSelectUpdateWithNestedWhereUniqueInput>
   FormTextarea?: Maybe<FormTextareaUpdateWithNestedWhereUniqueInput>
+  FormSelect?: Maybe<FormSelectUpdateWithNestedWhereUniqueInput>
+  FormOption?: Maybe<FormOptionUpdateWithNestedWhereUniqueInput>
   FormCheckbox?: Maybe<FormCheckboxUpdateWithNestedWhereUniqueInput>
 }
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpsertWithNestedWhereUniqueInput = {
   FormInput?: Maybe<FormInputUpsertWithNestedWhereUniqueInput>
-  FormOption?: Maybe<FormOptionUpsertWithNestedWhereUniqueInput>
-  FormSelect?: Maybe<FormSelectUpsertWithNestedWhereUniqueInput>
   FormTextarea?: Maybe<FormTextareaUpsertWithNestedWhereUniqueInput>
+  FormSelect?: Maybe<FormSelectUpsertWithNestedWhereUniqueInput>
+  FormOption?: Maybe<FormOptionUpsertWithNestedWhereUniqueInput>
   FormCheckbox?: Maybe<FormCheckboxUpsertWithNestedWhereUniqueInput>
 }
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereInput = {
   FormInput?: Maybe<FormInputWhereInput>
-  FormOption?: Maybe<FormOptionWhereInput>
-  FormSelect?: Maybe<FormSelectWhereInput>
   FormTextarea?: Maybe<FormTextareaWhereInput>
+  FormSelect?: Maybe<FormSelectWhereInput>
+  FormOption?: Maybe<FormOptionWhereInput>
   FormCheckbox?: Maybe<FormCheckboxWhereInput>
 }
 
 export type FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput = {
   FormInput?: Maybe<FormInputWhereUniqueInput>
-  FormOption?: Maybe<FormOptionWhereUniqueInput>
-  FormSelect?: Maybe<FormSelectWhereUniqueInput>
   FormTextarea?: Maybe<FormTextareaWhereUniqueInput>
+  FormSelect?: Maybe<FormSelectWhereUniqueInput>
+  FormOption?: Maybe<FormOptionWhereUniqueInput>
   FormCheckbox?: Maybe<FormCheckboxWhereUniqueInput>
 }
 
@@ -1478,6 +1478,7 @@ export type FormInput = Node & {
   placeholder?: Maybe<Scalars['String']>
   required: Scalars['Boolean']
   label?: Maybe<Scalars['String']>
+  rules?: Maybe<Scalars['Json']>
   /** List of FormInput versions */
   history: Array<Version>
 }
@@ -1524,6 +1525,7 @@ export type FormInputCreateInput = {
   placeholder?: Maybe<Scalars['String']>
   required: Scalars['Boolean']
   label?: Maybe<Scalars['String']>
+  rules?: Maybe<Scalars['Json']>
 }
 
 export type FormInputCreateManyInlineInput = {
@@ -1727,6 +1729,7 @@ export type FormInputUpdateInput = {
   placeholder?: Maybe<Scalars['String']>
   required?: Maybe<Scalars['Boolean']>
   label?: Maybe<Scalars['String']>
+  rules?: Maybe<Scalars['Json']>
 }
 
 export type FormInputUpdateManyInlineInput = {
@@ -1752,6 +1755,7 @@ export type FormInputUpdateManyInput = {
   placeholder?: Maybe<Scalars['String']>
   required?: Maybe<Scalars['Boolean']>
   label?: Maybe<Scalars['String']>
+  rules?: Maybe<Scalars['Json']>
 }
 
 export type FormInputUpdateManyWithNestedWhereInput = {
@@ -2468,6 +2472,7 @@ export type FormSelect = Node & {
   label?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   required: Scalars['Boolean']
+  rules?: Maybe<Scalars['Json']>
   /** List of FormSelect versions */
   history: Array<Version>
 }
@@ -2524,6 +2529,7 @@ export type FormSelectCreateInput = {
   label?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   required: Scalars['Boolean']
+  rules?: Maybe<Scalars['Json']>
 }
 
 export type FormSelectCreateManyInlineInput = {
@@ -2693,6 +2699,7 @@ export type FormSelectUpdateInput = {
   label?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   required?: Maybe<Scalars['Boolean']>
+  rules?: Maybe<Scalars['Json']>
 }
 
 export type FormSelectUpdateManyInlineInput = {
@@ -2716,6 +2723,7 @@ export type FormSelectUpdateManyInput = {
   label?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   required?: Maybe<Scalars['Boolean']>
+  rules?: Maybe<Scalars['Json']>
 }
 
 export type FormSelectUpdateManyWithNestedWhereInput = {
@@ -5702,13 +5710,18 @@ export type LayoutQuery = { __typename?: 'Query' } & {
               | { __typename: 'FormCheckbox' }
               | ({ __typename: 'FormInput' } & Pick<
                   FormInput,
-                  'name' | 'type' | 'placeholder' | 'required'
-                > & { inputLabel: FormInput['label'] })
+                  | 'name'
+                  | 'type'
+                  | 'label'
+                  | 'rules'
+                  | 'placeholder'
+                  | 'required'
+                >)
               | { __typename: 'FormOption' }
               | ({ __typename: 'FormSelect' } & Pick<
                   FormSelect,
-                  'name' | 'required'
-                > & { selectLabel: FormSelect['label'] } & {
+                  'name' | 'label' | 'rules' | 'required'
+                > & {
                     options: Array<
                       { __typename?: 'FormOption' } & Pick<
                         FormOption,
@@ -5742,13 +5755,15 @@ export const LayoutDocument = gql`
           ... on FormInput {
             name
             type
-            inputLabel: label
+            label
+            rules
             placeholder
             required
           }
           ... on FormSelect {
             name
-            selectLabel: label
+            label
+            rules
             options {
               value
               option
