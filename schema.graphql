@@ -1298,6 +1298,3270 @@ type DocumentVersion {
   data: Json
 }
 
+type Form implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [Form!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  page(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `page` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Page
+  fields(
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `fields` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes!]!
+
+  """List of Form versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+type FormCheckbox implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [FormCheckbox!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
+
+  """List of FormCheckbox versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+input FormCheckboxConnectInput {
+  """Document to connect"""
+  where: FormCheckboxWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type FormCheckboxConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FormCheckboxEdge!]!
+  aggregate: Aggregate!
+}
+
+input FormCheckboxCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  form: FormCreateOneInlineInput
+}
+
+input FormCheckboxCreateManyInlineInput {
+  """Create and connect multiple existing FormCheckbox documents"""
+  create: [FormCheckboxCreateInput!]
+
+  """Connect multiple existing FormCheckbox documents"""
+  connect: [FormCheckboxWhereUniqueInput!]
+}
+
+input FormCheckboxCreateOneInlineInput {
+  """Create and connect one FormCheckbox document"""
+  create: FormCheckboxCreateInput
+
+  """Connect one existing FormCheckbox document"""
+  connect: FormCheckboxWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FormCheckboxEdge {
+  """The item at the end of the edge."""
+  node: FormCheckbox!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Identifies documents"""
+input FormCheckboxManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormCheckboxWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormCheckboxWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormCheckboxWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+}
+
+enum FormCheckboxOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+}
+
+input FormCheckboxUpdateInput {
+  form: FormUpdateOneInlineInput
+}
+
+input FormCheckboxUpdateManyInlineInput {
+  """Create and connect multiple FormCheckbox documents"""
+  create: [FormCheckboxCreateInput!]
+
+  """Connect multiple existing FormCheckbox documents"""
+  connect: [FormCheckboxConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing FormCheckbox documents
+  """
+  set: [FormCheckboxWhereUniqueInput!]
+
+  """Update multiple FormCheckbox documents"""
+  update: [FormCheckboxUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple FormCheckbox documents"""
+  upsert: [FormCheckboxUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple FormCheckbox documents"""
+  disconnect: [FormCheckboxWhereUniqueInput!]
+
+  """Delete multiple FormCheckbox documents"""
+  delete: [FormCheckboxWhereUniqueInput!]
+}
+
+input FormCheckboxUpdateManyInput {
+  """No fields in updateMany data input"""
+  _: String
+}
+
+input FormCheckboxUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: FormCheckboxWhereInput!
+
+  """Update many input"""
+  data: FormCheckboxUpdateManyInput!
+}
+
+input FormCheckboxUpdateOneInlineInput {
+  """Create and connect one FormCheckbox document"""
+  create: FormCheckboxCreateInput
+
+  """Update single FormCheckbox document"""
+  update: FormCheckboxUpdateWithNestedWhereUniqueInput
+
+  """Upsert single FormCheckbox document"""
+  upsert: FormCheckboxUpsertWithNestedWhereUniqueInput
+
+  """Connect existing FormCheckbox document"""
+  connect: FormCheckboxWhereUniqueInput
+
+  """Disconnect currently connected FormCheckbox document"""
+  disconnect: Boolean
+
+  """Delete currently connected FormCheckbox document"""
+  delete: Boolean
+}
+
+input FormCheckboxUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormCheckboxWhereUniqueInput!
+
+  """Document to update"""
+  data: FormCheckboxUpdateInput!
+}
+
+input FormCheckboxUpsertInput {
+  """Create document if it didn't exist"""
+  create: FormCheckboxCreateInput!
+
+  """Update document if it exists"""
+  update: FormCheckboxUpdateInput!
+}
+
+input FormCheckboxUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormCheckboxWhereUniqueInput!
+
+  """Upsert data"""
+  data: FormCheckboxUpsertInput!
+}
+
+"""Identifies documents"""
+input FormCheckboxWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormCheckboxWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormCheckboxWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormCheckboxWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+}
+
+"""References FormCheckbox record uniquely"""
+input FormCheckboxWhereUniqueInput {
+  id: ID
+}
+
+input FormConnectInput {
+  """Document to connect"""
+  where: FormWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type FormConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FormEdge!]!
+  aggregate: Aggregate!
+}
+
+input FormCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  page: PageCreateOneInlineInput
+  fields: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateManyInlineInput
+}
+
+input FormCreateManyInlineInput {
+  """Create and connect multiple existing Form documents"""
+  create: [FormCreateInput!]
+
+  """Connect multiple existing Form documents"""
+  connect: [FormWhereUniqueInput!]
+}
+
+input FormCreateOneInlineInput {
+  """Create and connect one Form document"""
+  create: FormCreateInput
+
+  """Connect one existing Form document"""
+  connect: FormWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FormEdge {
+  """The item at the end of the edge."""
+  node: Form!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+union FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes = FormCheckbox | FormInput | FormOption | FormSelect | FormTextarea
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesConnectInput {
+  FormInput: FormInputConnectInput
+  FormOption: FormOptionConnectInput
+  FormSelect: FormSelectConnectInput
+  FormTextarea: FormTextareaConnectInput
+  FormCheckbox: FormCheckboxConnectInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput {
+  FormInput: FormInputCreateInput
+  FormOption: FormOptionCreateInput
+  FormSelect: FormSelectCreateInput
+  FormTextarea: FormTextareaCreateInput
+  FormCheckbox: FormCheckboxCreateInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateManyInlineInput {
+  """
+  Create and connect multiple existing FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  create: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput!]
+
+  """
+  Connect multiple existing FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  connect: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput!]
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateOneInlineInput {
+  """
+  Create and connect one FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  create: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput
+
+  """
+  Connect one existing FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  connect: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateInput {
+  FormInput: FormInputUpdateInput
+  FormOption: FormOptionUpdateInput
+  FormSelect: FormSelectUpdateInput
+  FormTextarea: FormTextareaUpdateInput
+  FormCheckbox: FormCheckboxUpdateInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyInlineInput {
+  """
+  Create and connect multiple FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  create: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput!]
+
+  """
+  Connect multiple existing FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  connect: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  set: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput!]
+
+  """
+  Update multiple FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  update: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateWithNestedWhereUniqueInput!]
+
+  """
+  Upsert multiple FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  upsert: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpsertWithNestedWhereUniqueInput!]
+
+  """
+  Disconnect multiple FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  disconnect: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput!]
+
+  """
+  Delete multiple FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes documents
+  """
+  delete: [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput!]
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyWithNestedWhereInput {
+  FormInput: FormInputUpdateManyWithNestedWhereInput
+  FormOption: FormOptionUpdateManyWithNestedWhereInput
+  FormSelect: FormSelectUpdateManyWithNestedWhereInput
+  FormTextarea: FormTextareaUpdateManyWithNestedWhereInput
+  FormCheckbox: FormCheckboxUpdateManyWithNestedWhereInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateOneInlineInput {
+  """
+  Create and connect one FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  create: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateInput
+
+  """
+  Update single FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  update: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateWithNestedWhereUniqueInput
+
+  """
+  Upsert single FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  upsert: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpsertWithNestedWhereUniqueInput
+
+  """
+  Connect existing FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  connect: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput
+
+  """
+  Disconnect currently connected FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  disconnect: Boolean
+
+  """
+  Delete currently connected FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes document
+  """
+  delete: Boolean
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateWithNestedWhereUniqueInput {
+  FormInput: FormInputUpdateWithNestedWhereUniqueInput
+  FormOption: FormOptionUpdateWithNestedWhereUniqueInput
+  FormSelect: FormSelectUpdateWithNestedWhereUniqueInput
+  FormTextarea: FormTextareaUpdateWithNestedWhereUniqueInput
+  FormCheckbox: FormCheckboxUpdateWithNestedWhereUniqueInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpsertWithNestedWhereUniqueInput {
+  FormInput: FormInputUpsertWithNestedWhereUniqueInput
+  FormOption: FormOptionUpsertWithNestedWhereUniqueInput
+  FormSelect: FormSelectUpsertWithNestedWhereUniqueInput
+  FormTextarea: FormTextareaUpsertWithNestedWhereUniqueInput
+  FormCheckbox: FormCheckboxUpsertWithNestedWhereUniqueInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereInput {
+  FormInput: FormInputWhereInput
+  FormOption: FormOptionWhereInput
+  FormSelect: FormSelectWhereInput
+  FormTextarea: FormTextareaWhereInput
+  FormCheckbox: FormCheckboxWhereInput
+}
+
+input FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesWhereUniqueInput {
+  FormInput: FormInputWhereUniqueInput
+  FormOption: FormOptionWhereUniqueInput
+  FormSelect: FormSelectWhereUniqueInput
+  FormTextarea: FormTextareaWhereUniqueInput
+  FormCheckbox: FormCheckboxWhereUniqueInput
+}
+
+type FormInput implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [FormInput!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
+  name: String
+  type: FormInputType
+  placeholder: String
+  required: Boolean!
+  label: String
+
+  """List of FormInput versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+input FormInputConnectInput {
+  """Document to connect"""
+  where: FormInputWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type FormInputConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FormInputEdge!]!
+  aggregate: Aggregate!
+}
+
+input FormInputCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  form: FormCreateOneInlineInput
+  name: String
+  type: FormInputType
+  placeholder: String
+  required: Boolean!
+  label: String
+}
+
+input FormInputCreateManyInlineInput {
+  """Create and connect multiple existing FormInput documents"""
+  create: [FormInputCreateInput!]
+
+  """Connect multiple existing FormInput documents"""
+  connect: [FormInputWhereUniqueInput!]
+}
+
+input FormInputCreateOneInlineInput {
+  """Create and connect one FormInput document"""
+  create: FormInputCreateInput
+
+  """Connect one existing FormInput document"""
+  connect: FormInputWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FormInputEdge {
+  """The item at the end of the edge."""
+  node: FormInput!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Identifies documents"""
+input FormInputManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormInputWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormInputWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormInputWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string"""
+  name_not_ends_with: String
+  type: FormInputType
+
+  """All values that are not equal to given value."""
+  type_not: FormInputType
+
+  """All values that are contained in given list."""
+  type_in: [FormInputType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [FormInputType!]
+  placeholder: String
+
+  """All values that are not equal to given value."""
+  placeholder_not: String
+
+  """All values that are contained in given list."""
+  placeholder_in: [String!]
+
+  """All values that are not contained in given list."""
+  placeholder_not_in: [String!]
+
+  """All values containing the given string."""
+  placeholder_contains: String
+
+  """All values not containing the given string."""
+  placeholder_not_contains: String
+
+  """All values starting with the given string."""
+  placeholder_starts_with: String
+
+  """All values not starting with the given string."""
+  placeholder_not_starts_with: String
+
+  """All values ending with the given string."""
+  placeholder_ends_with: String
+
+  """All values not ending with the given string"""
+  placeholder_not_ends_with: String
+  required: Boolean
+
+  """All values that are not equal to given value."""
+  required_not: Boolean
+  label: String
+
+  """All values that are not equal to given value."""
+  label_not: String
+
+  """All values that are contained in given list."""
+  label_in: [String!]
+
+  """All values that are not contained in given list."""
+  label_not_in: [String!]
+
+  """All values containing the given string."""
+  label_contains: String
+
+  """All values not containing the given string."""
+  label_not_contains: String
+
+  """All values starting with the given string."""
+  label_starts_with: String
+
+  """All values not starting with the given string."""
+  label_not_starts_with: String
+
+  """All values ending with the given string."""
+  label_ends_with: String
+
+  """All values not ending with the given string"""
+  label_not_ends_with: String
+}
+
+enum FormInputOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  name_ASC
+  name_DESC
+  type_ASC
+  type_DESC
+  placeholder_ASC
+  placeholder_DESC
+  required_ASC
+  required_DESC
+  label_ASC
+  label_DESC
+}
+
+enum FormInputType {
+  EMAIL
+  TEL
+  TEXT
+}
+
+input FormInputUpdateInput {
+  form: FormUpdateOneInlineInput
+  name: String
+  type: FormInputType
+  placeholder: String
+  required: Boolean
+  label: String
+}
+
+input FormInputUpdateManyInlineInput {
+  """Create and connect multiple FormInput documents"""
+  create: [FormInputCreateInput!]
+
+  """Connect multiple existing FormInput documents"""
+  connect: [FormInputConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing FormInput documents
+  """
+  set: [FormInputWhereUniqueInput!]
+
+  """Update multiple FormInput documents"""
+  update: [FormInputUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple FormInput documents"""
+  upsert: [FormInputUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple FormInput documents"""
+  disconnect: [FormInputWhereUniqueInput!]
+
+  """Delete multiple FormInput documents"""
+  delete: [FormInputWhereUniqueInput!]
+}
+
+input FormInputUpdateManyInput {
+  name: String
+  type: FormInputType
+  placeholder: String
+  required: Boolean
+  label: String
+}
+
+input FormInputUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: FormInputWhereInput!
+
+  """Update many input"""
+  data: FormInputUpdateManyInput!
+}
+
+input FormInputUpdateOneInlineInput {
+  """Create and connect one FormInput document"""
+  create: FormInputCreateInput
+
+  """Update single FormInput document"""
+  update: FormInputUpdateWithNestedWhereUniqueInput
+
+  """Upsert single FormInput document"""
+  upsert: FormInputUpsertWithNestedWhereUniqueInput
+
+  """Connect existing FormInput document"""
+  connect: FormInputWhereUniqueInput
+
+  """Disconnect currently connected FormInput document"""
+  disconnect: Boolean
+
+  """Delete currently connected FormInput document"""
+  delete: Boolean
+}
+
+input FormInputUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormInputWhereUniqueInput!
+
+  """Document to update"""
+  data: FormInputUpdateInput!
+}
+
+input FormInputUpsertInput {
+  """Create document if it didn't exist"""
+  create: FormInputCreateInput!
+
+  """Update document if it exists"""
+  update: FormInputUpdateInput!
+}
+
+input FormInputUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormInputWhereUniqueInput!
+
+  """Upsert data"""
+  data: FormInputUpsertInput!
+}
+
+"""Identifies documents"""
+input FormInputWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormInputWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormInputWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormInputWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string"""
+  name_not_ends_with: String
+  type: FormInputType
+
+  """All values that are not equal to given value."""
+  type_not: FormInputType
+
+  """All values that are contained in given list."""
+  type_in: [FormInputType!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [FormInputType!]
+  placeholder: String
+
+  """All values that are not equal to given value."""
+  placeholder_not: String
+
+  """All values that are contained in given list."""
+  placeholder_in: [String!]
+
+  """All values that are not contained in given list."""
+  placeholder_not_in: [String!]
+
+  """All values containing the given string."""
+  placeholder_contains: String
+
+  """All values not containing the given string."""
+  placeholder_not_contains: String
+
+  """All values starting with the given string."""
+  placeholder_starts_with: String
+
+  """All values not starting with the given string."""
+  placeholder_not_starts_with: String
+
+  """All values ending with the given string."""
+  placeholder_ends_with: String
+
+  """All values not ending with the given string"""
+  placeholder_not_ends_with: String
+  required: Boolean
+
+  """All values that are not equal to given value."""
+  required_not: Boolean
+  label: String
+
+  """All values that are not equal to given value."""
+  label_not: String
+
+  """All values that are contained in given list."""
+  label_in: [String!]
+
+  """All values that are not contained in given list."""
+  label_not_in: [String!]
+
+  """All values containing the given string."""
+  label_contains: String
+
+  """All values not containing the given string."""
+  label_not_contains: String
+
+  """All values starting with the given string."""
+  label_starts_with: String
+
+  """All values not starting with the given string."""
+  label_not_starts_with: String
+
+  """All values ending with the given string."""
+  label_ends_with: String
+
+  """All values not ending with the given string"""
+  label_not_ends_with: String
+}
+
+"""References FormInput record uniquely"""
+input FormInputWhereUniqueInput {
+  id: ID
+}
+
+"""Identifies documents"""
+input FormManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  page: PageWhereInput
+}
+
+type FormOption implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [FormOption!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
+  formSelect(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `formSelect` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): FormSelect
+  value: String!
+  option: String
+
+  """List of FormOption versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+input FormOptionConnectInput {
+  """Document to connect"""
+  where: FormOptionWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type FormOptionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FormOptionEdge!]!
+  aggregate: Aggregate!
+}
+
+input FormOptionCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  form: FormCreateOneInlineInput
+  formSelect: FormSelectCreateOneInlineInput
+  value: String!
+  option: String
+}
+
+input FormOptionCreateManyInlineInput {
+  """Create and connect multiple existing FormOption documents"""
+  create: [FormOptionCreateInput!]
+
+  """Connect multiple existing FormOption documents"""
+  connect: [FormOptionWhereUniqueInput!]
+}
+
+input FormOptionCreateOneInlineInput {
+  """Create and connect one FormOption document"""
+  create: FormOptionCreateInput
+
+  """Connect one existing FormOption document"""
+  connect: FormOptionWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FormOptionEdge {
+  """The item at the end of the edge."""
+  node: FormOption!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Identifies documents"""
+input FormOptionManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormOptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormOptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormOptionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+  formSelect: FormSelectWhereInput
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string"""
+  value_not_ends_with: String
+  option: String
+
+  """All values that are not equal to given value."""
+  option_not: String
+
+  """All values that are contained in given list."""
+  option_in: [String!]
+
+  """All values that are not contained in given list."""
+  option_not_in: [String!]
+
+  """All values containing the given string."""
+  option_contains: String
+
+  """All values not containing the given string."""
+  option_not_contains: String
+
+  """All values starting with the given string."""
+  option_starts_with: String
+
+  """All values not starting with the given string."""
+  option_not_starts_with: String
+
+  """All values ending with the given string."""
+  option_ends_with: String
+
+  """All values not ending with the given string"""
+  option_not_ends_with: String
+}
+
+enum FormOptionOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  value_ASC
+  value_DESC
+  option_ASC
+  option_DESC
+}
+
+input FormOptionUpdateInput {
+  form: FormUpdateOneInlineInput
+  formSelect: FormSelectUpdateOneInlineInput
+  value: String
+  option: String
+}
+
+input FormOptionUpdateManyInlineInput {
+  """Create and connect multiple FormOption documents"""
+  create: [FormOptionCreateInput!]
+
+  """Connect multiple existing FormOption documents"""
+  connect: [FormOptionConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing FormOption documents
+  """
+  set: [FormOptionWhereUniqueInput!]
+
+  """Update multiple FormOption documents"""
+  update: [FormOptionUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple FormOption documents"""
+  upsert: [FormOptionUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple FormOption documents"""
+  disconnect: [FormOptionWhereUniqueInput!]
+
+  """Delete multiple FormOption documents"""
+  delete: [FormOptionWhereUniqueInput!]
+}
+
+input FormOptionUpdateManyInput {
+  value: String
+  option: String
+}
+
+input FormOptionUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: FormOptionWhereInput!
+
+  """Update many input"""
+  data: FormOptionUpdateManyInput!
+}
+
+input FormOptionUpdateOneInlineInput {
+  """Create and connect one FormOption document"""
+  create: FormOptionCreateInput
+
+  """Update single FormOption document"""
+  update: FormOptionUpdateWithNestedWhereUniqueInput
+
+  """Upsert single FormOption document"""
+  upsert: FormOptionUpsertWithNestedWhereUniqueInput
+
+  """Connect existing FormOption document"""
+  connect: FormOptionWhereUniqueInput
+
+  """Disconnect currently connected FormOption document"""
+  disconnect: Boolean
+
+  """Delete currently connected FormOption document"""
+  delete: Boolean
+}
+
+input FormOptionUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormOptionWhereUniqueInput!
+
+  """Document to update"""
+  data: FormOptionUpdateInput!
+}
+
+input FormOptionUpsertInput {
+  """Create document if it didn't exist"""
+  create: FormOptionCreateInput!
+
+  """Update document if it exists"""
+  update: FormOptionUpdateInput!
+}
+
+input FormOptionUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormOptionWhereUniqueInput!
+
+  """Upsert data"""
+  data: FormOptionUpsertInput!
+}
+
+"""Identifies documents"""
+input FormOptionWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormOptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormOptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormOptionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+  formSelect: FormSelectWhereInput
+  value: String
+
+  """All values that are not equal to given value."""
+  value_not: String
+
+  """All values that are contained in given list."""
+  value_in: [String!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [String!]
+
+  """All values containing the given string."""
+  value_contains: String
+
+  """All values not containing the given string."""
+  value_not_contains: String
+
+  """All values starting with the given string."""
+  value_starts_with: String
+
+  """All values not starting with the given string."""
+  value_not_starts_with: String
+
+  """All values ending with the given string."""
+  value_ends_with: String
+
+  """All values not ending with the given string"""
+  value_not_ends_with: String
+  option: String
+
+  """All values that are not equal to given value."""
+  option_not: String
+
+  """All values that are contained in given list."""
+  option_in: [String!]
+
+  """All values that are not contained in given list."""
+  option_not_in: [String!]
+
+  """All values containing the given string."""
+  option_contains: String
+
+  """All values not containing the given string."""
+  option_not_contains: String
+
+  """All values starting with the given string."""
+  option_starts_with: String
+
+  """All values not starting with the given string."""
+  option_not_starts_with: String
+
+  """All values ending with the given string."""
+  option_ends_with: String
+
+  """All values not ending with the given string"""
+  option_not_ends_with: String
+}
+
+"""References FormOption record uniquely"""
+input FormOptionWhereUniqueInput {
+  id: ID
+}
+
+enum FormOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+}
+
+type FormSelect implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [FormSelect!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
+  options(
+    where: FormOptionWhereInput
+    orderBy: FormOptionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `options` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): [FormOption!]!
+  label: String
+  name: String
+  required: Boolean!
+
+  """List of FormSelect versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+input FormSelectConnectInput {
+  """Document to connect"""
+  where: FormSelectWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type FormSelectConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FormSelectEdge!]!
+  aggregate: Aggregate!
+}
+
+input FormSelectCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  form: FormCreateOneInlineInput
+  options: FormOptionCreateManyInlineInput
+  label: String
+  name: String
+  required: Boolean!
+}
+
+input FormSelectCreateManyInlineInput {
+  """Create and connect multiple existing FormSelect documents"""
+  create: [FormSelectCreateInput!]
+
+  """Connect multiple existing FormSelect documents"""
+  connect: [FormSelectWhereUniqueInput!]
+}
+
+input FormSelectCreateOneInlineInput {
+  """Create and connect one FormSelect document"""
+  create: FormSelectCreateInput
+
+  """Connect one existing FormSelect document"""
+  connect: FormSelectWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FormSelectEdge {
+  """The item at the end of the edge."""
+  node: FormSelect!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Identifies documents"""
+input FormSelectManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormSelectWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormSelectWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormSelectWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+  options_every: FormOptionWhereInput
+  options_some: FormOptionWhereInput
+  options_none: FormOptionWhereInput
+  label: String
+
+  """All values that are not equal to given value."""
+  label_not: String
+
+  """All values that are contained in given list."""
+  label_in: [String!]
+
+  """All values that are not contained in given list."""
+  label_not_in: [String!]
+
+  """All values containing the given string."""
+  label_contains: String
+
+  """All values not containing the given string."""
+  label_not_contains: String
+
+  """All values starting with the given string."""
+  label_starts_with: String
+
+  """All values not starting with the given string."""
+  label_not_starts_with: String
+
+  """All values ending with the given string."""
+  label_ends_with: String
+
+  """All values not ending with the given string"""
+  label_not_ends_with: String
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string"""
+  name_not_ends_with: String
+  required: Boolean
+
+  """All values that are not equal to given value."""
+  required_not: Boolean
+}
+
+enum FormSelectOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+  label_ASC
+  label_DESC
+  name_ASC
+  name_DESC
+  required_ASC
+  required_DESC
+}
+
+input FormSelectUpdateInput {
+  form: FormUpdateOneInlineInput
+  options: FormOptionUpdateManyInlineInput
+  label: String
+  name: String
+  required: Boolean
+}
+
+input FormSelectUpdateManyInlineInput {
+  """Create and connect multiple FormSelect documents"""
+  create: [FormSelectCreateInput!]
+
+  """Connect multiple existing FormSelect documents"""
+  connect: [FormSelectConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing FormSelect documents
+  """
+  set: [FormSelectWhereUniqueInput!]
+
+  """Update multiple FormSelect documents"""
+  update: [FormSelectUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple FormSelect documents"""
+  upsert: [FormSelectUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple FormSelect documents"""
+  disconnect: [FormSelectWhereUniqueInput!]
+
+  """Delete multiple FormSelect documents"""
+  delete: [FormSelectWhereUniqueInput!]
+}
+
+input FormSelectUpdateManyInput {
+  label: String
+  name: String
+  required: Boolean
+}
+
+input FormSelectUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: FormSelectWhereInput!
+
+  """Update many input"""
+  data: FormSelectUpdateManyInput!
+}
+
+input FormSelectUpdateOneInlineInput {
+  """Create and connect one FormSelect document"""
+  create: FormSelectCreateInput
+
+  """Update single FormSelect document"""
+  update: FormSelectUpdateWithNestedWhereUniqueInput
+
+  """Upsert single FormSelect document"""
+  upsert: FormSelectUpsertWithNestedWhereUniqueInput
+
+  """Connect existing FormSelect document"""
+  connect: FormSelectWhereUniqueInput
+
+  """Disconnect currently connected FormSelect document"""
+  disconnect: Boolean
+
+  """Delete currently connected FormSelect document"""
+  delete: Boolean
+}
+
+input FormSelectUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormSelectWhereUniqueInput!
+
+  """Document to update"""
+  data: FormSelectUpdateInput!
+}
+
+input FormSelectUpsertInput {
+  """Create document if it didn't exist"""
+  create: FormSelectCreateInput!
+
+  """Update document if it exists"""
+  update: FormSelectUpdateInput!
+}
+
+input FormSelectUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormSelectWhereUniqueInput!
+
+  """Upsert data"""
+  data: FormSelectUpsertInput!
+}
+
+"""Identifies documents"""
+input FormSelectWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormSelectWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormSelectWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormSelectWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+  options_every: FormOptionWhereInput
+  options_some: FormOptionWhereInput
+  options_none: FormOptionWhereInput
+  label: String
+
+  """All values that are not equal to given value."""
+  label_not: String
+
+  """All values that are contained in given list."""
+  label_in: [String!]
+
+  """All values that are not contained in given list."""
+  label_not_in: [String!]
+
+  """All values containing the given string."""
+  label_contains: String
+
+  """All values not containing the given string."""
+  label_not_contains: String
+
+  """All values starting with the given string."""
+  label_starts_with: String
+
+  """All values not starting with the given string."""
+  label_not_starts_with: String
+
+  """All values ending with the given string."""
+  label_ends_with: String
+
+  """All values not ending with the given string"""
+  label_not_ends_with: String
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string"""
+  name_not_ends_with: String
+  required: Boolean
+
+  """All values that are not equal to given value."""
+  required_not: Boolean
+}
+
+"""References FormSelect record uniquely"""
+input FormSelectWhereUniqueInput {
+  id: ID
+}
+
+type FormTextarea implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [FormTextarea!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
+
+  """List of FormTextarea versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+input FormTextareaConnectInput {
+  """Document to connect"""
+  where: FormTextareaWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type FormTextareaConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FormTextareaEdge!]!
+  aggregate: Aggregate!
+}
+
+input FormTextareaCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  form: FormCreateOneInlineInput
+}
+
+input FormTextareaCreateManyInlineInput {
+  """Create and connect multiple existing FormTextarea documents"""
+  create: [FormTextareaCreateInput!]
+
+  """Connect multiple existing FormTextarea documents"""
+  connect: [FormTextareaWhereUniqueInput!]
+}
+
+input FormTextareaCreateOneInlineInput {
+  """Create and connect one FormTextarea document"""
+  create: FormTextareaCreateInput
+
+  """Connect one existing FormTextarea document"""
+  connect: FormTextareaWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type FormTextareaEdge {
+  """The item at the end of the edge."""
+  node: FormTextarea!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Identifies documents"""
+input FormTextareaManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormTextareaWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormTextareaWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormTextareaWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+}
+
+enum FormTextareaOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+}
+
+input FormTextareaUpdateInput {
+  form: FormUpdateOneInlineInput
+}
+
+input FormTextareaUpdateManyInlineInput {
+  """Create and connect multiple FormTextarea documents"""
+  create: [FormTextareaCreateInput!]
+
+  """Connect multiple existing FormTextarea documents"""
+  connect: [FormTextareaConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing FormTextarea documents
+  """
+  set: [FormTextareaWhereUniqueInput!]
+
+  """Update multiple FormTextarea documents"""
+  update: [FormTextareaUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple FormTextarea documents"""
+  upsert: [FormTextareaUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple FormTextarea documents"""
+  disconnect: [FormTextareaWhereUniqueInput!]
+
+  """Delete multiple FormTextarea documents"""
+  delete: [FormTextareaWhereUniqueInput!]
+}
+
+input FormTextareaUpdateManyInput {
+  """No fields in updateMany data input"""
+  _: String
+}
+
+input FormTextareaUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: FormTextareaWhereInput!
+
+  """Update many input"""
+  data: FormTextareaUpdateManyInput!
+}
+
+input FormTextareaUpdateOneInlineInput {
+  """Create and connect one FormTextarea document"""
+  create: FormTextareaCreateInput
+
+  """Update single FormTextarea document"""
+  update: FormTextareaUpdateWithNestedWhereUniqueInput
+
+  """Upsert single FormTextarea document"""
+  upsert: FormTextareaUpsertWithNestedWhereUniqueInput
+
+  """Connect existing FormTextarea document"""
+  connect: FormTextareaWhereUniqueInput
+
+  """Disconnect currently connected FormTextarea document"""
+  disconnect: Boolean
+
+  """Delete currently connected FormTextarea document"""
+  delete: Boolean
+}
+
+input FormTextareaUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormTextareaWhereUniqueInput!
+
+  """Document to update"""
+  data: FormTextareaUpdateInput!
+}
+
+input FormTextareaUpsertInput {
+  """Create document if it didn't exist"""
+  create: FormTextareaCreateInput!
+
+  """Update document if it exists"""
+  update: FormTextareaUpdateInput!
+}
+
+input FormTextareaUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormTextareaWhereUniqueInput!
+
+  """Upsert data"""
+  data: FormTextareaUpsertInput!
+}
+
+"""Identifies documents"""
+input FormTextareaWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormTextareaWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormTextareaWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormTextareaWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+}
+
+"""References FormTextarea record uniquely"""
+input FormTextareaWhereUniqueInput {
+  id: ID
+}
+
+input FormUpdateInput {
+  page: PageUpdateOneInlineInput
+  fields: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyInlineInput
+}
+
+input FormUpdateManyInlineInput {
+  """Create and connect multiple Form documents"""
+  create: [FormCreateInput!]
+
+  """Connect multiple existing Form documents"""
+  connect: [FormConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing Form documents
+  """
+  set: [FormWhereUniqueInput!]
+
+  """Update multiple Form documents"""
+  update: [FormUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple Form documents"""
+  upsert: [FormUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple Form documents"""
+  disconnect: [FormWhereUniqueInput!]
+
+  """Delete multiple Form documents"""
+  delete: [FormWhereUniqueInput!]
+}
+
+input FormUpdateManyInput {
+  """No fields in updateMany data input"""
+  _: String
+}
+
+input FormUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: FormWhereInput!
+
+  """Update many input"""
+  data: FormUpdateManyInput!
+}
+
+input FormUpdateOneInlineInput {
+  """Create and connect one Form document"""
+  create: FormCreateInput
+
+  """Update single Form document"""
+  update: FormUpdateWithNestedWhereUniqueInput
+
+  """Upsert single Form document"""
+  upsert: FormUpsertWithNestedWhereUniqueInput
+
+  """Connect existing Form document"""
+  connect: FormWhereUniqueInput
+
+  """Disconnect currently connected Form document"""
+  disconnect: Boolean
+
+  """Delete currently connected Form document"""
+  delete: Boolean
+}
+
+input FormUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormWhereUniqueInput!
+
+  """Document to update"""
+  data: FormUpdateInput!
+}
+
+input FormUpsertInput {
+  """Create document if it didn't exist"""
+  create: FormCreateInput!
+
+  """Update document if it exists"""
+  update: FormUpdateInput!
+}
+
+input FormUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: FormWhereUniqueInput!
+
+  """Upsert data"""
+  data: FormUpsertInput!
+}
+
+"""Identifies documents"""
+input FormWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [FormWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FormWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FormWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  page: PageWhereInput
+}
+
+"""References Form record uniquely"""
+input FormWhereUniqueInput {
+  id: ID
+}
+
 """"""
 scalar Hex
 
@@ -1682,6 +4946,790 @@ type Mutation {
     unpublishBase: Boolean = true
   ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyAssetsConnection)")
 
+  """Create one form"""
+  createForm(data: FormCreateInput!): Form
+
+  """Update one form"""
+  updateForm(where: FormWhereUniqueInput!, data: FormUpdateInput!): Form
+
+  """Delete one form from _all_ existing stages. Returns deleted document."""
+  deleteForm(
+    """Document to delete"""
+    where: FormWhereUniqueInput!
+  ): Form
+
+  """Upsert one form"""
+  upsertForm(where: FormWhereUniqueInput!, upsert: FormUpsertInput!): Form
+
+  """Publish one form"""
+  publishForm(
+    """Document to publish"""
+    where: FormWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): Form
+
+  """
+  Unpublish one form from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishForm(
+    """Document to unpublish"""
+    where: FormWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): Form
+
+  """Update many Form documents"""
+  updateManyFormsConnection(
+    """Documents to apply update on"""
+    where: FormManyWhereInput
+
+    """Updates to document content"""
+    data: FormUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormConnection!
+
+  """Delete many Form documents, return deleted documents"""
+  deleteManyFormsConnection(
+    """Documents to delete"""
+    where: FormManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormConnection!
+
+  """Publish many Form documents"""
+  publishManyFormsConnection(
+    """Identifies documents in each stage to be published"""
+    where: FormManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormConnection!
+
+  """
+  Find many Form documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManyFormsConnection(
+    """Identifies documents in draft stage"""
+    where: FormManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormConnection!
+
+  """Update many forms"""
+  updateManyForms(
+    """Documents to apply update on"""
+    where: FormManyWhereInput
+
+    """Updates to document content"""
+    data: FormUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManyFormsConnection)")
+
+  """Delete many Form documents"""
+  deleteManyForms(
+    """Documents to delete"""
+    where: FormManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManyFormsConnection)")
+
+  """Publish many Form documents"""
+  publishManyForms(
+    """Identifies documents in each stage to be published"""
+    where: FormManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManyFormsConnection)")
+
+  """Unpublish many Form documents"""
+  unpublishManyForms(
+    """Identifies documents in each stage"""
+    where: FormManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyFormsConnection)")
+
+  """Create one formCheckbox"""
+  createFormCheckbox(data: FormCheckboxCreateInput!): FormCheckbox
+
+  """Update one formCheckbox"""
+  updateFormCheckbox(where: FormCheckboxWhereUniqueInput!, data: FormCheckboxUpdateInput!): FormCheckbox
+
+  """
+  Delete one formCheckbox from _all_ existing stages. Returns deleted document.
+  """
+  deleteFormCheckbox(
+    """Document to delete"""
+    where: FormCheckboxWhereUniqueInput!
+  ): FormCheckbox
+
+  """Upsert one formCheckbox"""
+  upsertFormCheckbox(where: FormCheckboxWhereUniqueInput!, upsert: FormCheckboxUpsertInput!): FormCheckbox
+
+  """Publish one formCheckbox"""
+  publishFormCheckbox(
+    """Document to publish"""
+    where: FormCheckboxWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): FormCheckbox
+
+  """
+  Unpublish one formCheckbox from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishFormCheckbox(
+    """Document to unpublish"""
+    where: FormCheckboxWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): FormCheckbox
+
+  """Update many FormCheckbox documents"""
+  updateManyFormCheckboxesConnection(
+    """Documents to apply update on"""
+    where: FormCheckboxManyWhereInput
+
+    """Updates to document content"""
+    data: FormCheckboxUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormCheckboxConnection!
+
+  """Delete many FormCheckbox documents, return deleted documents"""
+  deleteManyFormCheckboxesConnection(
+    """Documents to delete"""
+    where: FormCheckboxManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormCheckboxConnection!
+
+  """Publish many FormCheckbox documents"""
+  publishManyFormCheckboxesConnection(
+    """Identifies documents in each stage to be published"""
+    where: FormCheckboxManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormCheckboxConnection!
+
+  """
+  Find many FormCheckbox documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManyFormCheckboxesConnection(
+    """Identifies documents in draft stage"""
+    where: FormCheckboxManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormCheckboxConnection!
+
+  """Update many formCheckboxes"""
+  updateManyFormCheckboxes(
+    """Documents to apply update on"""
+    where: FormCheckboxManyWhereInput
+
+    """Updates to document content"""
+    data: FormCheckboxUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManyFormCheckboxesConnection)")
+
+  """Delete many FormCheckbox documents"""
+  deleteManyFormCheckboxes(
+    """Documents to delete"""
+    where: FormCheckboxManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManyFormCheckboxesConnection)")
+
+  """Publish many FormCheckbox documents"""
+  publishManyFormCheckboxes(
+    """Identifies documents in each stage to be published"""
+    where: FormCheckboxManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManyFormCheckboxesConnection)")
+
+  """Unpublish many FormCheckbox documents"""
+  unpublishManyFormCheckboxes(
+    """Identifies documents in each stage"""
+    where: FormCheckboxManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyFormCheckboxesConnection)")
+
+  """Create one formInput"""
+  createFormInput(data: FormInputCreateInput!): FormInput
+
+  """Update one formInput"""
+  updateFormInput(where: FormInputWhereUniqueInput!, data: FormInputUpdateInput!): FormInput
+
+  """
+  Delete one formInput from _all_ existing stages. Returns deleted document.
+  """
+  deleteFormInput(
+    """Document to delete"""
+    where: FormInputWhereUniqueInput!
+  ): FormInput
+
+  """Upsert one formInput"""
+  upsertFormInput(where: FormInputWhereUniqueInput!, upsert: FormInputUpsertInput!): FormInput
+
+  """Publish one formInput"""
+  publishFormInput(
+    """Document to publish"""
+    where: FormInputWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): FormInput
+
+  """
+  Unpublish one formInput from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishFormInput(
+    """Document to unpublish"""
+    where: FormInputWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): FormInput
+
+  """Update many FormInput documents"""
+  updateManyFormInputsConnection(
+    """Documents to apply update on"""
+    where: FormInputManyWhereInput
+
+    """Updates to document content"""
+    data: FormInputUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormInputConnection!
+
+  """Delete many FormInput documents, return deleted documents"""
+  deleteManyFormInputsConnection(
+    """Documents to delete"""
+    where: FormInputManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormInputConnection!
+
+  """Publish many FormInput documents"""
+  publishManyFormInputsConnection(
+    """Identifies documents in each stage to be published"""
+    where: FormInputManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormInputConnection!
+
+  """
+  Find many FormInput documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManyFormInputsConnection(
+    """Identifies documents in draft stage"""
+    where: FormInputManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormInputConnection!
+
+  """Update many formInputs"""
+  updateManyFormInputs(
+    """Documents to apply update on"""
+    where: FormInputManyWhereInput
+
+    """Updates to document content"""
+    data: FormInputUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManyFormInputsConnection)")
+
+  """Delete many FormInput documents"""
+  deleteManyFormInputs(
+    """Documents to delete"""
+    where: FormInputManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManyFormInputsConnection)")
+
+  """Publish many FormInput documents"""
+  publishManyFormInputs(
+    """Identifies documents in each stage to be published"""
+    where: FormInputManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManyFormInputsConnection)")
+
+  """Unpublish many FormInput documents"""
+  unpublishManyFormInputs(
+    """Identifies documents in each stage"""
+    where: FormInputManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyFormInputsConnection)")
+
+  """Create one formOption"""
+  createFormOption(data: FormOptionCreateInput!): FormOption
+
+  """Update one formOption"""
+  updateFormOption(where: FormOptionWhereUniqueInput!, data: FormOptionUpdateInput!): FormOption
+
+  """
+  Delete one formOption from _all_ existing stages. Returns deleted document.
+  """
+  deleteFormOption(
+    """Document to delete"""
+    where: FormOptionWhereUniqueInput!
+  ): FormOption
+
+  """Upsert one formOption"""
+  upsertFormOption(where: FormOptionWhereUniqueInput!, upsert: FormOptionUpsertInput!): FormOption
+
+  """Publish one formOption"""
+  publishFormOption(
+    """Document to publish"""
+    where: FormOptionWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): FormOption
+
+  """
+  Unpublish one formOption from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishFormOption(
+    """Document to unpublish"""
+    where: FormOptionWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): FormOption
+
+  """Update many FormOption documents"""
+  updateManyFormOptionsConnection(
+    """Documents to apply update on"""
+    where: FormOptionManyWhereInput
+
+    """Updates to document content"""
+    data: FormOptionUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormOptionConnection!
+
+  """Delete many FormOption documents, return deleted documents"""
+  deleteManyFormOptionsConnection(
+    """Documents to delete"""
+    where: FormOptionManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormOptionConnection!
+
+  """Publish many FormOption documents"""
+  publishManyFormOptionsConnection(
+    """Identifies documents in each stage to be published"""
+    where: FormOptionManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormOptionConnection!
+
+  """
+  Find many FormOption documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManyFormOptionsConnection(
+    """Identifies documents in draft stage"""
+    where: FormOptionManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormOptionConnection!
+
+  """Update many formOptions"""
+  updateManyFormOptions(
+    """Documents to apply update on"""
+    where: FormOptionManyWhereInput
+
+    """Updates to document content"""
+    data: FormOptionUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManyFormOptionsConnection)")
+
+  """Delete many FormOption documents"""
+  deleteManyFormOptions(
+    """Documents to delete"""
+    where: FormOptionManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManyFormOptionsConnection)")
+
+  """Publish many FormOption documents"""
+  publishManyFormOptions(
+    """Identifies documents in each stage to be published"""
+    where: FormOptionManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManyFormOptionsConnection)")
+
+  """Unpublish many FormOption documents"""
+  unpublishManyFormOptions(
+    """Identifies documents in each stage"""
+    where: FormOptionManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyFormOptionsConnection)")
+
+  """Create one formSelect"""
+  createFormSelect(data: FormSelectCreateInput!): FormSelect
+
+  """Update one formSelect"""
+  updateFormSelect(where: FormSelectWhereUniqueInput!, data: FormSelectUpdateInput!): FormSelect
+
+  """
+  Delete one formSelect from _all_ existing stages. Returns deleted document.
+  """
+  deleteFormSelect(
+    """Document to delete"""
+    where: FormSelectWhereUniqueInput!
+  ): FormSelect
+
+  """Upsert one formSelect"""
+  upsertFormSelect(where: FormSelectWhereUniqueInput!, upsert: FormSelectUpsertInput!): FormSelect
+
+  """Publish one formSelect"""
+  publishFormSelect(
+    """Document to publish"""
+    where: FormSelectWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): FormSelect
+
+  """
+  Unpublish one formSelect from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishFormSelect(
+    """Document to unpublish"""
+    where: FormSelectWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): FormSelect
+
+  """Update many FormSelect documents"""
+  updateManyFormSelectsConnection(
+    """Documents to apply update on"""
+    where: FormSelectManyWhereInput
+
+    """Updates to document content"""
+    data: FormSelectUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormSelectConnection!
+
+  """Delete many FormSelect documents, return deleted documents"""
+  deleteManyFormSelectsConnection(
+    """Documents to delete"""
+    where: FormSelectManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormSelectConnection!
+
+  """Publish many FormSelect documents"""
+  publishManyFormSelectsConnection(
+    """Identifies documents in each stage to be published"""
+    where: FormSelectManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormSelectConnection!
+
+  """
+  Find many FormSelect documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManyFormSelectsConnection(
+    """Identifies documents in draft stage"""
+    where: FormSelectManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormSelectConnection!
+
+  """Update many formSelects"""
+  updateManyFormSelects(
+    """Documents to apply update on"""
+    where: FormSelectManyWhereInput
+
+    """Updates to document content"""
+    data: FormSelectUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManyFormSelectsConnection)")
+
+  """Delete many FormSelect documents"""
+  deleteManyFormSelects(
+    """Documents to delete"""
+    where: FormSelectManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManyFormSelectsConnection)")
+
+  """Publish many FormSelect documents"""
+  publishManyFormSelects(
+    """Identifies documents in each stage to be published"""
+    where: FormSelectManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManyFormSelectsConnection)")
+
+  """Unpublish many FormSelect documents"""
+  unpublishManyFormSelects(
+    """Identifies documents in each stage"""
+    where: FormSelectManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyFormSelectsConnection)")
+
+  """Create one formTextarea"""
+  createFormTextarea(data: FormTextareaCreateInput!): FormTextarea
+
+  """Update one formTextarea"""
+  updateFormTextarea(where: FormTextareaWhereUniqueInput!, data: FormTextareaUpdateInput!): FormTextarea
+
+  """
+  Delete one formTextarea from _all_ existing stages. Returns deleted document.
+  """
+  deleteFormTextarea(
+    """Document to delete"""
+    where: FormTextareaWhereUniqueInput!
+  ): FormTextarea
+
+  """Upsert one formTextarea"""
+  upsertFormTextarea(where: FormTextareaWhereUniqueInput!, upsert: FormTextareaUpsertInput!): FormTextarea
+
+  """Publish one formTextarea"""
+  publishFormTextarea(
+    """Document to publish"""
+    where: FormTextareaWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): FormTextarea
+
+  """
+  Unpublish one formTextarea from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishFormTextarea(
+    """Document to unpublish"""
+    where: FormTextareaWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): FormTextarea
+
+  """Update many FormTextarea documents"""
+  updateManyFormTextareasConnection(
+    """Documents to apply update on"""
+    where: FormTextareaManyWhereInput
+
+    """Updates to document content"""
+    data: FormTextareaUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormTextareaConnection!
+
+  """Delete many FormTextarea documents, return deleted documents"""
+  deleteManyFormTextareasConnection(
+    """Documents to delete"""
+    where: FormTextareaManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormTextareaConnection!
+
+  """Publish many FormTextarea documents"""
+  publishManyFormTextareasConnection(
+    """Identifies documents in each stage to be published"""
+    where: FormTextareaManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormTextareaConnection!
+
+  """
+  Find many FormTextarea documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManyFormTextareasConnection(
+    """Identifies documents in draft stage"""
+    where: FormTextareaManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): FormTextareaConnection!
+
+  """Update many formTextareas"""
+  updateManyFormTextareas(
+    """Documents to apply update on"""
+    where: FormTextareaManyWhereInput
+
+    """Updates to document content"""
+    data: FormTextareaUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManyFormTextareasConnection)")
+
+  """Delete many FormTextarea documents"""
+  deleteManyFormTextareas(
+    """Documents to delete"""
+    where: FormTextareaManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManyFormTextareasConnection)")
+
+  """Publish many FormTextarea documents"""
+  publishManyFormTextareas(
+    """Identifies documents in each stage to be published"""
+    where: FormTextareaManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManyFormTextareasConnection)")
+
+  """Unpublish many FormTextarea documents"""
+  unpublishManyFormTextareas(
+    """Identifies documents in each stage"""
+    where: FormTextareaManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyFormTextareasConnection)")
+
   """Create one page"""
   createPage(data: PageCreateInput!): Page
 
@@ -1931,6 +5979,17 @@ type Page implements Node {
   isNavigation: Boolean!
   isHeader: Boolean!
   content: [String!]!
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
 
   """List of Page versions"""
   history(
@@ -1942,6 +6001,16 @@ type Page implements Node {
     """
     stageOverride: Stage
   ): [Version!]!
+}
+
+input PageConnectInput {
+  """Document to connect"""
+  where: PageWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
 }
 
 """A connection to a list of items."""
@@ -1966,6 +6035,7 @@ input PageCreateInput {
 
   """content input for default locale (en)"""
   content: [String!]
+  form: FormCreateOneInlineInput
 
   """
   Inline mutations for managing document localizations excluding the default locale
@@ -1989,6 +6059,22 @@ input PageCreateLocalizationInput {
 input PageCreateLocalizationsInput {
   """Create localizations for the newly-created document"""
   create: [PageCreateLocalizationInput!]
+}
+
+input PageCreateManyInlineInput {
+  """Create and connect multiple existing Page documents"""
+  create: [PageCreateInput!]
+
+  """Connect multiple existing Page documents"""
+  connect: [PageWhereUniqueInput!]
+}
+
+input PageCreateOneInlineInput {
+  """Create and connect one Page document"""
+  create: PageCreateInput
+
+  """Connect one existing Page document"""
+  connect: PageWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -2161,6 +6247,7 @@ input PageManyWhereInput {
 
   """All values that are not equal to given value."""
   isHeader_not: Boolean
+  form: FormWhereInput
 }
 
 enum PageOrderByInput {
@@ -2194,6 +6281,7 @@ input PageUpdateInput {
 
   """content input for default locale (en)"""
   content: [String!]
+  form: FormUpdateOneInlineInput
 
   """Manage document localizations"""
   localizations: PageUpdateLocalizationsInput
@@ -2219,6 +6307,31 @@ input PageUpdateLocalizationsInput {
 
   """Localizations to delete"""
   delete: [Locale!]
+}
+
+input PageUpdateManyInlineInput {
+  """Create and connect multiple Page documents"""
+  create: [PageCreateInput!]
+
+  """Connect multiple existing Page documents"""
+  connect: [PageConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing Page documents
+  """
+  set: [PageWhereUniqueInput!]
+
+  """Update multiple Page documents"""
+  update: [PageUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple Page documents"""
+  upsert: [PageUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple Page documents"""
+  disconnect: [PageWhereUniqueInput!]
+
+  """Delete multiple Page documents"""
+  delete: [PageWhereUniqueInput!]
 }
 
 input PageUpdateManyInput {
@@ -2252,6 +6365,26 @@ input PageUpdateManyWithNestedWhereInput {
 
   """Update many input"""
   data: PageUpdateManyInput!
+}
+
+input PageUpdateOneInlineInput {
+  """Create and connect one Page document"""
+  create: PageCreateInput
+
+  """Update single Page document"""
+  update: PageUpdateWithNestedWhereUniqueInput
+
+  """Upsert single Page document"""
+  upsert: PageUpsertWithNestedWhereUniqueInput
+
+  """Connect existing Page document"""
+  connect: PageWhereUniqueInput
+
+  """Disconnect currently connected Page document"""
+  disconnect: Boolean
+
+  """Delete currently connected Page document"""
+  delete: Boolean
 }
 
 input PageUpdateWithNestedWhereUniqueInput {
@@ -2478,6 +6611,7 @@ input PageWhereInput {
   Matches if the field array does not contain any of the items provided to the filter
   """
   content_contains_none: [String!]
+  form: FormWhereInput
 }
 
 """References Page record uniquely"""
@@ -2637,6 +6771,384 @@ type Query {
 
   """Retrieve document version"""
   assetVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple forms"""
+  forms(
+    where: FormWhereInput
+    orderBy: FormOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `Form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [Form!]!
+
+  """Retrieve a single form"""
+  form(
+    where: FormWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `Form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): Form
+
+  """Retrieve multiple forms using the Relay connection interface"""
+  formsConnection(
+    where: FormWhereInput
+    orderBy: FormOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `Form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormConnection!
+
+  """Retrieve document version"""
+  formVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple formCheckboxes"""
+  formCheckboxes(
+    where: FormCheckboxWhereInput
+    orderBy: FormCheckboxOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormCheckbox` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [FormCheckbox!]!
+
+  """Retrieve a single formCheckbox"""
+  formCheckbox(
+    where: FormCheckboxWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormCheckbox` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormCheckbox
+
+  """Retrieve multiple formCheckboxes using the Relay connection interface"""
+  formCheckboxesConnection(
+    where: FormCheckboxWhereInput
+    orderBy: FormCheckboxOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormCheckbox` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormCheckboxConnection!
+
+  """Retrieve document version"""
+  formCheckboxVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple formInputs"""
+  formInputs(
+    where: FormInputWhereInput
+    orderBy: FormInputOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormInput` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [FormInput!]!
+
+  """Retrieve a single formInput"""
+  formInput(
+    where: FormInputWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormInput` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormInput
+
+  """Retrieve multiple formInputs using the Relay connection interface"""
+  formInputsConnection(
+    where: FormInputWhereInput
+    orderBy: FormInputOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormInput` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormInputConnection!
+
+  """Retrieve document version"""
+  formInputVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple formOptions"""
+  formOptions(
+    where: FormOptionWhereInput
+    orderBy: FormOptionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormOption` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [FormOption!]!
+
+  """Retrieve a single formOption"""
+  formOption(
+    where: FormOptionWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormOption` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormOption
+
+  """Retrieve multiple formOptions using the Relay connection interface"""
+  formOptionsConnection(
+    where: FormOptionWhereInput
+    orderBy: FormOptionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormOption` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormOptionConnection!
+
+  """Retrieve document version"""
+  formOptionVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple formSelects"""
+  formSelects(
+    where: FormSelectWhereInput
+    orderBy: FormSelectOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormSelect` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [FormSelect!]!
+
+  """Retrieve a single formSelect"""
+  formSelect(
+    where: FormSelectWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormSelect` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormSelect
+
+  """Retrieve multiple formSelects using the Relay connection interface"""
+  formSelectsConnection(
+    where: FormSelectWhereInput
+    orderBy: FormSelectOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormSelect` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormSelectConnection!
+
+  """Retrieve document version"""
+  formSelectVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple formTextareas"""
+  formTextareas(
+    where: FormTextareaWhereInput
+    orderBy: FormTextareaOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormTextarea` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [FormTextarea!]!
+
+  """Retrieve a single formTextarea"""
+  formTextarea(
+    where: FormTextareaWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormTextarea` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormTextarea
+
+  """Retrieve multiple formTextareas using the Relay connection interface"""
+  formTextareasConnection(
+    where: FormTextareaWhereInput
+    orderBy: FormTextareaOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `FormTextarea` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): FormTextareaConnection!
+
+  """Retrieve document version"""
+  formTextareaVersion(where: VersionWhereInput!): DocumentVersion
 
   """Retrieve multiple pages"""
   pages(

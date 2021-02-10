@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, useStyleConfig } from '@chakra-ui/react'
-import theme from '@chakra-ui/theme'
 
 export const Style = {
   CustomInput: {

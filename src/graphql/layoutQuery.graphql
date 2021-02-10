@@ -10,5 +10,26 @@ query Layout($slug: String = "home") {
     title
     slug
     content
+    form {
+      fields {
+			__typename
+       ... on FormInput {
+          name
+          type
+          inputLabel: label
+          placeholder
+        	required
+        }
+        ... on FormSelect {
+          name
+          selectLabel: label
+          options {
+            value
+            option
+          }
+          required
+        }
+      }
+    }
   }
 }

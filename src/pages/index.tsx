@@ -7,6 +7,7 @@ import { Flex } from '@chakra-ui/react'
 import { SSGPageProps } from '@type/page/SSGPageProps'
 import { OnlyBrowserPageProps } from '@type/page/OnlyBrowserPageProps'
 import { getCommonStaticProps } from '@utils/nextjs/SSG'
+import useLayoutContext from '@hooks/useLayout'
 import { MdxRenderer } from '@components/layout/MdxRenderer'
 import withConsent from '@hocs/withConsent'
 
@@ -18,10 +19,12 @@ export const getStaticProps: GetStaticProps<
 > = getCommonStaticProps
 
 const Home: NextPage<Props> = (): JSX.Element => {
+  const layout = useLayoutContext()
+
   return (
     <DefaultLayout>
       <Flex wrap="wrap" padding="1.5rem" color="gray.900">
-        <MdxRenderer />
+        <MdxRenderer layout={layout} />
       </Flex>
     </DefaultLayout>
   )

@@ -2,8 +2,8 @@ import React from 'react'
 import useMdxContext from '@hooks/useMdx'
 import hydrate from 'next-mdx-remote/hydrate'
 import { ChakraProvider } from '@chakra-ui/react'
-import theme from '@theme/theme'
 import { MdxRemote } from 'next-mdx-remote/types'
+import LayoutContext from '@state/layout'
 import {
   Code,
   Image,
@@ -17,12 +17,14 @@ import {
   AccordionIcon
 } from '@chakra-ui/react'
 import Contact from '@components/forms/Contact'
+import theme from '@chakra-ui/theme'
 
 export type MdxRenderComponents = MdxRemote.Components
 
 export interface MdxRendererProps {
   components?: MdxRemote.Components
   provider?: MdxRemote.Provider
+  layout?: any
 }
 
 const CustomAccordion = ({ children, ...props }): JSX.Element => (
@@ -86,7 +88,18 @@ const CustomJingle = ({ children, ...props }): JSX.Element => (
   </Box>
 )
 
-export const MdxProvider = { component: ChakraProvider, props: { theme } }
+export const MdxWrappedProvider = ({
+  theme,
+  layout,
+  ...props
+}): React.ReactNode => {
+  return (
+    <ChakraProvider theme={theme} {...props}>
+      <LayoutContext.Provider value={layout} {...props} />
+    </ChakraProvider>
+  )
+}
+export const MdxProvider = { component: MdxWrappedProvider, props: { theme } }
 
 export const MdxComponents: MdxRenderComponents = {
   img: Image,
@@ -106,13 +119,14 @@ export const MdxComponents: MdxRenderComponents = {
 
 export const MdxRenderer = ({
   components = MdxComponents,
-  provider = MdxProvider
+  layout
 }: MdxRendererProps): JSX.Element => {
   const mdx = useMdxContext()
+
   const content = mdx
     ? hydrate(mdx, {
         components,
-        provider
+        provider: { component: MdxWrappedProvider, props: { theme, layout } }
       })
     : null
 

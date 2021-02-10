@@ -175,7 +175,7 @@ export const getExamplesCommonStaticProps: GetStaticProps<
 
   const mdxSource = await renderToString(data?.page?.content, {
     components,
-    provider
+    provider: { ...provider, ...{ props: { layout: data } } }
   })
 
   if (errors) {

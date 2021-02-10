@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Container } from '@chakra-ui/react'
 import Header from './Header'
 import Footer from './Footer'
@@ -11,7 +11,6 @@ type DefaultLayoutProps = {
 
 const DefaultLayout = ({ children }: DefaultLayoutProps): JSX.Element => {
   const layout = useLayoutContext()
-  const ref = useRef()
 
   return (
     <>

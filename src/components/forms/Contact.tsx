@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import useLayout from '@hooks/useLayout'
 import {
   Box,
   EASINGS,
@@ -171,19 +172,7 @@ const steps = [
     validation: yup.string().label('Full Name').required(),
     Component: StepInput
   },
-  {
-    key: 'business',
-    label: 'What is your business name?',
-    placeholder: 'Holmes & Co',
-    validation: yup.string().label('Business name').required(),
-    component: (
-      <StepSelect>
-        <option value="">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </StepSelect>
-    )
-  },
+
   {
     key: 'email',
     label: 'What is your email address?',
@@ -207,6 +196,8 @@ const steps = [
 
 export const Contact = () => {
   const [step, setStep] = useState(0)
+  const layout = useLayout()
+
   const inputRef = useRef([])
   const formRef = useRef()
   const { handleSubmit, errors, register, reset, trigger, formState } = useForm(
