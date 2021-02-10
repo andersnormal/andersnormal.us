@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import useLayout from '@hooks/useLayout'
+import { FormInput } from '../../generated-types'
 import {
   Box,
   EASINGS,
@@ -195,8 +196,8 @@ const steps = [
 ]
 
 export const Contact = () => {
-  const [step, setStep] = useState(0)
   const layout = useLayout()
+  const [step, setStep] = useState(0)
 
   const inputRef = useRef([])
   const formRef = useRef()
@@ -239,13 +240,38 @@ export const Contact = () => {
     inputRef.current[next].focus()
   }
 
+  const fields = new Map([
+    ['FormInput', StepInput],
+    ['FormSelect', StepSelect]
+  ])
+
   return (
     <Box width="100%">
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
         <Box>
-          {steps.map(({ Component, key, ...props }) => (
+          {layout.page.form.fields.map(({ __typename, ...props }, index) => {
+            const Field = fields.get(__typename)
+
+            if (!Field) return null
+
+            return (
+              <Step
+                cmp={Field}
+                key={index}
+                show={step === index}
+                validating={formState.isValidating}
+                inputRef={inputRef}
+                isSubmitting={formState.isSubmitting}
+                register={register}
+                onSubmit={() => onClick(key)}
+                {...props}
+              />
+            )
+          })}
+
+          {/* {steps.map(({ Component, key, ...props }) => (
             <Step
-              cmp={Component}
+              cmp={fields}
               key={`${key}`}
               name={key}
               show={steps[step].key === key}
@@ -256,7 +282,7 @@ export const Contact = () => {
               isSubmitting={formState.isSubmitting}
               {...props}
             />
-          ))}
+          ))} */}
           <Box>
             <Progress
               colorScheme="gray"
