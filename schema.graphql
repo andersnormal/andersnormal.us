@@ -1355,6 +1355,25 @@ type Form implements Node {
     """
     locales: [Locale!]
   ): [FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes!]!
+  submissions(
+    where: SubmissionWhereInput
+    orderBy: SubmissionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `submissions` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): [Submission!]!
 
   """List of Form versions"""
   history(
@@ -1819,6 +1838,7 @@ input FormCreateInput {
   updatedAt: DateTime
   page: PageCreateOneInlineInput
   fields: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateManyInlineInput
+  submissions: SubmissionCreateManyInlineInput
 }
 
 input FormCreateManyInlineInput {
@@ -2773,6 +2793,9 @@ input FormManyWhereInput {
   """All values greater than or equal the given value."""
   publishedAt_gte: DateTime
   page: PageWhereInput
+  submissions_every: SubmissionWhereInput
+  submissions_some: SubmissionWhereInput
+  submissions_none: SubmissionWhereInput
 }
 
 type FormOption implements Node {
@@ -3412,6 +3435,7 @@ type FormSelect implements Node {
   name: String
   required: Boolean!
   rules: Json
+  placeholder: String
 
   """List of FormSelect versions"""
   history(
@@ -3454,6 +3478,7 @@ input FormSelectCreateInput {
   name: String
   required: Boolean!
   rules: Json
+  placeholder: String
 }
 
 input FormSelectCreateManyInlineInput {
@@ -3652,6 +3677,34 @@ input FormSelectManyWhereInput {
 
   """All values that are not equal to given value."""
   required_not: Boolean
+  placeholder: String
+
+  """All values that are not equal to given value."""
+  placeholder_not: String
+
+  """All values that are contained in given list."""
+  placeholder_in: [String!]
+
+  """All values that are not contained in given list."""
+  placeholder_not_in: [String!]
+
+  """All values containing the given string."""
+  placeholder_contains: String
+
+  """All values not containing the given string."""
+  placeholder_not_contains: String
+
+  """All values starting with the given string."""
+  placeholder_starts_with: String
+
+  """All values not starting with the given string."""
+  placeholder_not_starts_with: String
+
+  """All values ending with the given string."""
+  placeholder_ends_with: String
+
+  """All values not ending with the given string"""
+  placeholder_not_ends_with: String
 }
 
 enum FormSelectOrderByInput {
@@ -3669,6 +3722,8 @@ enum FormSelectOrderByInput {
   name_DESC
   required_ASC
   required_DESC
+  placeholder_ASC
+  placeholder_DESC
 }
 
 input FormSelectUpdateInput {
@@ -3678,6 +3733,7 @@ input FormSelectUpdateInput {
   name: String
   required: Boolean
   rules: Json
+  placeholder: String
 }
 
 input FormSelectUpdateManyInlineInput {
@@ -3710,6 +3766,7 @@ input FormSelectUpdateManyInput {
   name: String
   required: Boolean
   rules: Json
+  placeholder: String
 }
 
 input FormSelectUpdateManyWithNestedWhereInput {
@@ -3935,6 +3992,34 @@ input FormSelectWhereInput {
 
   """All values that are not equal to given value."""
   required_not: Boolean
+  placeholder: String
+
+  """All values that are not equal to given value."""
+  placeholder_not: String
+
+  """All values that are contained in given list."""
+  placeholder_in: [String!]
+
+  """All values that are not contained in given list."""
+  placeholder_not_in: [String!]
+
+  """All values containing the given string."""
+  placeholder_contains: String
+
+  """All values not containing the given string."""
+  placeholder_not_contains: String
+
+  """All values starting with the given string."""
+  placeholder_starts_with: String
+
+  """All values not starting with the given string."""
+  placeholder_not_starts_with: String
+
+  """All values ending with the given string."""
+  placeholder_ends_with: String
+
+  """All values not ending with the given string"""
+  placeholder_not_ends_with: String
 }
 
 """References FormSelect record uniquely"""
@@ -4371,6 +4456,7 @@ input FormTextareaWhereUniqueInput {
 input FormUpdateInput {
   page: PageUpdateOneInlineInput
   fields: FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyInlineInput
+  submissions: SubmissionUpdateManyInlineInput
 }
 
 input FormUpdateManyInlineInput {
@@ -4563,6 +4649,9 @@ input FormWhereInput {
   """All values greater than or equal the given value."""
   publishedAt_gte: DateTime
   page: PageWhereInput
+  submissions_every: SubmissionWhereInput
+  submissions_some: SubmissionWhereInput
+  submissions_none: SubmissionWhereInput
 }
 
 """References Form record uniquely"""
@@ -5915,6 +6004,137 @@ type Mutation {
     """Whether to unpublish the base document and default localization"""
     unpublishBase: Boolean = true
   ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManyPagesConnection)")
+
+  """Create one submission"""
+  createSubmission(data: SubmissionCreateInput!): Submission
+
+  """Update one submission"""
+  updateSubmission(where: SubmissionWhereUniqueInput!, data: SubmissionUpdateInput!): Submission
+
+  """
+  Delete one submission from _all_ existing stages. Returns deleted document.
+  """
+  deleteSubmission(
+    """Document to delete"""
+    where: SubmissionWhereUniqueInput!
+  ): Submission
+
+  """Upsert one submission"""
+  upsertSubmission(where: SubmissionWhereUniqueInput!, upsert: SubmissionUpsertInput!): Submission
+
+  """Publish one submission"""
+  publishSubmission(
+    """Document to publish"""
+    where: SubmissionWhereUniqueInput!
+
+    """Publishing target stage"""
+    to: [Stage!]! = [PUBLISHED]
+  ): Submission
+
+  """
+  Unpublish one submission from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only.
+  """
+  unpublishSubmission(
+    """Document to unpublish"""
+    where: SubmissionWhereUniqueInput!
+
+    """Stages to unpublish document from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): Submission
+
+  """Update many Submission documents"""
+  updateManySubmissionsConnection(
+    """Documents to apply update on"""
+    where: SubmissionManyWhereInput
+
+    """Updates to document content"""
+    data: SubmissionUpdateManyInput!
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): SubmissionConnection!
+
+  """Delete many Submission documents, return deleted documents"""
+  deleteManySubmissionsConnection(
+    """Documents to delete"""
+    where: SubmissionManyWhereInput
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): SubmissionConnection!
+
+  """Publish many Submission documents"""
+  publishManySubmissionsConnection(
+    """Identifies documents in each stage to be published"""
+    where: SubmissionManyWhereInput
+
+    """Stage to find matching documents in"""
+    from: Stage = DRAFT
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): SubmissionConnection!
+
+  """
+  Find many Submission documents that match criteria in specified stage and unpublish from target stages
+  """
+  unpublishManySubmissionsConnection(
+    """Identifies documents in draft stage"""
+    where: SubmissionManyWhereInput
+
+    """Stage to find matching documents in"""
+    stage: Stage = DRAFT
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+    skip: Int
+    first: Int
+    last: Int
+    before: ID
+    after: ID
+  ): SubmissionConnection!
+
+  """Update many submissions"""
+  updateManySubmissions(
+    """Documents to apply update on"""
+    where: SubmissionManyWhereInput
+
+    """Updates to document content"""
+    data: SubmissionUpdateManyInput!
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (updateManySubmissionsConnection)")
+
+  """Delete many Submission documents"""
+  deleteManySubmissions(
+    """Documents to delete"""
+    where: SubmissionManyWhereInput
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (deleteManySubmissionsConnection)")
+
+  """Publish many Submission documents"""
+  publishManySubmissions(
+    """Identifies documents in each stage to be published"""
+    where: SubmissionManyWhereInput
+
+    """Stages to publish documents to"""
+    to: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (publishManySubmissionsConnection)")
+
+  """Unpublish many Submission documents"""
+  unpublishManySubmissions(
+    """Identifies documents in each stage"""
+    where: SubmissionManyWhereInput
+
+    """Stages to unpublish documents from"""
+    from: [Stage!]! = [PUBLISHED]
+  ): BatchPayload! @deprecated(reason: "Please use the new paginated many mutation (unpublishManySubmissionsConnection)")
 }
 
 """An object with an ID"""
@@ -7220,6 +7440,69 @@ type Query {
 
   """Retrieve document version"""
   pageVersion(where: VersionWhereInput!): DocumentVersion
+
+  """Retrieve multiple submissions"""
+  submissions(
+    where: SubmissionWhereInput
+    orderBy: SubmissionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `Submission` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): [Submission!]!
+
+  """Retrieve a single submission"""
+  submission(
+    where: SubmissionWhereUniqueInput!
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `Submission` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): Submission
+
+  """Retrieve multiple submissions using the Relay connection interface"""
+  submissionsConnection(
+    where: SubmissionWhereInput
+    orderBy: SubmissionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+    stage: Stage! = PUBLISHED
+
+    """
+    Defines which locales should be returned.
+    
+    Note that `Submission` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument may be overwritten by another locales definition in a relational child field, this will effectively use the overwritten argument for the affected query's subtree.
+    """
+    locales: [Locale!]! = [en]
+  ): SubmissionConnection!
+
+  """Retrieve document version"""
+  submissionVersion(where: VersionWhereInput!): DocumentVersion
 }
 
 """
@@ -7275,6 +7558,434 @@ enum Stage {
 
   """The Draft is the default stage for all your content."""
   DRAFT
+}
+
+type Submission implements Node {
+  """System stage field"""
+  stage: Stage!
+
+  """Get the document in other stages"""
+  documentInStages(
+    """Potential stages that should be returned"""
+    stages: [Stage!]! = [PUBLISHED, DRAFT]
+
+    """Decides if the current stage should be included or not"""
+    includeCurrent: Boolean! = false
+
+    """
+    Decides if the documents should match the parent documents locale or should use the fallback order defined in the tree
+    """
+    inheritLocale: Boolean! = false
+  ): [Submission!]!
+
+  """The unique identifier"""
+  id: ID!
+
+  """The time the document was created"""
+  createdAt: DateTime!
+
+  """The time the document was updated"""
+  updatedAt: DateTime!
+
+  """The time the document was published. Null on documents in draft stage."""
+  publishedAt: DateTime
+  formData: Json
+  form(
+    """
+    Allows to optionally override locale filtering behaviour in the query's subtree.
+    
+    Note that `form` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.
+    For related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.
+    
+    This argument will overwrite any existing locale filtering defined in the query's tree for the subtree.
+    """
+    locales: [Locale!]
+  ): Form
+
+  """List of Submission versions"""
+  history(
+    limit: Int! = 10
+    skip: Int! = 0
+
+    """
+    This is optional and can be used to fetch the document version history for a specific stage instead of the current one
+    """
+    stageOverride: Stage
+  ): [Version!]!
+}
+
+input SubmissionConnectInput {
+  """Document to connect"""
+  where: SubmissionWhereUniqueInput!
+
+  """
+  Allow to specify document position in list of connected documents, will default to appending at end of list
+  """
+  position: ConnectPositionInput
+}
+
+"""A connection to a list of items."""
+type SubmissionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SubmissionEdge!]!
+  aggregate: Aggregate!
+}
+
+input SubmissionCreateInput {
+  createdAt: DateTime
+  updatedAt: DateTime
+  formData: Json
+  form: FormCreateOneInlineInput
+}
+
+input SubmissionCreateManyInlineInput {
+  """Create and connect multiple existing Submission documents"""
+  create: [SubmissionCreateInput!]
+
+  """Connect multiple existing Submission documents"""
+  connect: [SubmissionWhereUniqueInput!]
+}
+
+input SubmissionCreateOneInlineInput {
+  """Create and connect one Submission document"""
+  create: SubmissionCreateInput
+
+  """Connect one existing Submission document"""
+  connect: SubmissionWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type SubmissionEdge {
+  """The item at the end of the edge."""
+  node: Submission!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Identifies documents"""
+input SubmissionManyWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [SubmissionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SubmissionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SubmissionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+}
+
+enum SubmissionOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  publishedAt_ASC
+  publishedAt_DESC
+}
+
+input SubmissionUpdateInput {
+  formData: Json
+  form: FormUpdateOneInlineInput
+}
+
+input SubmissionUpdateManyInlineInput {
+  """Create and connect multiple Submission documents"""
+  create: [SubmissionCreateInput!]
+
+  """Connect multiple existing Submission documents"""
+  connect: [SubmissionConnectInput!]
+
+  """
+  Override currently-connected documents with multiple existing Submission documents
+  """
+  set: [SubmissionWhereUniqueInput!]
+
+  """Update multiple Submission documents"""
+  update: [SubmissionUpdateWithNestedWhereUniqueInput!]
+
+  """Upsert multiple Submission documents"""
+  upsert: [SubmissionUpsertWithNestedWhereUniqueInput!]
+
+  """Disconnect multiple Submission documents"""
+  disconnect: [SubmissionWhereUniqueInput!]
+
+  """Delete multiple Submission documents"""
+  delete: [SubmissionWhereUniqueInput!]
+}
+
+input SubmissionUpdateManyInput {
+  formData: Json
+}
+
+input SubmissionUpdateManyWithNestedWhereInput {
+  """Document search"""
+  where: SubmissionWhereInput!
+
+  """Update many input"""
+  data: SubmissionUpdateManyInput!
+}
+
+input SubmissionUpdateOneInlineInput {
+  """Create and connect one Submission document"""
+  create: SubmissionCreateInput
+
+  """Update single Submission document"""
+  update: SubmissionUpdateWithNestedWhereUniqueInput
+
+  """Upsert single Submission document"""
+  upsert: SubmissionUpsertWithNestedWhereUniqueInput
+
+  """Connect existing Submission document"""
+  connect: SubmissionWhereUniqueInput
+
+  """Disconnect currently connected Submission document"""
+  disconnect: Boolean
+
+  """Delete currently connected Submission document"""
+  delete: Boolean
+}
+
+input SubmissionUpdateWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: SubmissionWhereUniqueInput!
+
+  """Document to update"""
+  data: SubmissionUpdateInput!
+}
+
+input SubmissionUpsertInput {
+  """Create document if it didn't exist"""
+  create: SubmissionCreateInput!
+
+  """Update document if it exists"""
+  update: SubmissionUpdateInput!
+}
+
+input SubmissionUpsertWithNestedWhereUniqueInput {
+  """Unique document search"""
+  where: SubmissionWhereUniqueInput!
+
+  """Upsert data"""
+  data: SubmissionUpsertInput!
+}
+
+"""Identifies documents"""
+input SubmissionWhereInput {
+  """Contains search across all appropriate fields."""
+  _search: String
+
+  """Logical AND on all given filters."""
+  AND: [SubmissionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SubmissionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SubmissionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string"""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  publishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  publishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  publishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  publishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  publishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  publishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  publishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  publishedAt_gte: DateTime
+  form: FormWhereInput
+}
+
+"""References Submission record uniquely"""
+input SubmissionWhereUniqueInput {
+  id: ID
 }
 
 enum SystemDateTimeFieldVariation {

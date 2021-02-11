@@ -1,0 +1,5 @@
+mutation createSubmission($formData: Json!, $formId: ID!) {
+  createSubmission(data: {formData: $formData, form: {connect: {id: $formId}}}) {
+    id
+  }
+}

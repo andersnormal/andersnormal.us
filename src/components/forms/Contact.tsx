@@ -176,13 +176,22 @@ export const Contact = (): JSX.Element => {
       return checkForm(e.target['name'])
   }
 
-  const onSubmit = () => {
-    console.log('submitted')
+  const onSubmit = async data => {
+    try {
+      const response = await fetch('/api/submit', {
+        method: 'Post',
+        body: JSON.stringify(data)
+      })
+
+      if (!response.ok)
+        throw new Error(`Something went wrong submitting the form.`)
+    } catch (err) {}
   }
 
   const checkForm = async (key?) => {
     if (!(await methods.trigger(key))) return
-    if (step + 1 === layout.page.form.fields.length) return onSubmit()
+    if (step + 1 === layout.page.form.fields.length)
+      return onSubmit(methods.getValues())
 
     setStep(() => step + 1)
   }

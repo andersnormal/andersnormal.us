@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
-import * as React from 'react'
 import * as Apollo from '@apollo/client'
+import * as React from 'react'
 import * as ApolloReactComponents from '@apollo/client/react/components'
 export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -927,6 +927,7 @@ export type Form = Node & {
   publishedAt?: Maybe<Scalars['DateTime']>
   page?: Maybe<Page>
   fields: Array<FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxes>
+  submissions: Array<Submission>
   /** List of Form versions */
   history: Array<Version>
 }
@@ -942,6 +943,17 @@ export type FormPageArgs = {
 }
 
 export type FormFieldsArgs = {
+  skip?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  locales?: Maybe<Array<Locale>>
+}
+
+export type FormSubmissionsArgs = {
+  where?: Maybe<SubmissionWhereInput>
+  orderBy?: Maybe<SubmissionOrderByInput>
   skip?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   before?: Maybe<Scalars['String']>
@@ -1298,6 +1310,7 @@ export type FormCreateInput = {
   updatedAt?: Maybe<Scalars['DateTime']>
   page?: Maybe<PageCreateOneInlineInput>
   fields?: Maybe<FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesCreateManyInlineInput>
+  submissions?: Maybe<SubmissionCreateManyInlineInput>
 }
 
 export type FormCreateManyInlineInput = {
@@ -2025,6 +2038,9 @@ export type FormManyWhereInput = {
   /** All values greater than or equal the given value. */
   publishedAt_gte?: Maybe<Scalars['DateTime']>
   page?: Maybe<PageWhereInput>
+  submissions_every?: Maybe<SubmissionWhereInput>
+  submissions_some?: Maybe<SubmissionWhereInput>
+  submissions_none?: Maybe<SubmissionWhereInput>
 }
 
 export type FormOption = Node & {
@@ -2473,6 +2489,7 @@ export type FormSelect = Node & {
   name?: Maybe<Scalars['String']>
   required: Scalars['Boolean']
   rules?: Maybe<Scalars['Json']>
+  placeholder?: Maybe<Scalars['String']>
   /** List of FormSelect versions */
   history: Array<Version>
 }
@@ -2530,6 +2547,7 @@ export type FormSelectCreateInput = {
   name?: Maybe<Scalars['String']>
   required: Scalars['Boolean']
   rules?: Maybe<Scalars['Json']>
+  placeholder?: Maybe<Scalars['String']>
 }
 
 export type FormSelectCreateManyInlineInput = {
@@ -2674,6 +2692,25 @@ export type FormSelectManyWhereInput = {
   required?: Maybe<Scalars['Boolean']>
   /** All values that are not equal to given value. */
   required_not?: Maybe<Scalars['Boolean']>
+  placeholder?: Maybe<Scalars['String']>
+  /** All values that are not equal to given value. */
+  placeholder_not?: Maybe<Scalars['String']>
+  /** All values that are contained in given list. */
+  placeholder_in?: Maybe<Array<Scalars['String']>>
+  /** All values that are not contained in given list. */
+  placeholder_not_in?: Maybe<Array<Scalars['String']>>
+  /** All values containing the given string. */
+  placeholder_contains?: Maybe<Scalars['String']>
+  /** All values not containing the given string. */
+  placeholder_not_contains?: Maybe<Scalars['String']>
+  /** All values starting with the given string. */
+  placeholder_starts_with?: Maybe<Scalars['String']>
+  /** All values not starting with the given string. */
+  placeholder_not_starts_with?: Maybe<Scalars['String']>
+  /** All values ending with the given string. */
+  placeholder_ends_with?: Maybe<Scalars['String']>
+  /** All values not ending with the given string */
+  placeholder_not_ends_with?: Maybe<Scalars['String']>
 }
 
 export enum FormSelectOrderByInput {
@@ -2690,7 +2727,9 @@ export enum FormSelectOrderByInput {
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
   RequiredAsc = 'required_ASC',
-  RequiredDesc = 'required_DESC'
+  RequiredDesc = 'required_DESC',
+  PlaceholderAsc = 'placeholder_ASC',
+  PlaceholderDesc = 'placeholder_DESC'
 }
 
 export type FormSelectUpdateInput = {
@@ -2700,6 +2739,7 @@ export type FormSelectUpdateInput = {
   name?: Maybe<Scalars['String']>
   required?: Maybe<Scalars['Boolean']>
   rules?: Maybe<Scalars['Json']>
+  placeholder?: Maybe<Scalars['String']>
 }
 
 export type FormSelectUpdateManyInlineInput = {
@@ -2724,6 +2764,7 @@ export type FormSelectUpdateManyInput = {
   name?: Maybe<Scalars['String']>
   required?: Maybe<Scalars['Boolean']>
   rules?: Maybe<Scalars['Json']>
+  placeholder?: Maybe<Scalars['String']>
 }
 
 export type FormSelectUpdateManyWithNestedWhereInput = {
@@ -2888,6 +2929,25 @@ export type FormSelectWhereInput = {
   required?: Maybe<Scalars['Boolean']>
   /** All values that are not equal to given value. */
   required_not?: Maybe<Scalars['Boolean']>
+  placeholder?: Maybe<Scalars['String']>
+  /** All values that are not equal to given value. */
+  placeholder_not?: Maybe<Scalars['String']>
+  /** All values that are contained in given list. */
+  placeholder_in?: Maybe<Array<Scalars['String']>>
+  /** All values that are not contained in given list. */
+  placeholder_not_in?: Maybe<Array<Scalars['String']>>
+  /** All values containing the given string. */
+  placeholder_contains?: Maybe<Scalars['String']>
+  /** All values not containing the given string. */
+  placeholder_not_contains?: Maybe<Scalars['String']>
+  /** All values starting with the given string. */
+  placeholder_starts_with?: Maybe<Scalars['String']>
+  /** All values not starting with the given string. */
+  placeholder_not_starts_with?: Maybe<Scalars['String']>
+  /** All values ending with the given string. */
+  placeholder_ends_with?: Maybe<Scalars['String']>
+  /** All values not ending with the given string */
+  placeholder_not_ends_with?: Maybe<Scalars['String']>
 }
 
 /** References FormSelect record uniquely */
@@ -3218,6 +3278,7 @@ export type FormTextareaWhereUniqueInput = {
 export type FormUpdateInput = {
   page?: Maybe<PageUpdateOneInlineInput>
   fields?: Maybe<FormFormInputsFormTextareasFormSelectsFormOptionsFormCheckboxesUpdateManyInlineInput>
+  submissions?: Maybe<SubmissionUpdateManyInlineInput>
 }
 
 export type FormUpdateManyInlineInput = {
@@ -3360,6 +3421,9 @@ export type FormWhereInput = {
   /** All values greater than or equal the given value. */
   publishedAt_gte?: Maybe<Scalars['DateTime']>
   page?: Maybe<PageWhereInput>
+  submissions_every?: Maybe<SubmissionWhereInput>
+  submissions_some?: Maybe<SubmissionWhereInput>
+  submissions_none?: Maybe<SubmissionWhereInput>
 }
 
 /** References Form record uniquely */
@@ -3784,6 +3848,46 @@ export type Mutation = {
    * @deprecated Please use the new paginated many mutation (unpublishManyPagesConnection)
    */
   unpublishManyPages: BatchPayload
+  /** Create one submission */
+  createSubmission?: Maybe<Submission>
+  /** Update one submission */
+  updateSubmission?: Maybe<Submission>
+  /** Delete one submission from _all_ existing stages. Returns deleted document. */
+  deleteSubmission?: Maybe<Submission>
+  /** Upsert one submission */
+  upsertSubmission?: Maybe<Submission>
+  /** Publish one submission */
+  publishSubmission?: Maybe<Submission>
+  /** Unpublish one submission from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishSubmission?: Maybe<Submission>
+  /** Update many Submission documents */
+  updateManySubmissionsConnection: SubmissionConnection
+  /** Delete many Submission documents, return deleted documents */
+  deleteManySubmissionsConnection: SubmissionConnection
+  /** Publish many Submission documents */
+  publishManySubmissionsConnection: SubmissionConnection
+  /** Find many Submission documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManySubmissionsConnection: SubmissionConnection
+  /**
+   * Update many submissions
+   * @deprecated Please use the new paginated many mutation (updateManySubmissionsConnection)
+   */
+  updateManySubmissions: BatchPayload
+  /**
+   * Delete many Submission documents
+   * @deprecated Please use the new paginated many mutation (deleteManySubmissionsConnection)
+   */
+  deleteManySubmissions: BatchPayload
+  /**
+   * Publish many Submission documents
+   * @deprecated Please use the new paginated many mutation (publishManySubmissionsConnection)
+   */
+  publishManySubmissions: BatchPayload
+  /**
+   * Unpublish many Submission documents
+   * @deprecated Please use the new paginated many mutation (unpublishManySubmissionsConnection)
+   */
+  unpublishManySubmissions: BatchPayload
 }
 
 export type MutationCreateArticleArgs = {
@@ -4608,6 +4712,94 @@ export type MutationUnpublishManyPagesArgs = {
   unpublishBase?: Maybe<Scalars['Boolean']>
 }
 
+export type MutationCreateSubmissionArgs = {
+  data: SubmissionCreateInput
+}
+
+export type MutationUpdateSubmissionArgs = {
+  where: SubmissionWhereUniqueInput
+  data: SubmissionUpdateInput
+}
+
+export type MutationDeleteSubmissionArgs = {
+  where: SubmissionWhereUniqueInput
+}
+
+export type MutationUpsertSubmissionArgs = {
+  where: SubmissionWhereUniqueInput
+  upsert: SubmissionUpsertInput
+}
+
+export type MutationPublishSubmissionArgs = {
+  where: SubmissionWhereUniqueInput
+  to?: Array<Stage>
+}
+
+export type MutationUnpublishSubmissionArgs = {
+  where: SubmissionWhereUniqueInput
+  from?: Array<Stage>
+}
+
+export type MutationUpdateManySubmissionsConnectionArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  data: SubmissionUpdateManyInput
+  skip?: Maybe<Scalars['Int']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['ID']>
+  after?: Maybe<Scalars['ID']>
+}
+
+export type MutationDeleteManySubmissionsConnectionArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  skip?: Maybe<Scalars['Int']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['ID']>
+  after?: Maybe<Scalars['ID']>
+}
+
+export type MutationPublishManySubmissionsConnectionArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  from?: Maybe<Stage>
+  to?: Array<Stage>
+  skip?: Maybe<Scalars['Int']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['ID']>
+  after?: Maybe<Scalars['ID']>
+}
+
+export type MutationUnpublishManySubmissionsConnectionArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  stage?: Maybe<Stage>
+  from?: Array<Stage>
+  skip?: Maybe<Scalars['Int']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['ID']>
+  after?: Maybe<Scalars['ID']>
+}
+
+export type MutationUpdateManySubmissionsArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  data: SubmissionUpdateManyInput
+}
+
+export type MutationDeleteManySubmissionsArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+}
+
+export type MutationPublishManySubmissionsArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  to?: Array<Stage>
+}
+
+export type MutationUnpublishManySubmissionsArgs = {
+  where?: Maybe<SubmissionManyWhereInput>
+  from?: Array<Stage>
+}
+
 /** An object with an ID */
 export type Node = {
   /** The id of the object. */
@@ -5230,6 +5422,14 @@ export type Query = {
   pagesConnection: PageConnection
   /** Retrieve document version */
   pageVersion?: Maybe<DocumentVersion>
+  /** Retrieve multiple submissions */
+  submissions: Array<Submission>
+  /** Retrieve a single submission */
+  submission?: Maybe<Submission>
+  /** Retrieve multiple submissions using the Relay connection interface */
+  submissionsConnection: SubmissionConnection
+  /** Retrieve document version */
+  submissionVersion?: Maybe<DocumentVersion>
 }
 
 export type QueryNodeArgs = {
@@ -5544,6 +5744,40 @@ export type QueryPageVersionArgs = {
   where: VersionWhereInput
 }
 
+export type QuerySubmissionsArgs = {
+  where?: Maybe<SubmissionWhereInput>
+  orderBy?: Maybe<SubmissionOrderByInput>
+  skip?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  stage?: Stage
+  locales?: Array<Locale>
+}
+
+export type QuerySubmissionArgs = {
+  where: SubmissionWhereUniqueInput
+  stage?: Stage
+  locales?: Array<Locale>
+}
+
+export type QuerySubmissionsConnectionArgs = {
+  where?: Maybe<SubmissionWhereInput>
+  orderBy?: Maybe<SubmissionOrderByInput>
+  skip?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  before?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  last?: Maybe<Scalars['Int']>
+  stage?: Stage
+  locales?: Array<Locale>
+}
+
+export type QuerySubmissionVersionArgs = {
+  where: VersionWhereInput
+}
+
 /** Representing a RGBA color value: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()_and_rgba() */
 export type Rgba = {
   __typename?: 'RGBA'
@@ -5580,6 +5814,328 @@ export enum Stage {
   Published = 'PUBLISHED',
   /** The Draft is the default stage for all your content. */
   Draft = 'DRAFT'
+}
+
+export type Submission = Node & {
+  __typename?: 'Submission'
+  /** System stage field */
+  stage: Stage
+  /** Get the document in other stages */
+  documentInStages: Array<Submission>
+  /** The unique identifier */
+  id: Scalars['ID']
+  /** The time the document was created */
+  createdAt: Scalars['DateTime']
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime']
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']>
+  formData?: Maybe<Scalars['Json']>
+  form?: Maybe<Form>
+  /** List of Submission versions */
+  history: Array<Version>
+}
+
+export type SubmissionDocumentInStagesArgs = {
+  stages?: Array<Stage>
+  includeCurrent?: Scalars['Boolean']
+  inheritLocale?: Scalars['Boolean']
+}
+
+export type SubmissionFormArgs = {
+  locales?: Maybe<Array<Locale>>
+}
+
+export type SubmissionHistoryArgs = {
+  limit?: Scalars['Int']
+  skip?: Scalars['Int']
+  stageOverride?: Maybe<Stage>
+}
+
+export type SubmissionConnectInput = {
+  /** Document to connect */
+  where: SubmissionWhereUniqueInput
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: Maybe<ConnectPositionInput>
+}
+
+/** A connection to a list of items. */
+export type SubmissionConnection = {
+  __typename?: 'SubmissionConnection'
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** A list of edges. */
+  edges: Array<SubmissionEdge>
+  aggregate: Aggregate
+}
+
+export type SubmissionCreateInput = {
+  createdAt?: Maybe<Scalars['DateTime']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+  formData?: Maybe<Scalars['Json']>
+  form?: Maybe<FormCreateOneInlineInput>
+}
+
+export type SubmissionCreateManyInlineInput = {
+  /** Create and connect multiple existing Submission documents */
+  create?: Maybe<Array<SubmissionCreateInput>>
+  /** Connect multiple existing Submission documents */
+  connect?: Maybe<Array<SubmissionWhereUniqueInput>>
+}
+
+export type SubmissionCreateOneInlineInput = {
+  /** Create and connect one Submission document */
+  create?: Maybe<SubmissionCreateInput>
+  /** Connect one existing Submission document */
+  connect?: Maybe<SubmissionWhereUniqueInput>
+}
+
+/** An edge in a connection. */
+export type SubmissionEdge = {
+  __typename?: 'SubmissionEdge'
+  /** The item at the end of the edge. */
+  node: Submission
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+}
+
+/** Identifies documents */
+export type SubmissionManyWhereInput = {
+  /** Contains search across all appropriate fields. */
+  _search?: Maybe<Scalars['String']>
+  /** Logical AND on all given filters. */
+  AND?: Maybe<Array<SubmissionWhereInput>>
+  /** Logical OR on all given filters. */
+  OR?: Maybe<Array<SubmissionWhereInput>>
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: Maybe<Array<SubmissionWhereInput>>
+  id?: Maybe<Scalars['ID']>
+  /** All values that are not equal to given value. */
+  id_not?: Maybe<Scalars['ID']>
+  /** All values that are contained in given list. */
+  id_in?: Maybe<Array<Scalars['ID']>>
+  /** All values that are not contained in given list. */
+  id_not_in?: Maybe<Array<Scalars['ID']>>
+  /** All values containing the given string. */
+  id_contains?: Maybe<Scalars['ID']>
+  /** All values not containing the given string. */
+  id_not_contains?: Maybe<Scalars['ID']>
+  /** All values starting with the given string. */
+  id_starts_with?: Maybe<Scalars['ID']>
+  /** All values not starting with the given string. */
+  id_not_starts_with?: Maybe<Scalars['ID']>
+  /** All values ending with the given string. */
+  id_ends_with?: Maybe<Scalars['ID']>
+  /** All values not ending with the given string */
+  id_not_ends_with?: Maybe<Scalars['ID']>
+  createdAt?: Maybe<Scalars['DateTime']>
+  /** All values that are not equal to given value. */
+  createdAt_not?: Maybe<Scalars['DateTime']>
+  /** All values that are contained in given list. */
+  createdAt_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values less than the given value. */
+  createdAt_lt?: Maybe<Scalars['DateTime']>
+  /** All values less than or equal the given value. */
+  createdAt_lte?: Maybe<Scalars['DateTime']>
+  /** All values greater than the given value. */
+  createdAt_gt?: Maybe<Scalars['DateTime']>
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: Maybe<Scalars['DateTime']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+  /** All values that are not equal to given value. */
+  updatedAt_not?: Maybe<Scalars['DateTime']>
+  /** All values that are contained in given list. */
+  updatedAt_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values less than the given value. */
+  updatedAt_lt?: Maybe<Scalars['DateTime']>
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: Maybe<Scalars['DateTime']>
+  /** All values greater than the given value. */
+  updatedAt_gt?: Maybe<Scalars['DateTime']>
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: Maybe<Scalars['DateTime']>
+  publishedAt?: Maybe<Scalars['DateTime']>
+  /** All values that are not equal to given value. */
+  publishedAt_not?: Maybe<Scalars['DateTime']>
+  /** All values that are contained in given list. */
+  publishedAt_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values less than the given value. */
+  publishedAt_lt?: Maybe<Scalars['DateTime']>
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: Maybe<Scalars['DateTime']>
+  /** All values greater than the given value. */
+  publishedAt_gt?: Maybe<Scalars['DateTime']>
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: Maybe<Scalars['DateTime']>
+  form?: Maybe<FormWhereInput>
+}
+
+export enum SubmissionOrderByInput {
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC'
+}
+
+export type SubmissionUpdateInput = {
+  formData?: Maybe<Scalars['Json']>
+  form?: Maybe<FormUpdateOneInlineInput>
+}
+
+export type SubmissionUpdateManyInlineInput = {
+  /** Create and connect multiple Submission documents */
+  create?: Maybe<Array<SubmissionCreateInput>>
+  /** Connect multiple existing Submission documents */
+  connect?: Maybe<Array<SubmissionConnectInput>>
+  /** Override currently-connected documents with multiple existing Submission documents */
+  set?: Maybe<Array<SubmissionWhereUniqueInput>>
+  /** Update multiple Submission documents */
+  update?: Maybe<Array<SubmissionUpdateWithNestedWhereUniqueInput>>
+  /** Upsert multiple Submission documents */
+  upsert?: Maybe<Array<SubmissionUpsertWithNestedWhereUniqueInput>>
+  /** Disconnect multiple Submission documents */
+  disconnect?: Maybe<Array<SubmissionWhereUniqueInput>>
+  /** Delete multiple Submission documents */
+  delete?: Maybe<Array<SubmissionWhereUniqueInput>>
+}
+
+export type SubmissionUpdateManyInput = {
+  formData?: Maybe<Scalars['Json']>
+}
+
+export type SubmissionUpdateManyWithNestedWhereInput = {
+  /** Document search */
+  where: SubmissionWhereInput
+  /** Update many input */
+  data: SubmissionUpdateManyInput
+}
+
+export type SubmissionUpdateOneInlineInput = {
+  /** Create and connect one Submission document */
+  create?: Maybe<SubmissionCreateInput>
+  /** Update single Submission document */
+  update?: Maybe<SubmissionUpdateWithNestedWhereUniqueInput>
+  /** Upsert single Submission document */
+  upsert?: Maybe<SubmissionUpsertWithNestedWhereUniqueInput>
+  /** Connect existing Submission document */
+  connect?: Maybe<SubmissionWhereUniqueInput>
+  /** Disconnect currently connected Submission document */
+  disconnect?: Maybe<Scalars['Boolean']>
+  /** Delete currently connected Submission document */
+  delete?: Maybe<Scalars['Boolean']>
+}
+
+export type SubmissionUpdateWithNestedWhereUniqueInput = {
+  /** Unique document search */
+  where: SubmissionWhereUniqueInput
+  /** Document to update */
+  data: SubmissionUpdateInput
+}
+
+export type SubmissionUpsertInput = {
+  /** Create document if it didn't exist */
+  create: SubmissionCreateInput
+  /** Update document if it exists */
+  update: SubmissionUpdateInput
+}
+
+export type SubmissionUpsertWithNestedWhereUniqueInput = {
+  /** Unique document search */
+  where: SubmissionWhereUniqueInput
+  /** Upsert data */
+  data: SubmissionUpsertInput
+}
+
+/** Identifies documents */
+export type SubmissionWhereInput = {
+  /** Contains search across all appropriate fields. */
+  _search?: Maybe<Scalars['String']>
+  /** Logical AND on all given filters. */
+  AND?: Maybe<Array<SubmissionWhereInput>>
+  /** Logical OR on all given filters. */
+  OR?: Maybe<Array<SubmissionWhereInput>>
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: Maybe<Array<SubmissionWhereInput>>
+  id?: Maybe<Scalars['ID']>
+  /** All values that are not equal to given value. */
+  id_not?: Maybe<Scalars['ID']>
+  /** All values that are contained in given list. */
+  id_in?: Maybe<Array<Scalars['ID']>>
+  /** All values that are not contained in given list. */
+  id_not_in?: Maybe<Array<Scalars['ID']>>
+  /** All values containing the given string. */
+  id_contains?: Maybe<Scalars['ID']>
+  /** All values not containing the given string. */
+  id_not_contains?: Maybe<Scalars['ID']>
+  /** All values starting with the given string. */
+  id_starts_with?: Maybe<Scalars['ID']>
+  /** All values not starting with the given string. */
+  id_not_starts_with?: Maybe<Scalars['ID']>
+  /** All values ending with the given string. */
+  id_ends_with?: Maybe<Scalars['ID']>
+  /** All values not ending with the given string */
+  id_not_ends_with?: Maybe<Scalars['ID']>
+  createdAt?: Maybe<Scalars['DateTime']>
+  /** All values that are not equal to given value. */
+  createdAt_not?: Maybe<Scalars['DateTime']>
+  /** All values that are contained in given list. */
+  createdAt_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values less than the given value. */
+  createdAt_lt?: Maybe<Scalars['DateTime']>
+  /** All values less than or equal the given value. */
+  createdAt_lte?: Maybe<Scalars['DateTime']>
+  /** All values greater than the given value. */
+  createdAt_gt?: Maybe<Scalars['DateTime']>
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: Maybe<Scalars['DateTime']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+  /** All values that are not equal to given value. */
+  updatedAt_not?: Maybe<Scalars['DateTime']>
+  /** All values that are contained in given list. */
+  updatedAt_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values less than the given value. */
+  updatedAt_lt?: Maybe<Scalars['DateTime']>
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: Maybe<Scalars['DateTime']>
+  /** All values greater than the given value. */
+  updatedAt_gt?: Maybe<Scalars['DateTime']>
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: Maybe<Scalars['DateTime']>
+  publishedAt?: Maybe<Scalars['DateTime']>
+  /** All values that are not equal to given value. */
+  publishedAt_not?: Maybe<Scalars['DateTime']>
+  /** All values that are contained in given list. */
+  publishedAt_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: Maybe<Array<Scalars['DateTime']>>
+  /** All values less than the given value. */
+  publishedAt_lt?: Maybe<Scalars['DateTime']>
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: Maybe<Scalars['DateTime']>
+  /** All values greater than the given value. */
+  publishedAt_gt?: Maybe<Scalars['DateTime']>
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: Maybe<Scalars['DateTime']>
+  form?: Maybe<FormWhereInput>
+}
+
+/** References Submission record uniquely */
+export type SubmissionWhereUniqueInput = {
+  id?: Maybe<Scalars['ID']>
 }
 
 export enum SystemDateTimeFieldVariation {
@@ -5693,6 +6249,17 @@ export enum _SystemDateTimeFieldVariation {
   Combined = 'combined'
 }
 
+export type CreateSubmissionMutationVariables = Exact<{
+  formData: Scalars['Json']
+  formId: Scalars['ID']
+}>
+
+export type CreateSubmissionMutation = { __typename?: 'Mutation' } & {
+  createSubmission?: Maybe<
+    { __typename?: 'Submission' } & Pick<Submission, 'id'>
+  >
+}
+
 export type LayoutQueryVariables = Exact<{
   slug?: Maybe<Scalars['String']>
 }>
@@ -5737,6 +6304,76 @@ export type LayoutQuery = { __typename?: 'Query' } & {
   >
 }
 
+export const CreateSubmissionDocument = gql`
+  mutation createSubmission($formData: Json!, $formId: ID!) {
+    createSubmission(
+      data: { formData: $formData, form: { connect: { id: $formId } } }
+    ) {
+      id
+    }
+  }
+`
+export type CreateSubmissionMutationFn = Apollo.MutationFunction<
+  CreateSubmissionMutation,
+  CreateSubmissionMutationVariables
+>
+export type CreateSubmissionComponentProps = Omit<
+  ApolloReactComponents.MutationComponentOptions<
+    CreateSubmissionMutation,
+    CreateSubmissionMutationVariables
+  >,
+  'mutation'
+>
+
+export const CreateSubmissionComponent = (
+  props: CreateSubmissionComponentProps
+) => (
+  <ApolloReactComponents.Mutation<
+    CreateSubmissionMutation,
+    CreateSubmissionMutationVariables
+  >
+    mutation={CreateSubmissionDocument}
+    {...props}
+  />
+)
+
+/**
+ * __useCreateSubmissionMutation__
+ *
+ * To run a mutation, you first call `useCreateSubmissionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSubmissionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSubmissionMutation, { data, loading, error }] = useCreateSubmissionMutation({
+ *   variables: {
+ *      formData: // value for 'formData'
+ *      formId: // value for 'formId'
+ *   },
+ * });
+ */
+export function useCreateSubmissionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateSubmissionMutation,
+    CreateSubmissionMutationVariables
+  >
+) {
+  return Apollo.useMutation<
+    CreateSubmissionMutation,
+    CreateSubmissionMutationVariables
+  >(CreateSubmissionDocument, baseOptions)
+}
+export type CreateSubmissionMutationHookResult = ReturnType<
+  typeof useCreateSubmissionMutation
+>
+export type CreateSubmissionMutationResult = Apollo.MutationResult<CreateSubmissionMutation>
+export type CreateSubmissionMutationOptions = Apollo.BaseMutationOptions<
+  CreateSubmissionMutation,
+  CreateSubmissionMutationVariables
+>
 export const LayoutDocument = gql`
   query Layout($slug: String = "home") {
     pages(where: { isNavigation: true }, orderBy: slug_ASC) {
