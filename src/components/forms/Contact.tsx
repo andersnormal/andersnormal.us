@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormContext, FormProvider } from 'react-hook-form'
+import FormStepProvider, { useFormStepProvider } from './Form'
 import useLayout from '@hooks/useLayout'
 import {
   Box,
@@ -58,14 +59,10 @@ const variants = {
   }
 }
 
-const StepInput = ({
-  register,
-  name,
-  isSubmitting,
-  placeholder,
-  onSubmit,
-  ...props
-}) => {
+const StepInput = ({ name, placeholder, ...props }) => {
+  const { register, formState } = useFormContext()
+  const { onKeyPress } = useFormStepProvider()
+
   return (
     <Input
       focusBorderColor="none"
@@ -79,35 +76,27 @@ const StepInput = ({
           { ...{ ref: el, required: props.required }, ...props.rules }
         )
       }}
-      isDisabled={isSubmitting}
+      isDisabled={formState.isSubmitting}
       borderRadius="0"
       border="none"
       background="gray.100"
       placeholder={placeholder}
       py={12}
-      onKeyPress={e => {
-        if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-          onSubmit(name)
-        }
-      }}
+      onKeyPress={onKeyPress}
     />
   )
 }
 
-const StepSelect = ({
-  name,
-  placeholder,
-  register,
-  isSubmitting,
-  onSubmit,
-  ...props
-}) => {
+const StepSelect = ({ name, placeholder, onSubmit, ...props }) => {
+  const { register, formState } = useFormContext()
+  const { onKeyPress } = useFormStepProvider()
+
   return (
     <Select
       focusBorderColor="none"
       fontSize="5xl"
       placeholder={placeholder}
-      isDisabled={isSubmitting}
+      isDisabled={formState.isSubmitting}
       height="6rem"
       background="gray.100"
       borderRadius="0"
@@ -121,11 +110,7 @@ const StepSelect = ({
           { ...{ ref: el, required: props.required }, ...props.rules }
         )
       }}
-      onKeyPress={e => {
-        if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-          onSubmit(name)
-        }
-      }}
+      onKeyPress={onKeyPress}
     >
       {props.options.map((option, index) => (
         <option key={index} value={option.value}>
@@ -137,6 +122,8 @@ const StepSelect = ({
 }
 
 const Step = ({ cmp: Component, ...props }) => {
+  const { formState } = useFormContext() // retrieve all hook methods
+
   return (
     <Box display={props.show ? 'block' : 'none'}>
       <FormControl
@@ -162,8 +149,8 @@ const Step = ({ cmp: Component, ...props }) => {
               onClick={() => props.onSubmit()}
               icon={<ArrowForwardIcon boxSize={12} />}
               bg="transparent"
-              isDisabled={props.isSubmitting}
-              isLoading={props.validating}
+              isDisabled={formState.isSubmitting}
+              isLoading={formState.isValidating}
             />
           </InputRightAddon>
         </InputGroup>
@@ -172,86 +159,77 @@ const Step = ({ cmp: Component, ...props }) => {
   )
 }
 
-export const Contact = () => {
+const fields = new Map([
+  ['FormInput', StepInput],
+  ['FormSelect', StepSelect]
+])
+
+export const Contact = (): JSX.Element => {
   const layout = useLayout()
   const [step, setStep] = useState(0)
 
-  const formRef = useRef()
-  const {
-    handleSubmit,
-    errors,
-    register,
-    reset,
-    trigger,
-    formState
-  } = useForm()
+  const formRef = useRef<HTMLFormElement>()
+  const methods = useForm()
 
-  const onSubmit = async data => {
-    reset()
-    setStep(() => 0)
-
-    return true
+  const onKeyPress = async (e: React.KeyboardEvent): Promise<void> => {
+    if (e.code === 'Enter' || e.code === 'NumpadEnter')
+      return checkForm(e.target['name'])
   }
 
-  const onClick = async (key?) => {
-    if (!(await trigger(key))) {
-      return
-    }
+  const onSubmit = () => {
+    console.log('submitted')
+  }
 
-    if (step + 1 === layout.page.form.fields.length) {
-      await handleSubmit(onSubmit)()
-      return
-    }
+  const checkForm = async (key?) => {
+    if (!(await methods.trigger(key))) return
+    if (step + 1 === layout.page.form.fields.length) return onSubmit()
 
     setStep(() => step + 1)
   }
 
-  const fields = new Map([
-    ['FormInput', StepInput],
-    ['FormSelect', StepSelect]
-  ])
-
   return (
     <Box width="100%">
-      <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-        <Box>
-          {layout.page.form.fields.map(({ __typename, ...props }, index) => {
-            const Field = fields.get(__typename)
+      <FormProvider {...methods}>
+        <FormStepProvider {...{ onKeyPress }}>
+          <form ref={formRef}>
+            <Box>
+              {layout.page.form.fields.map(
+                ({ __typename, ...props }, index) => {
+                  const Field = fields.get(__typename)
 
-            if (!Field) return null
+                  if (!Field) return null
 
-            return (
-              <Step
-                cmp={Field}
-                key={index}
-                show={step === index}
-                validating={formState.isValidating}
-                isSubmitting={formState.isSubmitting}
-                register={register}
-                onSubmit={onClick}
-                {...props}
-              />
-            )
-          })}
+                  return (
+                    <Step
+                      cmp={Field}
+                      key={index}
+                      show={step === index}
+                      {...props}
+                    />
+                  )
+                }
+              )}
 
-          <Box>
-            <Progress
-              colorScheme="gray"
-              background="gray.200"
-              value={(step / layout.page.form.fields.length) * 100}
-              isIndeterminate={formState.isSubmitting}
-            />
-            <Flex justifyContent="flex-end">
-              <Heading as="h4" size="md" colorScheme="gray" flexGrow={1}>
-                {Object.values(errors)?.shift()?.message}
-              </Heading>
-              <Heading as="h4" size="md" colorScheme="gray">
-                {`${step + 1} / ${layout.page.form.fields.length}`}
-              </Heading>
-            </Flex>
-          </Box>
-        </Box>
-      </form>
+              <Box>
+                <Progress
+                  colorScheme="gray"
+                  background="gray.200"
+                  value={(step / layout.page.form.fields.length) * 100}
+                  isIndeterminate={methods.formState.isSubmitting}
+                />
+                <Flex justifyContent="flex-end">
+                  <Heading as="h4" size="md" colorScheme="gray" flexGrow={1}>
+                    {Object.values(methods.errors)?.shift()?.message}
+                  </Heading>
+                  <Heading as="h4" size="md" colorScheme="gray">
+                    {`${step + 1} / ${layout.page.form.fields.length}`}
+                  </Heading>
+                </Flex>
+              </Box>
+            </Box>
+          </form>
+        </FormStepProvider>
+      </FormProvider>
     </Box>
   )
 }
