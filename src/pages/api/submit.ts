@@ -1,7 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { CreateSubmissionDocument } from '../../generated-types'
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  from
+} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { onError } from '@apollo/client/link/error'
 
 export default async (
   { body }: NextApiRequest,
@@ -11,26 +17,36 @@ export default async (
     uri: process.env.GRAPHQL_API_ENDPOINT
   })
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      )
+    if (networkError) console.log(`[Network error]: ${networkError}`)
+  })
+
   const authLink = setContext((_, { headers }) => {
     return {
       headers: {
         ...headers,
-        authorization: process.env.GRAPHQL_API_KEY
+        authorization: `Bearer ${process.env.GRAPHQL_API_KEY}`
       }
     }
   })
 
-  const { id, ...data } = JSON.parse(body)
+  const { id, data } = JSON.parse(body)
 
   const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: from([errorLink, authLink, httpLink]),
     cache: new InMemoryCache()
   })
 
   try {
-    const result = await client.query({
-      query: CreateSubmissionDocument,
-      variables: { data, id }
+    const result = await client.mutate({
+      mutation: CreateSubmissionDocument,
+      variables: { formData: data, formId: id }
     })
 
     status(201).json(result)

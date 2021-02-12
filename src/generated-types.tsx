@@ -6272,33 +6272,33 @@ export type LayoutQuery = { __typename?: 'Query' } & {
       'id' | 'title' | 'slug' | 'content'
     > & {
         form?: Maybe<
-          { __typename?: 'Form' } & {
-            fields: Array<
-              | { __typename: 'FormCheckbox' }
-              | ({ __typename: 'FormInput' } & Pick<
-                  FormInput,
-                  | 'name'
-                  | 'type'
-                  | 'label'
-                  | 'rules'
-                  | 'placeholder'
-                  | 'required'
-                >)
-              | { __typename: 'FormOption' }
-              | ({ __typename: 'FormSelect' } & Pick<
-                  FormSelect,
-                  'name' | 'label' | 'rules' | 'required'
-                > & {
-                    options: Array<
-                      { __typename?: 'FormOption' } & Pick<
-                        FormOption,
-                        'value' | 'option'
+          { __typename?: 'Form' } & Pick<Form, 'id'> & {
+              fields: Array<
+                | { __typename: 'FormCheckbox' }
+                | ({ __typename: 'FormInput' } & Pick<
+                    FormInput,
+                    | 'name'
+                    | 'type'
+                    | 'label'
+                    | 'rules'
+                    | 'placeholder'
+                    | 'required'
+                  >)
+                | { __typename: 'FormOption' }
+                | ({ __typename: 'FormSelect' } & Pick<
+                    FormSelect,
+                    'name' | 'label' | 'rules' | 'required'
+                  > & {
+                      options: Array<
+                        { __typename?: 'FormOption' } & Pick<
+                          FormOption,
+                          'value' | 'option'
+                        >
                       >
-                    >
-                  })
-              | { __typename: 'FormTextarea' }
-            >
-          }
+                    })
+                | { __typename: 'FormTextarea' }
+              >
+            }
         >
       }
   >
@@ -6387,6 +6387,7 @@ export const LayoutDocument = gql`
       slug
       content
       form {
+        id
         fields {
           __typename
           ... on FormInput {

@@ -30,4 +30,4 @@ const Home: NextPage<Props> = (): JSX.Element => {
   )
 }
 
-export default withConsent(Home)
+export default withConsent()(Home)

@@ -11,6 +11,7 @@ query Layout($slug: String = "home") {
     slug
     content
     form {
+      id
       fields {
 			__typename
        ... on FormInput {

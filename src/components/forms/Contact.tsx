@@ -123,6 +123,7 @@ const StepSelect = ({ name, placeholder, onSubmit, ...props }) => {
 
 const Step = ({ cmp: Component, ...props }) => {
   const { formState } = useFormContext() // retrieve all hook methods
+  const { onClick } = useFormStepProvider()
 
   return (
     <Box display={props.show ? 'block' : 'none'}>
@@ -146,7 +147,7 @@ const Step = ({ cmp: Component, ...props }) => {
             <IconButton
               aria-label="Next"
               color="gray.400"
-              onClick={() => props.onSubmit()}
+              onClick={onClick}
               icon={<ArrowForwardIcon boxSize={12} />}
               bg="transparent"
               isDisabled={formState.isSubmitting}
@@ -176,30 +177,37 @@ export const Contact = (): JSX.Element => {
       return checkForm(e.target['name'])
   }
 
+  const onClick = async () => {
+    return checkForm(layout.page.form.fields[step]['name'])
+  }
+
   const onSubmit = async data => {
     try {
       const response = await fetch('/api/submit', {
         method: 'Post',
-        body: JSON.stringify(data)
+        body: JSON.stringify({ id: layout.page.form.id, data })
       })
 
       if (!response.ok)
         throw new Error(`Something went wrong submitting the form.`)
+
+      methods.reset()
+      setStep(0)
     } catch (err) {}
   }
 
   const checkForm = async (key?) => {
     if (!(await methods.trigger(key))) return
     if (step + 1 === layout.page.form.fields.length)
-      return onSubmit(methods.getValues())
+      return methods.handleSubmit(onSubmit)?.()
 
-    setStep(() => step + 1)
+    setStep(step + 1)
   }
 
   return (
     <Box width="100%">
       <FormProvider {...methods}>
-        <FormStepProvider {...{ onKeyPress }}>
+        <FormStepProvider {...{ onKeyPress, onClick }}>
           <form ref={formRef}>
             <Box>
               {layout.page.form.fields.map(

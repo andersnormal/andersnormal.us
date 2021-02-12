@@ -1,23 +1,27 @@
 import React from 'react'
 import Consent from '@components/consent/consent'
 
-export function withConsent<T>(WrappedComponent: React.ComponentType<T>) {
-  const displayName =
-    WrappedComponent.displayName || WrappedComponent.name || 'Component'
+export function withConsent() {
+  return function <T extends Record<string, unknown>>(
+    Component: React.ComponentType<T>
+  ): React.FC<T & Record<string, unknown>> {
+    const displayName = Component.displayName || Component.name || 'Component'
 
-  const ComponentWithConsent = (...props) => {
-    // props comes afterwards so the can override the default ones.
-    return (
-      <>
-        <WrappedComponent {...props} />
-        <Consent />
-      </>
-    )
+    const ComponentWithConsent = props => {
+      const newProps = { ...props } as T
+
+      return (
+        <>
+          <Component {...newProps} />
+          <Consent />
+        </>
+      )
+    }
+
+    ComponentWithConsent.displayName = `withConsent(${displayName})`
+
+    return ComponentWithConsent
   }
-
-  ComponentWithConsent.displayName = `withConsent(${displayName})`
-
-  return ComponentWithConsent
 }
 
 export default withConsent

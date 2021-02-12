@@ -4,6 +4,7 @@ export interface FormStepContextMethods {
   onKeyPress: (
     e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>
   ) => Promise<void>
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 export interface FormStepProps {
