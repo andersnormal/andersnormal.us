@@ -1,25 +1,36 @@
 import React from 'react'
 import CookieConsent, { Cookies } from 'react-cookie-consent'
-import { useTranslation } from 'next-i18next'
+import { Flex, Text, Button, Link, SlideFade } from '@chakra-ui/react'
 
 const Consent = (): JSX.Element => {
-  const { t } = useTranslation('footer')
   const onDecline = () => {}
   const onAccept = () => {}
 
   return (
     <CookieConsent
       location="bottom"
-      buttonText="Sure man!!"
-      cookieName="myAwesomeCookieName2"
-      style={{ background: '#2B373B' }}
-      buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
+      cookieName="consent"
+      buttonText="🤝 Accept"
+      declineButtonText="✋ Decline"
+      // style={{ background: '#2B373B' }}
+      // buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
+      style={{ background: 'black' }}
+      contentStyle={{}}
       expires={150}
+      ButtonComponent={Button}
+      enableDeclineButton={true}
       onDecline={onDecline}
       onAccept={onAccept}
     >
-      This website uses cookies to enhance the user experience.{' '}
-      <span style={{ fontSize: '10px' }}>This bit of text is smaller :O</span>
+      <Flex>
+        <Text colorScheme="gray">
+          ⚡️ Surprise, surprise! Our website uses{' '}
+          <Link as="a" href="/privacy">
+            <strong>Cookies</strong>
+          </Link>
+          . Please <strong>🤝 accept</strong> or <strong>✋ or not.</strong>
+        </Text>
+      </Flex>
     </CookieConsent>
   )
 }

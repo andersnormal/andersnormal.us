@@ -69,8 +69,7 @@ const StepInput = ({ name, show, placeholder, ...props }) => {
   const { onKeyPress } = useFormStepProvider()
 
   const {
-    field: { ref, ...inputProps },
-    meta: { isTouched }
+    field: { ref, ...inputProps }
   } = useController({
     name,
     control,
