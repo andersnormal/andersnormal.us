@@ -1,5 +1,10 @@
-import React, { useState, useRef } from 'react'
-import { useForm, useFormContext, FormProvider } from 'react-hook-form'
+import React, { useState, useRef, useEffect } from 'react'
+import {
+  useForm,
+  useFormContext,
+  useController,
+  FormProvider
+} from 'react-hook-form'
 import FormStepProvider, { useFormStepProvider } from './Form'
 import useLayout from '@hooks/useLayout'
 import {
@@ -60,22 +65,30 @@ const variants = {
 }
 
 const StepInput = ({ name, placeholder, ...props }) => {
-  const { register, formState } = useFormContext()
+  const { formState, control } = useFormContext()
   const { onKeyPress } = useFormStepProvider()
+
+  const {
+    field: { ref, ...inputProps },
+    meta: { isTouched }
+  } = useController({
+    name,
+    control,
+    rules: { ...props.rules },
+    defaultValue: ''
+  })
+
+  useEffect(() => {
+    if (Object.keys(formState.touched).length > 0 && !isTouched)
+      return ref.current.focus()
+  })
 
   return (
     <Input
       focusBorderColor="none"
       fontSize="5xl"
-      autoFocus
       name={`${name}`}
-      ref={el => {
-        if (el) el.focus()
-        return register(
-          { name: name },
-          { ...{ ref: el, required: props.required }, ...props.rules }
-        )
-      }}
+      ref={ref}
       isDisabled={formState.isSubmitting}
       borderRadius="0"
       border="none"
@@ -83,13 +96,29 @@ const StepInput = ({ name, placeholder, ...props }) => {
       placeholder={placeholder}
       py={12}
       onKeyPress={onKeyPress}
+      {...inputProps}
     />
   )
 }
 
-const StepSelect = ({ name, placeholder, onSubmit, ...props }) => {
-  const { register, formState } = useFormContext()
+const StepSelect = ({ name, placeholder, ...props }) => {
+  const { formState, control } = useFormContext()
   const { onKeyPress } = useFormStepProvider()
+
+  const {
+    field: { ref, ...inputProps },
+    meta: { isTouched }
+  } = useController({
+    name,
+    control,
+    rules: { ...props.rules },
+    defaultValue: ''
+  })
+
+  useEffect(() => {
+    if (Object.keys(formState.touched).length > 0 && !isTouched)
+      return ref.current.focus()
+  })
 
   return (
     <Select
@@ -103,14 +132,9 @@ const StepSelect = ({ name, placeholder, onSubmit, ...props }) => {
       lineHeight="inherit"
       border="none"
       name={`${name}`}
-      ref={el => {
-        if (el) el.focus()
-        return register(
-          { name: name },
-          { ...{ ref: el, required: props.required }, ...props.rules }
-        )
-      }}
+      ref={ref}
       onKeyPress={onKeyPress}
+      {...inputProps}
     >
       {props.options.map((option, index) => (
         <option key={index} value={option.value}>
@@ -197,6 +221,7 @@ export const Contact = (): JSX.Element => {
   }
 
   const checkForm = async (key?) => {
+    console.log(await methods.trigger())
     if (!(await methods.trigger(key))) return
     if (step + 1 === layout.page.form.fields.length)
       return methods.handleSubmit(onSubmit)?.()
