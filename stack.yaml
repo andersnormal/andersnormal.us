@@ -13,6 +13,6 @@ Resources:
       BucketName: !Join ['', !Join ['-', ['serverless-next', !Ref 'Name']]]
 
 Outputs:
-  S3BucketSecureURL:
-  Value: !Join ['', ['https://', !GetAtt [ServerlessStateBucket, DomainName]]]
-  Description: Name of S3 bucket to hold serverless state
+  ServerlessStateBucketURL:
+    Value: !Join ['', ['https://', !GetAtt [ServerlessStateBucket, DomainName]]]
+    Description: Name of S3 bucket to hold serverless state
