@@ -22,7 +22,7 @@ import {
   Heading,
   InputGroup
 } from '@chakra-ui/react'
-import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { ArrowForwardIcon, ArrowDownIcon } from '@chakra-ui/icons'
 
 const transitions = {
   enter: {
@@ -86,7 +86,7 @@ const StepInput = ({ name, show, placeholder, ...props }) => {
   return (
     <Input
       focusBorderColor="none"
-      fontSize="5xl"
+      fontSize={{ base: '32px', md: '42px', lg: '56px' }}
       name={`${name}`}
       ref={ref}
       isDisabled={formState.isSubmitting}
@@ -94,7 +94,7 @@ const StepInput = ({ name, show, placeholder, ...props }) => {
       border="none"
       background="gray.100"
       placeholder={placeholder}
-      py={12}
+      py={{ base: 8, md: 10, lg: 14 }}
       onKeyPress={onKeyPress}
       {...inputProps}
     />
@@ -123,10 +123,10 @@ const StepSelect = ({ name, placeholder, show, ...props }) => {
   return (
     <Select
       focusBorderColor="none"
-      fontSize="5xl"
+      fontSize={{ base: '32px', md: '42px', lg: '56px' }}
       placeholder={placeholder}
       isDisabled={formState.isSubmitting}
-      height="6rem"
+      height={{ base: '4rem', md: '5rem', lg: '7rem' }}
       background="gray.100"
       borderRadius="0"
       lineHeight="inherit"
@@ -134,6 +134,7 @@ const StepSelect = ({ name, placeholder, show, ...props }) => {
       name={`${name}`}
       ref={ref}
       onKeyPress={onKeyPress}
+      colorScheme="gray.400"
       {...inputProps}
     >
       {props.options.map((option, index) => (
@@ -160,7 +161,11 @@ const Step = ({ cmp: Component, ...props }) => {
       >
         <SlideFade in={props.show} variants={variants} offsetY={32}>
           <FormLabel>
-            <Heading as="h3" size="2xl" py={4}>
+            <Heading
+              as="h3"
+              fontSize={{ base: '32px', md: '42px', lg: '56px' }}
+              py={4}
+            >
               {props.label}
             </Heading>
           </FormLabel>
@@ -172,7 +177,7 @@ const Step = ({ cmp: Component, ...props }) => {
               aria-label="Next"
               color="gray.400"
               onClick={onClick}
-              icon={<ArrowForwardIcon boxSize={12} />}
+              icon={<ArrowForwardIcon boxSize={{ base: 8, md: 10, lg: 12 }} />}
               bg="transparent"
               isDisabled={formState.isSubmitting}
               isLoading={formState.isValidating}
@@ -259,10 +264,19 @@ export const Contact = (): JSX.Element => {
                   isIndeterminate={methods.formState.isSubmitting}
                 />
                 <Flex justifyContent="flex-end">
-                  <Heading as="h4" size="md" colorScheme="gray" flexGrow={1}>
+                  <Heading
+                    as="h4"
+                    fontSize={{ base: '22px', md: '28px', lg: '32px' }}
+                    colorScheme="gray"
+                    flexGrow={1}
+                  >
                     {Object.values(methods.errors)?.shift()?.message}
                   </Heading>
-                  <Heading as="h4" size="md" colorScheme="gray">
+                  <Heading
+                    as="h4"
+                    fontSize={{ base: '22px', md: '28px', lg: '32px' }}
+                    colorScheme="gray"
+                  >
                     {`${step + 1} / ${layout.page.form.fields.length}`}
                   </Heading>
                 </Flex>
