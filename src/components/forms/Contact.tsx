@@ -64,7 +64,7 @@ const variants = {
   }
 }
 
-const StepInput = ({ name, placeholder, ...props }) => {
+const StepInput = ({ name, show, placeholder, ...props }) => {
   const { formState, control } = useFormContext()
   const { onKeyPress } = useFormStepProvider()
 
@@ -79,9 +79,10 @@ const StepInput = ({ name, placeholder, ...props }) => {
   })
 
   useEffect(() => {
-    if (Object.keys(formState.touched).length > 0 && !isTouched)
+    if (Object.keys(formState.touched).length > 0 && show) {
       return ref.current.focus()
-  })
+    }
+  }, [Object.keys(formState.touched).length])
 
   return (
     <Input
@@ -101,13 +102,12 @@ const StepInput = ({ name, placeholder, ...props }) => {
   )
 }
 
-const StepSelect = ({ name, placeholder, ...props }) => {
+const StepSelect = ({ name, placeholder, show, ...props }) => {
   const { formState, control } = useFormContext()
   const { onKeyPress } = useFormStepProvider()
 
   const {
-    field: { ref, ...inputProps },
-    meta: { isTouched }
+    field: { ref, ...inputProps }
   } = useController({
     name,
     control,
@@ -116,8 +116,9 @@ const StepSelect = ({ name, placeholder, ...props }) => {
   })
 
   useEffect(() => {
-    if (Object.keys(formState.touched).length > 0 && !isTouched)
+    if (Object.keys(formState.touched).length > 0 && show) {
       return ref.current.focus()
+    }
   })
 
   return (
@@ -221,7 +222,6 @@ export const Contact = (): JSX.Element => {
   }
 
   const checkForm = async (key?) => {
-    console.log(await methods.trigger())
     if (!(await methods.trigger(key))) return
     if (step + 1 === layout.page.form.fields.length)
       return methods.handleSubmit(onSubmit)?.()
