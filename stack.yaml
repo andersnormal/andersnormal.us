@@ -10,7 +10,7 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: !Join ['', !Join ['-', ['serverless-next', !Ref 'Name']]]
+      BucketName: !Join ['', ['', !Join ['-', ['serverless-next', !Ref 'Name']]]]
 
 Outputs:
   ServerlessStateBucketURL:
