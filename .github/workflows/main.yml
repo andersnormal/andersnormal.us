@@ -37,11 +37,14 @@ jobs:
       - name: Serverless AWS authentication
         run: npx serverless --component=serverless-next config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Download `.env` environment file
+        run: aws s3 sync s3://serverless-next-andersnormal-andersnormal-us/main/.env .env --delete
+
       - name: Download `.serverless` state from S3
-        run: aws s3 sync s3://serverless-next-andersnormal-andersnormal-us/man/.serverless .serverless --delete
+        run: aws s3 sync s3://serverless-next-andersnormal-andersnormal-us/main/.serverless .serverless --delete
 
       - name: Deploy to AWS
         run: npx serverless
 
       - name: Upload `.serverless` state to S3
-        run: aws s3 sync .serverless s3://serverless-next-andersnormal-andersnormal-us/man/.serverless --delete
+        run: aws s3 sync .serverless s3://serverless-next-andersnormal-andersnormal-us/main/.serverless --delete
