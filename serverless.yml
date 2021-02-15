@@ -1,7 +1,7 @@
 name: Demo
 
 nextApp:
-  component: "@sls-next/serverless-component@1.19.0-alpha.30"
+  component: "@sls-next/serverless-component@1.19.0-alpha.31"
   inputs:
     memory: 1024
     domain: andersnormal.us

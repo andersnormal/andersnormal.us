@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  Name:
+    Type: String
+    Description: Name of the app
+
+Resources:
+  ServerlessStateBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Join ['', !Join ['-', ['serverless-next', !Ref 'Name']]]
+
+Outputs:
+  S3BucketSecureURL:
+  Value: !Join ['', ['https://', !GetAtt [ServerlessStateBucket, DomainName]]]
+  Description: Name of S3 bucket to hold serverless state

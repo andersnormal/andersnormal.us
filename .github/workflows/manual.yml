@@ -1,0 +1,49 @@
+# This GitHub Actions workflow runs on manual trigger on a branch of a
+# repository, and configures the needed infrastructure.
+
+on:
+  workflow_dispatch:
+    inputs:
+      region:
+        description: 'AWS Region to deploy to'
+        required: true
+        default: 'us-east-1'
+
+name: Manual Deploy
+
+jobs:
+  amplify:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    outputs:
+      env-name: ${{ steps.env-name.outputs.environment }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      id: creds
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ github.event.inputs.region}}
+
+    - name: Configure environment name
+      id: env-name
+      env:
+        REPO: ${{ github.repository }}
+      run: |
+        ENVIRONMENT=`echo $REPO | tr "/" "-"`
+        echo "Environment name: $ENVIRONMENT"
+        echo "::set-output name=environment::$ENVIRONMENT"
+
+    - name: Deploy to AWS with CloudFormation
+      id: amplify-stack
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: serverless-next-${{ steps.env-name.outputs.environment }}
+        template: stack.yaml
+        no-fail-on-empty-changeset: "1"
+        parameter-overrides: >-
+          Name=${{ steps.env-name.outputs.environment }}
